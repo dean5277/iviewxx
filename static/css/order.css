@@ -1,0 +1,15 @@
+
+/* --------------   messageProcessing STYLE [[ --------------  */
+.ivu-steps .ivu-steps-title,.ivu-steps .ivu-steps-head{background-color: #f3f3f4}
+.orderNav{padding:10px 90px 15px;font-size: 14px}
+.text-navy{color:#1ab394 }
+.orderNav .ibox-content{margin: 0 auto;width: 80%}
+.orderFilter,.orderChildren,.orderGlobalOperate,.orderTable{padding:0 32px;}
+.orderChildren button{margin-right: 5px}
+.tableOperate{padding-bottom:10px;}
+.onLine{border-top: 1px solid #e1e1e1;position: relative;top: 19px;}
+.orderCur{color: #333;font-weight: bold; }
+.orderCur span{color: #3399ff; font-weight: normal;}
+.orderNav .iconfont{padding-right: 4px}
+.orderFilter .ivu-form-item{margin-bottom: 15px}
+.orderFilter .ivu-row:last-child .ivu-form-item{margin-bottom: 0}

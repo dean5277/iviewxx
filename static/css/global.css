@@ -1,0 +1,116 @@
+/*
+	**** global style
+	****
+	**** created by dean
+*/
+
+@charset "utf-8";
+
+html,body,#app{position: relative;min-height: 100%; height: 100%}
+.flexBox{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;}
+.fl{float: left}
+.fr{float: right}
+.none{display: none}
+/* --------------   CARD STYLE [[ --------------  */
+.card-container{margin-bottom: 15px;margin-top: 0;padding:0;}
+.card-header{ background-color: #ffffff; border-color: #e7eaec; border-image: none; border-style: solid solid none;border-width: 2px 0 0;color: inherit;margin-bottom: 0;padding: 15px 15px 7px;
+min-height: 48px;}
+.card-header.small-header{min-height: 24px; padding:6px 15px 0; line-height: 24px}
+.card-header h5{display: inline-block;font-size: 14px;margin: 0 0 7px;padding: 0;text-overflow: ellipsis;float: left;}
+.card-tools{display: block;float: none;margin-top: 0;position: relative;
+padding: 0;text-align: right;}
+.card-content{background-color: #ffffff;color: inherit;padding: 15px 20px 20px 20px;
+border-color: #e7eaec;border-image: none;border-style: solid solid none;border-width: 1px 0;}
+
+.ibox-content{background-color: #ffffff;color: inherit;padding: 15px 20px 20px 20px;border-color: #e7eaec;border-image: none;border-style: solid solid none;border-width: 1px 0;}
+.ibox-content-small{padding:8px 10px 8px; border-color: #3399ff}
+.orderGreenFont{color: #3399ff}
+.card-tools button{padding: 0 3px}
+.iconfont{font-size: 22px; padding-right: 10px; position: relative; top:2px}
+/* --------------   Breadcrumb STYLE [[ --------------  */
+.ivu-breadcrumb-item-link{font-weight: bold;color:#657180}
+.layout-breadcrumb{padding:10px 15px ;margin-bottom: 15px }
+
+
+/* --------------   Dropdown STYLE [[ --------------  */
+.ivu-badge .ivu-badge-count{transform: translateX(10%);top: -10px;right: 0;height: 15px;
+ border-radius: 15px;min-width: 15px;padding:0 4px;line-height: 15px}
+.layout-notice-icon .ivu-select-dropdown{margin:16px 0;}
+
+/* --------------   Table Page STYLE [[ --------------  */
+.table-page{margin: 10px;overflow: hidden}
+.table-page-right{float: right}
+
+
+/* --------------   Layout STYLE [[ --------------  */
+.leftMenu{position: fixed;bottom: 0;top: 50px;height: 100%; background-color: #fff; overflow: auto; padding-bottom: 50px}
+.leftMenuHeader{height: 49px; padding:17px 10px 17px 25px; font-size: 16px; border-right: 1px solid #e1e1e1;/*  background-position: 3px 2px;background-image: url("http://webapplayers.com/inspinia_admin-v2.7/css/patterns/header-profile.png"); */ }
+.leftMenuHeader .ivu-icon-grid{padding-right: 10px; color: #666; }
+.layout-copy{position: absolute;bottom: 50px; left: 0;width: 100%; height: 49px; line-height: 49px; text-align: center}
+.ivu-menu-vertical .ivu-menu-item{padding:6px 24px 6px 43px;}
+.ivu-menu-light.ivu-menu-vertical .ivu-menu-item span{float: right;   top: -10px;right: 0;height: 20px;border-radius: 10px;min-width: 20px;background: #f30;border: 1px solid transparent;color: #fff;line-height: 18px;text-align: center;padding: 0 6px; font-size: 12px;white-space: nowrap; transform-origin: -10% center;z-index: 10;box-shadow: 0 0 0 1px #fff;}
+.ivu-menu-light{background-color: #fff}
+.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item{color: #fff}
+
+.top-container{width: 100%; background-color: #113f6d; position: fixed;z-index: 999}
+.top-container .layout-logo{width:216px;height:30px;border-radius:3px;float:left;position:relative;top:13px; line-height: 30px; text-align: center; font-size: 16px;color: #fff;font-weight: bold;border-right:1px solid rgba(255,255,255,.06);}
+.top-container .layout-logo em{font-style:normal; font-weight: normal; padding-left: 3px;position: relative; bottom: 1px;font-size: 14px}
+.ivu-menu-horizontal{min-height: 50px; height: auto; line-height: 50px}
+.top-container .ivu-menu-dark{display: flex;flex-flow: wrap;background:#113f6d;}
+.top-container .ivu-menu-dark.ivu-menu-horizontal .ivu-menu-item, .ivu-menu-dark.ivu-menu-horizontal .ivu-menu-submenu{color: #fff;border-right:1px solid rgba(255,255,255,.06);}
+.top-container .ivu-menu-dark.ivu-menu-horizontal .ivu-select-dropdown .ivu-menu-item, .ivu-menu-dark.ivu-menu-horizontal .ivu-menu-submenu .ivu-menu-item{color: #657180}
+.top-container .ivu-btn-text{color: #fff}
+.top-container .layout-hide,.layout-language-icon{border-right:1px solid rgba(255,255,255,.06);border-left:1px solid rgba(255,255,255,.06);}
+.top-container .flags-sprite, .flags-american, .flags-china, .flags-france, .flags-germany, .flags-italy, .flags-japan, .flags-korea, .flags-portugal, .flags-russia, .flags-spain{
+background-image: url('/static/images/flags.png');background-repeat:no-repeat;}
+.top-container .flags-american { background-position: 0 0; height: 32px;width: 32px;}
+.top-container .flags-china{background-position:0 -32px; height: 32px; width: 32px }
+.top-container .flag{margin-top: -6px}
+.top-container .layout-flag-button{display:block; padding:14px 15px 10px 15px;}
+.top-container .ivu-dropdown{display: inline}
+.top-container .layout-language-icon .ivu-dropdown-item{line-height: 14px; position: relative;padding:7px 37px 7px 51px;}
+.top-container .layout-language-icon .ivu-dropdown-menu li div.flag{position: absolute;top: 3px; left: 10px}
+.top-container .demo-badge{width: 42px; height: 42px;background: #eee; border-radius: 6px;display: inline-block;}
+.top-container .layout-notice-button{font-size: 24px;color: #fff;padding:7px 16px;}
+.top-container .layout-notice-icon .ivu-dropdown-item{line-height: 14px; position: relative;padding:17px 37px 17px 51px;}
+.top-container .layout-notice-icon .lni_icon{ border-radius: 50%;width: 35px; height: 35px; text-align: center; position: absolute;left: 10px; top: 3px}
+.top-container .layout-notice-icon .lni_icon_normal{background-color: #259aa2 ;border-color: #259aa2;}
+.top-container .layout-notice-icon .lni_icon_waring{background-color: #e89d00 ;border-color: #e89d00;}
+.top-container .layout-notice-icon .lni_icon_red{background-color: #ff3300 ;border-color: #ff3300;}
+.top-container .layout-notice-icon .lni_icon .ivu-icon-email{font-size: 24px; color: #fff; line-height: 35px}
+.top-container .layout-user-icon{border-left:1px solid rgba(255,255,255,.06);}
+.top-container .layout-user-icon .ivu-dropdown .ivu-dropdown-rel a{position: relative;padding:7px 0px 7px 42px;color: #fff}
+.top-container .layout-user-icon .ivu-dropdown .ivu-dropdown-rel a img{width: 30px;height: 30px; border-radius: 50%; position: absolute;top: 0;left: 5px}
+.top-container .layout-user-icon .ivu-dropdown-item{line-height: 14px;  position: relative;padding:10px 30px 13px 30px }
+.top-container .layout-user-icon .ivu-dropdown-item .lsi-icon{position: absolute;left: 10px;top: 10px}
+.top-container .ivu-row{width: 100%}
+.top-container .layout-menu-span{min-height: 50px}
+.top-container .ivu-menu-horizontal .ivu-menu-item, .ivu-menu-horizontal .ivu-menu-submenu{padding:0 3px 0 13px;}
+.top-container .ivu-menu-horizontal .menuIndex{padding:0 16px 0 13px;}
+.top-container .ivu-menu-horizontal .menuIndex:hover{background-color: #f00}
+.top-container .ivu-menu-item-group{padding:0 10px; float: left}
+.top-container .ivu-menu-opened{background-color: #f00}
+
+.layout-header{ height: 60px;background: #fff;box-shadow: 0 1px 1px rgba(0,0,0,.1);}
+.layout{background:#f5f7f9; position: relative; min-height: 100%; height: 100%}
+.layout-nav{width:420px;margin:0 auto}
+.layout-assistant{width:300px;margin:0 auto;height:inherit}
+
+.layout-content{min-height:100%;/* margin:15px; */overflow:hidden;background:#fff;border-radius:4px; position: relative;padding-top: 50px; background-color: #f3f3f4}
+.layout-content-main{padding:10px}
+.layout-copy{text-align:center;padding:10px 0 20px;color:#9ea7b4}
+.layout-hide-text{display: none;}
+.layout-breadcrumb{padding: 13px 35px 0;}
+.ivu-menu-vertical .ivu-menu-submenu-title{font-size: 14px;padding:8px 24px}
+.ivu-menu-vertical .ivu-menu-submenu-title-icon{top: 9px}
+
+/* --------------   MODEL CHANGE STYLE [[ --------------  */
+.ivu-modal-header{ border-bottom: 1px solid #11406e;padding: 7px 16px;background-color: #11406e;
+ border-radius: 6px 6px 0 0;}
+ .ivu-modal-header-inner, .ivu-modal-header p,.ivu-modal-close .ivu-icon-ios-close-empty{color: #fff}
+ .ivu-modal-close .ivu-icon-ios-close-empty:hover{color:#f6f6f6}
+ .ivu-modal-close{top: 2px}
+ .ivu-modal-footer{border-top: 0}
+
+/* --------------   TABLE STYLE [[ --------------  */
+ .tableStretch{font-size: 14px; cursor: pointer;}
