@@ -1,8 +1,24 @@
 <template>
     <div :class="classes" ref="cell">
+        <template v-if="renderType === 'childSection'">
+           <!--  <template v-if=" row.itemId && row.itemId != -1 ">
+               <i class="icon iconfont  tableStretch" :class="[!row.stretch ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="index" @click="showRelated(index)"></i>
+           </template>    -->
+        </template>
         <template v-if="renderType === 'index'">{{naturalIndex + 1}}</template>
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
+        </template>
+        <template v-if="renderType === 'switch'">
+             <template v-if=" row.hasChild">
+               <i class="icon iconfont  tableStretch" :class="[!row.stretch ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="row.sIndex" @click="showRelated(row.grid,row.sIndex)" :style="{paddingLeft:row.indentSize + 'px'}"></i> {{row[column.key]}}
+             </template> 
+             <template v-else-if="row.pid && !row.hasChild">
+                 <span :style="{paddingLeft:row.indentSize + 'px'}"></span>{{row[column.key]}}
+             </template>
+             <template v-else>
+                 {{row[column.key]}}
+             </template>
         </template>
         <template v-if="renderType === 'normal'"><span v-html="row[column.key]" ></span></template>
     </div>
@@ -99,6 +115,9 @@
             },
             toggleSelect () {
                 this.$parent.$parent.toggleSelect(this.index);
+            },
+            showRelated (grid,sIndex){
+                this.$parent.showRelated(grid,sIndex);
             }
         },
         created () {
@@ -106,9 +125,13 @@
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {
                 this.renderType = 'selection';
-            } else if (this.column.render) {
+            }else if(this.column.type === 'switch'){
+                this.renderType = 'switch';
+            } else if(this.column.type === 'childSection'){
+                this.renderType = 'childSection';
+            }  else if (this.column.render) {
                 this.renderType = 'render';
-            } else {
+            }else{
                 this.renderType = 'normal';
             }
         },

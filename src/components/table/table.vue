@@ -91,12 +91,13 @@
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
-
+    import Emitter from '../../mixins/emitter';
+    import store from './store';
     const prefixCls = 'ivu-table';
 
     export default {
         name: 'Table',
-        mixins: [ Locale ],
+        mixins: [ Locale,Emitter ],
         components: { tableHead, tableBody },
         props: {
             data: {
@@ -546,10 +547,73 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-               // console.log('makeData:')
-               // console.log(data);
-                data.forEach((row, index) => row._index = index);
-                return data;
+                let dataArr = [],
+                    that = this,
+                    t = -1,//索引
+                    status = [];
+                let fn = ((data) =>{
+                   
+                    return function(row, i){
+
+                        t++;
+                        status[i] = [];
+                       
+                        row.nodeIndex = 1;
+                       // row.display = true;
+                        status[i][0] = [-1,row.stretch];
+                        row.sIndex = 0;
+                        row.grid = i;
+                        if(!row.children){
+                           row._index = t;
+                           dataArr.push(row);
+                        }else{
+                            row._index = t;
+                            row.hasChild = true;
+                            dataArr.push(row);
+                            if(row.stretch){
+                                checkChildren(row.children,row._index, true,1,i,row.children.length);
+                            }else{
+                                checkChildren(row.children,row._index, false,1,i,row.children.length);
+                            }
+                           
+                        }
+                      
+                       
+                        return row;
+                    }
+                });
+                data.forEach(fn(data));
+                
+                function checkChildren(cd,pid,display,nodeIndex,grid,rcl){   
+                  //  let l =  status[grid].length; 
+                    cd.forEach((n,i) =>{
+                        t++;
+                        n._index = t;
+                        n.pid = pid;
+                     //   display ? n.display = true : n.display = false;
+                        dataArr.push(n);
+                        n.sIndex = status[grid].length;
+                        n.grid = grid;
+                        status[grid].splice(status[grid].length,0,[pid,n.stretch])
+                 
+                        n.nodeIndex = nodeIndex + 1;
+                        if(n.children){
+                            n.hasChild = true;
+                            
+                            if(n.stretch){
+                                checkChildren(n.children,n._index, true,nodeIndex + 1,i); 
+                            }else{
+                                checkChildren(n.children,n._index, false,nodeIndex + 1,i); 
+                            }
+                           
+                        }
+                    })
+                }
+
+                this.objData = this.makeChildObjData(dataArr);
+                this.cloneData = deepCopy(dataArr);
+                store.commit('status', status);
+                return dataArr;
             },
             makeDataWithSort () {
                 let data = this.makeData();
@@ -664,12 +728,24 @@
 
                 let dataArr = [],
                     itemId = 0,
-                    nodeIndex = 0;
+                    nodeIndex = 0,
+                    t = 0,
+                    that = this;
                 let fn = ((dataArr) =>{
                    
                     return function(item){
                         item.nodeIndex = nodeIndex;
-
+                        if(item.display == undefined)  item.display = true ;
+                        let itemObj = Object.create(null);
+                        that.$nextTick(()=>{
+                            itemObj.iid = item.itemId;
+                            itemObj.pid = item.pid;
+                            itemObj.display = item.display;
+                           
+                        })
+                         that.displayObj.push(itemObj);  
+                     
+                       // that.displayObj(t++,item.stretch);
                         if(item.children){
                             itemId++;
                             item.itemId = itemId;
@@ -677,9 +753,17 @@
                             item.children.forEach((n,i) =>{
                                 n.pid = item.itemId;
                                 n.nodeIndex = item.nodeIndex + 1;
-                                if(item.stretch) n.display = true;
-                                dataArr.push(item);
-
+                                if(item.stretch){
+                                    item.display = true;
+                                    n.display = true;
+                                }else{
+                                    n.display = false;
+                                }
+                                if(i == 0){
+                                     dataArr.push(item);
+                                }
+                               
+                               //  console.log(dataArr);
                                // nodeIndex++;
                                 return fn(dataArr)(n);
                             });
@@ -712,9 +796,10 @@
             makeChildData (){//data-childdata
                let data = this.makeDataWithSortAndFilter();
                let dataArr = this.checkChlid(data);
-               
+           
                return  this.dataArrData(dataArr);
             },
+            
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
@@ -746,8 +831,9 @@
             if (!this.context) this.currentContext = this.$parent;
             this.showSlotHeader = this.$slots.header !== undefined;
             this.showSlotFooter = this.$slots.footer !== undefined;
-            //this.rebuildData = this.makeDataWithSortAndFilter();
-            this.rebuildData = this.makeChildData();
+            this.rebuildData = this.makeDataWithSortAndFilter();
+            console.log(this.rebuildData)
+            //this.rebuildData = this.makeChildData();//
         },
         mounted () {
             this.handleResize();

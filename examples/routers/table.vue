@@ -39,6 +39,24 @@
                                         
                                     }
                                 ]
+                            },
+                            {
+                                orderNum:"gggg666",
+                                buyer:"大王01",
+                                country:"中国",
+                                pay:"支付宝",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            },
+                            {
+                                orderNum:"999555",
+                                buyer:"大王02",
+                                country:"中国1",
+                                pay:"支付宝1",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
                             }
                         ]
                     },
@@ -57,7 +75,6 @@
                         pay:"支付宝",
                         status:"未处理",
                         stretch:false,
-                        indentSize:15,
                         children:[
                             {
                                 orderNum:"222",
@@ -65,7 +82,7 @@
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
-                                indentSize:30,
+                                indentSize:15,
                                 stretch:false,
                                 
                             }
@@ -73,19 +90,25 @@
                     }
                 ],
                 columns7:[
+                    /*{
+                        type: 'childSection',
+                        width:60,
+                        align:'center',
+                        title:''
+                    },*/
                     {
                         type: 'selection',
                         width: 54,
                         align: 'center'
                     },
                         {
-                      /*  type: 'switch',*/
+                        type: 'switch',
                         title: '订单号',
                         key: 'orderNum',
-                        width:250,
-                        render:function(row, column, index){
+                        width:250
+                       /* render:function(row, column, index){
                             return row.itemId && row.itemId != -1 ? `<i class="icon iconfont  tableStretch" :class="[!${row.stretch} ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" @click="showRelatedOrder(${index})" style="padding-left:${row.indentSize}px"></i> ${row.orderNum}` : `${row.orderNum}`;
-                        }
+                        }*/
                         
                     },
                     {
