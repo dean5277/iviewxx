@@ -2,7 +2,7 @@
 2017/05/11 完成table children
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。
-如果有Bug，请提交一下issue
+如果有Bug，请提交一下issues
 
 
 ## Usage
