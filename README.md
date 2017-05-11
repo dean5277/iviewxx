@@ -1,5 +1,12 @@
 # iview-table-change
+iview 的table功能目前太简单了，满足不了业务需要，所以在iview的基础上进行开发。
+
+已完成功能：
 2017/05/11 完成table children
+
+未完成的功能：
+合并单元格，嵌套table
+
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。
 如果有Bug，请提交一下issues
