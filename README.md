@@ -18,6 +18,9 @@ iview 的table功能目前太简单了，满足不了业务需要，所以在ivi
 ## Usage
 /dist直接替换iview 的/dist
 
+参数：<br />
+stretch:是否显示子菜单<br />
+indentSize:自定义间距<br />
 
 ```html
 <template>
