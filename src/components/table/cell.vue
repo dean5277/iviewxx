@@ -13,7 +13,7 @@
              <template v-if=" row.hasChild">
                <i class="icon iconfont  tableStretch" :class="[!iconStatus ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="row.sIndex" @click="showRelated(row.grid,row.sIndex)" :style="{paddingLeft:row.indentSize + 'px'}"></i> {{row[column.key]}}
              </template> 
-             <template v-else-if="row.pid && !row.hasChild">
+             <template v-else-if="(!!row.pid  && !row.hasChild) || (row.pid == 0 && !row.hasChild)">
                  <span :style="{paddingLeft:row.indentSize + 'px'}"></span>{{row[column.key]}}
              </template>
              <template v-else>

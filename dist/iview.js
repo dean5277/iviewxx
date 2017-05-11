@@ -19570,7 +19570,7 @@ module.exports = { render: function render() {
           _vm.showRelated(_vm.row.grid, _vm.row.sIndex);
         }
       }
-    }), _vm._v(" " + _vm._s(_vm.row[_vm.column.key]) + "\n         ")] : _vm.row.pid && !_vm.row.hasChild ? [_c('span', {
+    }), _vm._v(" " + _vm._s(_vm.row[_vm.column.key]) + "\n         ")] : !!_vm.row.pid && !_vm.row.hasChild || _vm.row.pid == 0 && !_vm.row.hasChild ? [_c('span', {
       style: {
         paddingLeft: _vm.row.indentSize + 'px'
       }

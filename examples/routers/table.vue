@@ -25,7 +25,7 @@
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
-                                indentSize:15,
+                                indentSize:15,//自定义的间距
                                 stretch:false,
                                 children:[
                                     {
@@ -126,12 +126,6 @@
                     }
                 ],
                 columns7:[
-                    /*{
-                        type: 'childSection',
-                        width:60,
-                        align:'center',
-                        title:''
-                    },*/
                     {
                         type: 'selection',
                         width: 54,
@@ -142,9 +136,6 @@
                         title: '订单号',
                         key: 'orderNum',
                         width:250
-                       /* render:function(row, column, index){
-                            return row.itemId && row.itemId != -1 ? `<i class="icon iconfont  tableStretch" :class="[!${row.stretch} ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" @click="showRelatedOrder(${index})" style="padding-left:${row.indentSize}px"></i> ${row.orderNum}` : `${row.orderNum}`;
-                        }*/
                         
                     },
                     {
@@ -175,24 +166,12 @@
                 ]
             }
         },
-        created (){
-
-        },
         methods: {
             remove (index) {
                 this.data6.splice(index, 1);
             },
             show:function (){
                 this.modal9 = true;
-            },
-            showRelatedOrder:function(e){
-                console.log(e)
-             /*   var stretchStatus = this.data6[e].stretch;
-                if(!stretchStatus){
-                    this.data6[e].stretch = true;
-                }else{
-                    this.data6[e].stretch = false;
-                }*/
             }
         }
     }
