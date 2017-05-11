@@ -11,7 +11,7 @@
         </template>
         <template v-if="renderType === 'switch'">
              <template v-if=" row.hasChild">
-               <i class="icon iconfont  tableStretch" :class="[!row.stretch ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="row.sIndex" @click="showRelated(row.grid,row.sIndex)" :style="{paddingLeft:row.indentSize + 'px'}"></i> {{row[column.key]}}
+               <i class="icon iconfont  tableStretch" :class="[!iconStatus ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="row.sIndex" @click="showRelated(row.grid,row.sIndex)" :style="{paddingLeft:row.indentSize + 'px'}"></i> {{row[column.key]}}
              </template> 
              <template v-else-if="row.pid && !row.hasChild">
                  <span :style="{paddingLeft:row.indentSize + 'px'}"></span>{{row[column.key]}}
@@ -41,7 +41,8 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
-            }
+            },
+            iconStatus:Boolean
         },
         data () {
             return {
@@ -121,6 +122,7 @@
             }
         },
         created () {
+            console.log(this.iconStatus)
             if (this.column.type === 'index') {
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {

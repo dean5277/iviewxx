@@ -24,6 +24,7 @@
                                 :index="row._index"
                                 :checked="rowChecked(row._index)"
                                 :disabled="rowDisabled(row._index)"
+                                :iconStatus="iconPos[row._index]"
                                 ></Cell>
                         </td>
                     </tr>
@@ -50,6 +51,7 @@
                               :index="row._index"
                               :checked="rowChecked(row._index)"
                               :disabled="rowDisabled(row._index)"
+                              :iconStatus="iconPos[row._index]"
                               ></Cell>
                       </td>
                  </tr>
@@ -76,7 +78,8 @@
         data (){
             return {
                status:store.state.status,
-               displayValue:this.makeDisplayValue()
+               displayValue:this.makeDisplayValue()[0],
+               iconPos:this.makeDisplayValue()[1]
             }
         },
         props: {
@@ -89,44 +92,38 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
-            }
+            },
+            iconStatus:Boolean
         },
-        created (){
-           
-           
-        },
-       /* computed:{
-            displayValue (){
-               
-               return this.makeDisplayValue();
-            }
-        },*/
-/*        watch:{
-            status (n,o){
-                console.log('......11')
-                console.log(n)
-            }
-        },*/
         methods: {
             makeDisplayValue (){
                 let pos = [],
-                    stretchPos = [];
-                 
+                    stretchPos = [];//树原始状态集
                  store.state.status.forEach((n,i) =>{
+                      let parnode = true;
                     n.forEach((m,t)=>{
                         if(m[0] == -1){
                             stretchPos.push(m[1]);
                             pos.push(true);
-                         //  pos.push(true);  
+                            if(!m[1]) parnode = false;
                         }else{
                             stretchPos.push(m[1]);
-                            pos.push(stretchPos[m[0]]);
+                            if(parnode && stretchPos[m[0]]){
+                                pos.push(true);
+                            }else{
+                                pos.push(false);
+                            }
+                            if(t == n.length - 1){
+                                if(!m[1]) parnode = false;
+                            }
+
+                             
                         }
                        
                     })
                 })
-               
-                return pos;
+              
+                return [pos,stretchPos];
             },
             rowClasses (_index) {
                 return [
@@ -158,7 +155,7 @@
             },
             dblclickCurrentRow (_index) {
                 this.$parent.dblclickCurrentRow(_index);
-            },showRelated (grid,sIndex){//实际上是改变status
+            },showRelated (grid,sIndex){//实际上是改变status..[grid,sIndex]组ID，节点索引
                 let status = store.state.status;
                // console.log(status[grid][sIndex]);
                 if(status[grid][sIndex][1]){
@@ -169,7 +166,8 @@
                 
 
                 store.commit('status',status);
-                this.displayValue = this.makeDisplayValue();
+                this.displayValue = this.makeDisplayValue()[0];
+                this.iconPos = this.makeDisplayValue()[1]
               /*  this.status = store.state.status;
                 console.log( this.status)*/
             },

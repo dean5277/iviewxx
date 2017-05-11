@@ -547,24 +547,20 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-                let dataArr = [],
+                let dataArr = [],//
                     that = this,
                     t = -1,//索引
                     status = [];
                 let fn = ((data) =>{
-                   
                     return function(row, i){
-
                         t++;
-                        status[i] = [];
-                       
-                        row.nodeIndex = 1;
-                       // row.display = true;
-                        status[i][0] = [-1,row.stretch];
-                        row.sIndex = 0;
+                        status[i] = [];//创建每个grid组的数组
+                        row.nodeIndex = 1;//层级
+                        status[i][0] = [-1,row.stretch];//组元素赋值，第一个参数是上级在组中的索引
+                        row.sIndex = 0;//组中索引
                         row.grid = i;
                         if(!row.children){
-                           row._index = t;
+                           row._index = t;//索引
                            dataArr.push(row);
                         }else{
                             row._index = t;
@@ -585,16 +581,14 @@
                 data.forEach(fn(data));
                 
                 function checkChildren(cd,pid,display,nodeIndex,grid,rcl){   
-                  //  let l =  status[grid].length; 
                     cd.forEach((n,i) =>{
                         t++;
                         n._index = t;
-                        n.pid = pid;
-                     //   display ? n.display = true : n.display = false;
+                        n.pid = pid;//所属父级ID
                         dataArr.push(n);
                         n.sIndex = status[grid].length;
                         n.grid = grid;
-                        status[grid].splice(status[grid].length,0,[pid,n.stretch])
+                        status[grid].splice(status[grid].length,0,[pid,n.stretch]);//插入数组
                  
                         n.nodeIndex = nodeIndex + 1;
                         if(n.children){
