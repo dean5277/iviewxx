@@ -1,15 +1,17 @@
 # iview-table-change
 iview 的table功能目前太简单了，满足不了业务需要，所以在iview的基础上进行开发。 <br />
 
-已完成功能： <br />
-2017/05/11 完成table children <br />
-
-未完成的功能： <br />
-合并单元格，嵌套table <br />
-
-
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
+
+## 已完成功能： <br />
+2017/05/11 完成table children <br />
+
+## 未完成的功能： <br />
+合并单元格，嵌套table <br />
+
+![demo](http://7xjfvt.com1.z0.glb.clouddn.com/123.png)
+
 
 
 ## Usage
