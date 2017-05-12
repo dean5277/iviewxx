@@ -43,7 +43,7 @@
                   
                       <template v-for="(column,n) in columns"  >
                           
-                           <td v-if="[0,5,6].indexOf(n) != -1"   :class="alignCls(column, row)"    >
+                           <td v-if="[0,3,6].indexOf(n) != -1"   :class="alignCls(column, row)"    >
                               
                               <Cell
                                  :fixed="fixed"
@@ -58,7 +58,7 @@
                                  >
                                </Cell>
                             </td>
-                            <td v-if="[1,4].indexOf(n) != -1" rowSpan="2" >44</td>
+                            <td v-if="[1,4].indexOf(n) != -1" colspan="2" >44</td>
 
                       </template>
 
