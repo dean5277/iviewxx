@@ -72,6 +72,7 @@
         },
         methods: {
             compile () {
+                //console.log(this.column.render)
                 if (this.column.render) {
                     const $parent = this.context;
                     const template = this.column.render(this.row, this.column, this.index);
@@ -122,7 +123,6 @@
             }
         },
         created () {
-            console.log(this.iconStatus)
             if (this.column.type === 'index') {
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {

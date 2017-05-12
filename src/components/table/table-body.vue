@@ -14,7 +14,7 @@
                         @mouseleave.stop="handleMouseOut(row._index)"
                         @click.stop="clickCurrentRow(row._index)"
                         @dblclick.stop="dblclickCurrentRow(row._index)">
-                        <td v-for="column in columns" :class="alignCls(column, row)"  >
+                        <td v-for="column in columns" :t="index"  :class="alignCls(column, row)"  >
                             <Cell
                                 :fixed="fixed"
                                 :prefix-cls="prefixCls"
@@ -40,20 +40,28 @@
                      @mouseleave.stop="handleMouseOut(row._index)"
                      @click.stop="clickCurrentRow(row._index)"
                      @dblclick.stop="dblclickCurrentRow(row._index)">
-                    
-                      <td v-for="column in columns" :class="alignCls(column, row)"   >
-                          <Cell
-                              :fixed="fixed"
-                              :prefix-cls="prefixCls"
-                              :row="row"
-                              :column="column"
-                              :natural-index="index"
-                              :index="row._index"
-                              :checked="rowChecked(row._index)"
-                              :disabled="rowDisabled(row._index)"
-                              :iconStatus="iconPos[row._index]"
-                              ></Cell>
-                      </td>
+                  
+                      <template v-for="(column,n) in columns"  >
+                          
+                           <td v-if="[0,5,6].indexOf(n) != -1"   :class="alignCls(column, row)"    >
+                              
+                              <Cell
+                                 :fixed="fixed"
+                                 :prefix-cls="prefixCls"
+                                 :row="row"
+                                 :column="column"
+                                 :natural-index="index"
+                                 :index="row._index"
+                                 :checked="rowChecked(row._index)"
+                                 :disabled="rowDisabled(row._index)"
+                                 :iconStatus="iconPos[row._index]"
+                                 >
+                               </Cell>
+                            </td>
+                            <td v-if="[1,4].indexOf(n) != -1" rowSpan="2" >44</td>
+
+                      </template>
+
                  </tr>
               
                 </template>
@@ -96,6 +104,42 @@
             iconStatus:Boolean
         },
         methods: {
+            compile (){
+                this.columns.forEach((column,i) =>{
+                    if (column.render) {
+                        this.data.forEach((item,n) =>{
+                            const template = column.render(item, this.columns, n);
+                            if(typeof template == "object" && template.props.colSpan){
+                                this.makeColSpan(n,i,template.props.colSpan);
+                            }else if(typeof template == "object" && template.props.rowSpan){
+                                this.makeColSpan(n,i,template.props.rowSpan);
+                            }
+                        });
+                    
+                    }
+                });
+                
+            },
+            makeColSpan(dataIndex,colIndex,colspan){//需要合并的tr,第几个td,输入的合并格数
+                console.log(dataIndex);
+                let colSpanNum = 0;//实际合并多少格
+                if((colIndex + colspan) <= this.columns.length){
+                    colSpanNum = colspan
+                }else{
+                    colSpanNum = this.columns.length - colIndex;
+                }
+             /*   this.columns[colIndex].dataIndex = dataIndex;
+                this.columns[colIndex].colSpanNum = colSpanNum;*/
+               // this.data[dataIndex].colspan = colSpanNum;
+
+                
+                //this.columns[colIndex].colspan = colSpanNum;
+                console.log(this.columns)
+             },
+            makeRowSpan(dataIndex,colIndex,rowspan){
+
+            },
+
             makeDisplayValue (){
                 let pos = [],
                     stretchPos = [];//树原始状态集
@@ -171,6 +215,11 @@
               /*  this.status = store.state.status;
                 console.log( this.status)*/
             },
+        },
+        mounted (){
+            this.$nextTick(() => {
+                this.compile();
+            });
         }
     };
 </script>

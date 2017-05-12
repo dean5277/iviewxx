@@ -14,7 +14,7 @@
                     {
                         orderNum:"54465456456",
                         buyer:"大王0",
-                        country:"中国",
+                        country:"中国1",
                         pay:"支付宝",
                         status:"未处理",
                         stretch:true,//是否显示子菜单
@@ -22,7 +22,7 @@
                             {
                                 orderNum:"324234",
                                 buyer:"大王00",
-                                country:"中国",
+                                country:"中国2",
                                 pay:"支付宝",
                                 status:"未处理",
                                 indentSize:15,//自定义的间距
@@ -31,7 +31,7 @@
                                     {
                                         orderNum:"123123",
                                         buyer:"大王000",
-                                        country:"中国",
+                                        country:"中国3",
                                         pay:"支付宝",
                                         status:"未处理",
                                         indentSize:30,
@@ -43,7 +43,7 @@
                             {
                                 orderNum:"gggg666",
                                 buyer:"大王01",
-                                country:"中国",
+                                country:"中国4",
                                 pay:"支付宝",
                                 status:"未处理",
                                 indentSize:15,
@@ -144,7 +144,16 @@
                     },
                     {
                         title: '国家',
-                        key: 'country'
+                        key: 'country',
+                        render (row,column, index){
+                            if (index < 4) {
+                              return {
+                                 children: `${row.country}`,
+                                 props: {colSpan: 5,},
+                               };
+                            }
+                            return `${row.country}`;
+                        }
                     },
                     {
                         title: '付款',

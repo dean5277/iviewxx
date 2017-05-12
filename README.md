@@ -21,6 +21,7 @@ iview 的table功能目前太简单了，满足不了业务需要，所以在ivi
 参数：<br />
 stretch:是否显示子菜单<br />
 indentSize:自定义间距<br />
+column的type类型为switch<br />
 
 ```html
 <template>
@@ -157,7 +158,7 @@ indentSize:自定义间距<br />
                         align: 'center'
                     },
                         {
-                        type: 'switch',
+                        type: 'switch',//这个要加
                         title: '订单号',
                         key: 'orderNum',
                         width:250
