@@ -147,16 +147,22 @@
                         key: 'country',
                         width: 200,
                         render (row,column, index){
-
-                            if (index == 5) {
-                       
-                                return {
-                                    children: `${row.country}`,
-                                    props: {colSpan:2}
-                               };
+                            const obj = {
+                              children:  `${row.country}`,
+                              props: {},
+                            };
+                            if (index === 3) {
+                              obj.props.rowSpan = 2;
                             }
-
-                            return `${row.country}`;
+                            // These two are merged into above cell
+                            if (index === 8) {
+                              obj.props.rowSpan = 4;
+                            }
+                            if (index === 7) {
+                              obj.props.colSpan = 4;
+                            }
+                            return obj;
+                         
                         }
                     },
                     {

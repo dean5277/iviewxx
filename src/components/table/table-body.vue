@@ -233,6 +233,7 @@
                         this.data.forEach((item,n) =>{
                            
                             const template = column.render(item, this.columns, n);
+                            console.log(template)
                             if(typeof template == "object" && template.props.colSpan && !template.props.rowSpan){
                                 this.makeColSpan(n,i,template.props.colSpan);
                             }else if(typeof template == "object" && template.props.rowSpan && !template.props.colSpan){
@@ -248,7 +249,7 @@
                 
             },
             makeColSpan(dataIndex,colIndex,colSpan,rowSpan){//需要合并的tr,第几个td,输入的合并格数
-
+                console.log('in colspan');
                 let colSpanNum = 0;//实际合并多少格
                 if((colIndex + colSpan) <= this.columns.length){
                     colSpanNum = colSpan
@@ -279,6 +280,7 @@
                 
              },
             makeRowSpan(dataIndex,colIndex,rowSpan){
+                console.log('in rowspan');
                 let pos = Object.assign(Object.create(null),this.colPos);
                  pos[dataIndex][colIndex].rowSpan = rowSpan;
               
@@ -296,6 +298,7 @@
 
             },
             makeColAndRow (dataIndex,colIndex,rowSpan,colSpan){
+               console.log('in col  and row');
               this.makeRowSpan(dataIndex,colIndex,rowSpan);
               this.makeColSpan(dataIndex,colIndex,colSpan,rowSpan);
             },
