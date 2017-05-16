@@ -75,8 +75,14 @@
                 if (this.column.render) {
                     const $parent = this.context;
                     const template = this.column.render(this.row, this.column, this.index);
+
                     const cell = document.createElement('div');
-                    cell.innerHTML = template;
+                    if(template.children){
+                         cell.innerHTML = template.children;
+                    }else{
+                         cell.innerHTML = template;
+                    }
+                   
 
                     this.$el.innerHTML = '';
                     let methods = {};
@@ -122,7 +128,6 @@
             }
         },
         created () {
-            console.log(this.iconStatus)
             if (this.column.type === 'index') {
                 this.renderType = 'index';
             } else if (this.column.type === 'selection') {

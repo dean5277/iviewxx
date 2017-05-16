@@ -603,7 +603,6 @@
                         }
                     })
                 }
-
                 this.objData = this.makeChildObjData(dataArr);
                 this.cloneData = deepCopy(dataArr);
                 store.commit('status', status);
@@ -717,83 +716,9 @@
                 });
                 return left.concat(center).concat(right);
             },
-            checkChlid (data){
-
-
-                let dataArr = [],
-                    itemId = 0,
-                    nodeIndex = 0,
-                    t = 0,
-                    that = this;
-                let fn = ((dataArr) =>{
-                   
-                    return function(item){
-                        item.nodeIndex = nodeIndex;
-                        if(item.display == undefined)  item.display = true ;
-                        let itemObj = Object.create(null);
-                        that.$nextTick(()=>{
-                            itemObj.iid = item.itemId;
-                            itemObj.pid = item.pid;
-                            itemObj.display = item.display;
-                           
-                        })
-                         that.displayObj.push(itemObj);  
-                     
-                       // that.displayObj(t++,item.stretch);
-                        if(item.children){
-                            itemId++;
-                            item.itemId = itemId;
-
-                            item.children.forEach((n,i) =>{
-                                n.pid = item.itemId;
-                                n.nodeIndex = item.nodeIndex + 1;
-                                if(item.stretch){
-                                    item.display = true;
-                                    n.display = true;
-                                }else{
-                                    n.display = false;
-                                }
-                                if(i == 0){
-                                     dataArr.push(item);
-                                }
-                               
-                               //  console.log(dataArr);
-                               // nodeIndex++;
-                                return fn(dataArr)(n);
-                            });
-                            delete item.children;
-                          
-
-                        }else{
-                            item.itemId = -1;
-                            dataArr.push(item);
-                        }
-      
-                       
-                        return item;
-                    }
-                });
-                data.forEach(fn(dataArr));
-                this.objData = this.makeChildObjData(dataArr);
-                this.cloneData = deepCopy(dataArr);
-                return dataArr;
-
-                
-            },
-
-            dataArrData (data){
-                let newData = deepCopy(data);
-                newData.forEach((row, index) => row._index = index);
-                return newData;
-            }
-            ,
-            makeChildData (){//data-childdata
-               let data = this.makeDataWithSortAndFilter();
-               let dataArr = this.checkChlid(data);
            
-               return  this.dataArrData(dataArr);
-            },
-            
+
+
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
@@ -826,8 +751,6 @@
             this.showSlotHeader = this.$slots.header !== undefined;
             this.showSlotFooter = this.$slots.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();
-            console.log(this.rebuildData)
-            //this.rebuildData = this.makeChildData();//
         },
         mounted () {
             this.handleResize();
