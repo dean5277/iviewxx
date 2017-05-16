@@ -1,4 +1,5 @@
 # iview-table-change
+**目前兼容的是iview 的 2.0.0-rc.12版本，后期对比合并最新版本** <br />
 iview 的table功能目前太简单了，满足不了业务需要，所以在iview的基础上进行开发。 <br />
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
@@ -6,21 +7,32 @@ iview 的table功能目前太简单了，满足不了业务需要，所以在ivi
 
 ### 已完成功能
 2017/05/11 完成table children <br />
-
+2017/05/16 完成合并单元格 <br />
 ### 未完成的功能 
-合并单元格，嵌套table <br />
+嵌套table <br />
 
 ### table children
 ![demo](http://7xjfvt.com1.z0.glb.clouddn.com/123.png?123)
+<br /><br />
+
+### 合并单元格
+
+![cells](http://7xjfvt.com1.z0.glb.clouddn.com/cells.png)
+
 
 
 
 ## Usage
 /dist直接替换iview 的/dist
 
-参数：<br />
+table children参数：<br />
 stretch:是否显示子菜单<br />
 indentSize:自定义间距<br />
+
+合并单元格参数：<br />
+请参考json<br />
+注意：  不要用(index < num)去设置rowspan
+
 
 ```html
 <template>
@@ -39,7 +51,7 @@ indentSize:自定义间距<br />
                     {
                         orderNum:"54465456456",
                         buyer:"大王0",
-                        country:"中国",
+                        country:"中国1",
                         pay:"支付宝",
                         status:"未处理",
                         stretch:true,//是否显示子菜单
@@ -47,16 +59,16 @@ indentSize:自定义间距<br />
                             {
                                 orderNum:"324234",
                                 buyer:"大王00",
-                                country:"中国",
+                                country:"中国2",
                                 pay:"支付宝",
                                 status:"未处理",
-                                indentSize:15,
+                                indentSize:15,//自定义的间距
                                 stretch:false,
                                 children:[
                                     {
                                         orderNum:"123123",
                                         buyer:"大王000",
-                                        country:"中国",
+                                        country:"中国3",
                                         pay:"支付宝",
                                         status:"未处理",
                                         indentSize:30,
@@ -68,7 +80,7 @@ indentSize:自定义间距<br />
                             {
                                 orderNum:"gggg666",
                                 buyer:"大王01",
-                                country:"中国",
+                                country:"中国4",
                                 pay:"支付宝",
                                 status:"未处理",
                                 indentSize:15,
@@ -85,7 +97,7 @@ indentSize:自定义间距<br />
                             },
                             {
                                 orderNum:"43",
-                                buyer:"大王01",
+                                buyer:"大王03",
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
@@ -94,7 +106,7 @@ indentSize:自定义间距<br />
                             },
                             {
                                 orderNum:"956599555",
-                                buyer:"大王02",
+                                buyer:"大王04",
                                 country:"中国1",
                                 pay:"支付宝1",
                                 status:"未处理",
@@ -103,7 +115,7 @@ indentSize:自定义间距<br />
                             },
                             {
                                 orderNum:"5656",
-                                buyer:"大王01",
+                                buyer:"大王05",
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
@@ -112,7 +124,7 @@ indentSize:自定义间距<br />
                             },
                             {
                                 orderNum:"656556",
-                                buyer:"大王02",
+                                buyer:"大王06",
                                 country:"中国1",
                                 pay:"支付宝1",
                                 status:"未处理",
@@ -169,7 +181,25 @@ indentSize:自定义间距<br />
                     },
                     {
                         title: '国家',
-                        key: 'country'
+                        key: 'country',
+                        width: 200,
+                        render (row,column, index){//合并单元格
+                            const obj = {
+                              children:  `${row.country}`,
+                              props: {},
+                            };
+                            if (index === 3) {//不要用大比较去设置rowspan
+                              obj.props.rowSpan = 2;
+                            }
+                            if (index === 8) {
+                              obj.props.rowSpan = 4;
+                            }
+                            if (index === 7) {
+                              obj.props.colSpan = 4;
+                            }
+                            return obj;
+                         
+                        }
                     },
                     {
                         title: '付款',
@@ -191,9 +221,6 @@ indentSize:自定义间距<br />
                 ]
             }
         },
-        created (){
-
-        },
         methods: {
             remove (index) {
                 this.data6.splice(index, 1);
@@ -204,6 +231,7 @@ indentSize:自定义间距<br />
         }
     }
 </script>
+
 
 
 ```
