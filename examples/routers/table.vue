@@ -140,7 +140,18 @@
                     },
                     {
                         title: '买家',
-                        key: 'buyer'
+                        key: 'buyer',
+                        render: (h, params) => {
+                           console.log(h)
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'person'
+                                    }
+                                }),
+                                h('strong', params.row.name)
+                            ]);
+                        }
                     },
                     {
                         title: '国家',

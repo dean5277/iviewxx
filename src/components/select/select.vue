@@ -22,12 +22,13 @@
                 @keydown.delete="handleInputDelete"
                 ref="input">
             <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
-            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
+            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="visible" :placement="placement" ref="dropdown">
-                <ul v-show="notFound" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="!notFound" :class="[prefixCls + '-dropdown-list']" ref="options"><slot></slot></ul>
+            <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
+                <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
+                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
         </transition>
     </div>
@@ -74,6 +75,20 @@
             filterMethod: {
                 type: Function
             },
+            remote: {
+                type: Boolean,
+                default: false
+            },
+            remoteMethod: {
+                type: Function
+            },
+            loading: {
+                type: Boolean,
+                default: false
+            },
+            loadingText: {
+                type: String
+            },
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
@@ -103,6 +118,8 @@
                 selectedMultiple: [],
                 focusIndex: 0,
                 query: '',
+                lastQuery: '',
+                selectToChangeQuery: false,    // when select an option, set this first and set query, because query is watching, it will emit event
                 inputLength: 20,
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
@@ -168,8 +185,25 @@
                     return this.notFoundText;
                 }
             },
+            localeLoadingText () {
+                if (this.loadingText === undefined) {
+                    return this.t('i.select.loading');
+                } else {
+                    return this.loadingText;
+                }
+            },
             transitionName () {
                 return this.placement === 'bottom' ? 'slide-up' : 'slide-down';
+            },
+            dropVisible () {
+                let status = true;
+                const options = this.$slots.default || [];
+                if (!this.loading && this.remote && this.query === '' && !options.length) status = false;
+                return this.visible && status;
+            },
+            notFountShow () {
+                const options = this.$slots.default || [];
+                return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
             }
         },
         methods: {
@@ -177,7 +211,6 @@
                 if (this.disabled) {
                     return false;
                 }
-
                 this.visible = !this.visible;
             },
             hideMenu () {
@@ -228,8 +261,10 @@
                 this.options = options;
 
                 if (init) {
-                    this.updateSingleSelected(true, slot);
-                    this.updateMultipleSelected(true, slot);
+                    if (!this.remote) {
+                        this.updateSingleSelected(true, slot);
+                        this.updateMultipleSelected(true, slot);
+                    }
                 }
             },
             updateSingleSelected (init = false, slot = false) {
@@ -268,7 +303,8 @@
             },
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
-                    let selected = [];
+                    // todo 这里的 label 有问题，另删除字符时也有问题
+                    let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
                         const model = this.model[i];
@@ -285,7 +321,16 @@
                         }
                     }
 
-                    this.selectedMultiple = selected;
+                    const selectedArray = [];
+                    const selectedObject = {};
+                    selected.forEach(item => {
+                        if (!selectedObject[item.value]) {
+                            selectedArray.push(item);
+                            selectedObject[item.value] = 1;
+                        }
+                    });
+
+                    this.selectedMultiple = this.remote ? selectedArray : selected;
 
                     if (slot) {
                         let selectedModel = [];
@@ -308,6 +353,12 @@
                 if (this.disabled) {
                     return false;
                 }
+
+                if (this.remote) {
+                    const tag = this.model[index];
+                    this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
+                }
+
                 this.model.splice(index, 1);
 
                 if (this.filterable && this.visible) {
@@ -478,6 +529,12 @@
                                     this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
+                            // 如果删除了搜索词，下拉列表也清空了，所以强制调用一次remoteMethod
+                            if (this.remote && this.query !== this.lastQuery) {
+                                this.$nextTick(() => {
+                                    this.query = this.lastQuery;
+                                });
+                            }
                         } else {
                             this.query = '';
                         }
@@ -535,18 +592,30 @@
             document.addEventListener('keydown', this.handleKeydown);
 
             this.$on('append', () => {
-                this.modelToQuery();
-                this.$nextTick(() => {
-                    this.broadcastQuery('');
-                });
+                if (!this.remote) {
+                    this.modelToQuery();
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
+                } else {
+                    this.findChild(child => {
+                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                    });
+                }
                 this.slotChange();
                 this.updateOptions(true, true);
             });
             this.$on('remove', () => {
-                this.modelToQuery();
-                this.$nextTick(() => {
-                    this.broadcastQuery('');
-                });
+                if (!this.remote) {
+                    this.modelToQuery();
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
+                } else {
+                    this.findChild(child => {
+                        child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                    });
+                }
                 this.slotChange();
                 this.updateOptions(true, true);
             });
@@ -565,6 +634,8 @@
                         }
 
                         if (this.filterable) {
+                            // remote&filterable&multiple时，一次点多项，不应该设置true，因为无法置为false，下次的搜索会失效
+                            if (this.query !== '') this.selectToChangeQuery = true;
                             this.query = '';
                             this.$refs.input.focus();
                         }
@@ -574,7 +645,8 @@
                         if (this.filterable) {
                             this.findChild((child) => {
                                 if (child.value === value) {
-                                    this.query = child.label === undefined ? child.searchLabel : child.label;
+                                    if (this.query !== '') this.selectToChangeQuery = true;
+                                    this.lastQuery = this.query = child.label === undefined ? child.searchLabel : child.label;
                                 }
                             });
                         }
@@ -611,6 +683,11 @@
                         } else {
                             this.$refs.input.select();
                         }
+                        if (this.remote) {
+                            this.findChild(child => {
+                                child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                            });
+                        }
                     }
                     this.broadcast('Drop', 'on-update-popper');
                 } else {
@@ -625,20 +702,33 @@
                 }
             },
             query (val) {
-                this.$emit('on-query-change', val);
-
-                this.broadcastQuery(val);
-                
-                let is_hidden = true;
-
-                this.$nextTick(() => {
-                    this.findChild((child) => {
-                        if (!child.hidden) {
-                            is_hidden = false;
-                        }
+                if (this.remote && this.remoteMethod) {
+                    if (!this.selectToChangeQuery) {
+                        this.$emit('on-query-change', val);
+                        this.remoteMethod(val);
+                    }
+                    this.focusIndex = 0;
+                    this.findChild(child => {
+                        child.isFocus = false;
                     });
-                    this.notFound = is_hidden;
-                });
+                } else {
+                    if (!this.selectToChangeQuery) {
+                        this.$emit('on-query-change', val);
+                    }
+                    this.broadcastQuery(val);
+
+                    let is_hidden = true;
+
+                    this.$nextTick(() => {
+                        this.findChild((child) => {
+                            if (!child.hidden) {
+                                is_hidden = false;
+                            }
+                        });
+                        this.notFound = is_hidden;
+                    });
+                }
+                this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
             }
         }

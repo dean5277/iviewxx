@@ -96,23 +96,12 @@
                         return data;
                     }
                 }
-                this.data.map(node =>{
-                    console.log('1');
-                    console.log(reverseChecked(node));
-                    return reverseChecked(node)
-                }).map(node =>{
-                    console.log('2');
-                    console.log(forwardChecked(node));
-                    return  forwardChecked(node)
-                });
-                
+                this.data.map(node => reverseChecked(node)).map(node => forwardChecked(node));
                 this.broadcast('TreeNode', 'indeterminate');
             }
         },
         mounted () {
-
             this.updateData();
-
             this.$on('selected', ori => {
                 const nodes = findComponentsDownward(this, 'TreeNode');
                 nodes.forEach(node => {
@@ -130,7 +119,6 @@
                 this.$emit('on-check-change', this.getCheckedNodes());
             });
             this.$on('toggle-expand', (payload) => {
-               // console.log(payload)
                 this.$emit('on-toggle-expand', payload);
             });
         },
