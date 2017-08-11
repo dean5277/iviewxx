@@ -3,7 +3,7 @@
         <ul v-if="data && data.length" :class="[prefixCls + '-menu']">
             <Casitem
                 v-for="item in data"
-                :key="item"
+                :key="getKey()"
                 :prefix-cls="prefixCls"
                 :data="item"
                 :tmp-item="tmpItem"
@@ -16,6 +16,8 @@
     import Casitem from './casitem.vue';
     import Emitter from '../../mixins/emitter';
     import { findComponentUpward } from '../../utils/assist';
+
+    let key = 1;
 
     export default {
         name: 'Caspanel',
@@ -48,19 +50,23 @@
         methods: {
             handleClickItem (item) {
                 if (this.trigger !== 'click' && item.children) return;
-                this.handleTriggerItem(item);
+                this.handleTriggerItem(item, false, true);
             },
             handleHoverItem (item) {
                 if (this.trigger !== 'hover' || !item.children) return;
-                this.handleTriggerItem(item);
+                this.handleTriggerItem(item, false, true);
             },
-            handleTriggerItem (item, fromInit = false) {
+            handleTriggerItem (item, fromInit = false, fromUser = false) {
                 if (item.disabled) return;
 
                 if (item.loading !== undefined && !item.children.length) {
                     const cascader = findComponentUpward(this, 'Cascader');
                     if (cascader && cascader.loadData) {
                         cascader.loadData(item, () => {
+                            // todo
+                            if (fromUser) {
+                                cascader.isLoadedChildren = true;
+                            }
                             this.handleTriggerItem(item);
                         });
                         return;
@@ -105,6 +111,9 @@
                 } else {
                     this.$parent.$parent.updateResult(result);
                 }
+            },
+            getKey () {
+                return key++;
             }
         },
         mounted () {

@@ -145,6 +145,24 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        &-with-expand{
+            height: 47px;
+            line-height: 47px;
+            padding: 0;
+            text-align: center;
+        }
+
+        &-expand{
+            cursor: pointer;
+            transition: transform @transition-time @ease-in-out;
+            i{
+                font-size: @font-size-base;
+            }
+            &-expanded{
+                transform: rotate(90deg);
+            }
+        }
     }
     &-hidden{
         visibility: hidden;
@@ -154,6 +172,11 @@
         //position: relative;
         word-wrap: normal;
         vertical-align: middle;
+    }
+
+    td&-expanded-cell{
+        padding: 20px 50px;
+        background: @table-thead-bg;
     }
 
     &-stripe &-body,
@@ -184,6 +207,13 @@
             height: 60px;
             line-height: 60px;
         }
+        .@{table-prefix-cls}-cell-with-expand{
+            height: 59px;
+            line-height: 59px;
+            i{
+                font-size: @font-size-base+2;
+            }
+        }
     }
 
     &-small{
@@ -196,6 +226,10 @@
         &-title, &-footer{
             height: 40px;
             line-height: 40px;
+        }
+        .@{table-prefix-cls}-cell-with-expand{
+            height: 39px;
+            line-height: 39px;
         }
     }
 
@@ -234,6 +268,16 @@
     }
     &-fixed-header{
         overflow: hidden;
+        &-with-empty{
+            .@{table-prefix-cls}-hidden{
+                .@{table-prefix-cls}-sort{
+                    display: none;
+                }
+                .@{table-prefix-cls}-cell span{
+                    display: none;
+                }
+            }
+        }
     }
     &-fixed-body{
         overflow: hidden;
@@ -317,32 +361,3 @@
         }
     }
 }
-
-@font-face {font-family: "iconfont";
-  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197'); /* IE9*/
-  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('//at.alicdn.com/t/font_wpboh046qx5hfr.woff?t=1493796069197') format('woff'), /* chrome, firefox */
-  url('//at.alicdn.com/t/font_wpboh046qx5hfr.ttf?t=1493796069197') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('//at.alicdn.com/t/font_wpboh046qx5hfr.svg?t=1493796069197#iconfont') format('svg'); /* iOS 4.1- */
-}
-
-.iconfont {
-  font-family:"iconfont" !important;
-  font-size:16px;
-  font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-
-.icon-iconfontunie047:before { content: "\e60b"; }
-
-.icon-iconfontunie048:before { content: "\e60c"; }
-
-.iconfont{font-size: 12px; padding-right: 5px; position: relative; top:2px;-moz-user-select:none;/*火狐*/
-    -webkit-user-select:none;/*webkit浏览器*/
-    -ms-user-select:none;/*IE10*/
-    -khtml-user-select:none;/*早期浏览器*/
-      user-select:none;}
- .tableStretch{font-size: 14px; cursor: pointer;}
-

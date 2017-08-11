@@ -1,207 +1,143 @@
 <template>
     <div>
-        <Table border :context="self" :columns="columns7" :data="data6"></Table>
+        <Table
+                width="500"
+                height="200"
+                border
+                highlight-row
+                :columns="columns2"
+                @on-selection-change="change2"
+                :data="data3"></Table>
+        <Button @click="addData">添加数据</Button>
     </div>
 </template>
 <script>
-    import abc from '../components/test.vue';
+    import test from '../components/test.vue';
     export default {
-        components: { abc },
         data () {
             return {
-                self: this,
-                data6: [
+                columns2: [
+//                    {
+//                        type: 'selection',
+//                        width: 60,
+//                        align: 'center'
+//                    },
                     {
-                        orderNum:"54465456456",
-                        buyer:"大王0",
-                        country:"中国1",
-                        pay:"支付宝",
-                        status:"未处理",
-                        stretch:true,//是否显示子菜单
-                        children:[
-                            {
-                                orderNum:"324234",
-                                buyer:"大王00",
-                                country:"中国2",
-                                pay:"支付宝",
-                                status:"未处理",
-                                indentSize:15,//自定义的间距
-                                stretch:false,
-                                children:[
-                                    {
-                                        orderNum:"123123",
-                                        buyer:"大王000",
-                                        country:"中国3",
-                                        pay:"支付宝",
-                                        status:"未处理",
-                                        indentSize:30,
-                                        stretch:false,
-                                        
-                                    }
-                                ]
-                            },
-                            {
-                                orderNum:"gggg666",
-                                buyer:"大王01",
-                                country:"中国4",
-                                pay:"支付宝",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false
-                            },
-                            {
-                                orderNum:"43",
-                                buyer:"大王02",
-                                country:"中国1",
-                                pay:"支付宝1",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false
-                            },
-                            {
-                                orderNum:"43",
-                                buyer:"大王03",
-                                country:"中国",
-                                pay:"支付宝",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false
-                            },
-                            {
-                                orderNum:"956599555",
-                                buyer:"大王04",
-                                country:"中国1",
-                                pay:"支付宝1",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false
-                            },
-                            {
-                                orderNum:"5656",
-                                buyer:"大王05",
-                                country:"中国",
-                                pay:"支付宝",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false
-                            },
-                            {
-                                orderNum:"656556",
-                                buyer:"大王06",
-                                country:"中国1",
-                                pay:"支付宝1",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false
-                            }
-                        ]
-                    },
-                    {
-                        orderNum:"1156456",
-                        buyer:"大王1",
-                        country:"中国",
-                        pay:"支付宝",
-                        status:"未处理",
-                        stretch:false
-                    },
-                    {
-                        orderNum:"456456456",
-                        buyer:"大王2",
-                        country:"中国",
-                        pay:"支付宝",
-                        status:"未处理",
-                        stretch:false,
-                        children:[
-                            {
-                                orderNum:"222",
-                                buyer:"大王20",
-                                country:"中国",
-                                pay:"支付宝",
-                                status:"未处理",
-                                indentSize:15,
-                                stretch:false,
-                                
-                            }
-                        ]
-                    }
-                ],
-                columns7:[
-                    {
-                        type: 'selection',
-                        width: 54,
-                        align: 'center'
-                    },
-                        {
-                        type: 'switch',
-                        title: '订单号',
-                        key: 'orderNum',
-                        width:250
-                        
-                    },
-                    {
-                        title: '买家',
-                        key: 'buyer',
+                        title: '姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名',
+                        key: 'name',
+                        width: 200,
+//                        sortable: true,
+//                        fixed: 'right',
                         render: (h, params) => {
-                           console.log(h)
                             return h('div', [
-                                h('Icon', {
+                                h('Button', {
                                     props: {
-                                        type: 'person'
-                                    }
-                                }),
-                                h('strong', params.row.name)
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: this.edit
+                                    },
+                                }, '修改')
                             ]);
                         }
                     },
                     {
-                        title: '国家',
-                        key: 'country',
-                        width: 200,
-                        render (row,column, index){
-                            const obj = {
-                              children:  `${row.country}`,
-                              props: {},
-                            };
-                            if (index === 3) {
-                              obj.props.rowSpan = 2;
-                            }
-                            // These two are merged into above cell
-                            if (index === 8) {
-                              obj.props.rowSpan = 4;
-                            }
-                            if (index === 7) {
-                              obj.props.colSpan = 4;
-                            }
-                            return obj;
-                         
-                        }
+                        title: '年龄',
+                        key: 'age',
+                        sortable: true,
+//                        sortType: 'asc',
+                        width: 200
                     },
                     {
-                        title: '付款',
-                        key: 'pay'
+                        title: '省份',
+                        key: 'province',
+                        sortable: true,
+//                        fixed: 'right',
+                        width: 200
+                    },
+//                    {
+//                        title: '市区',
+//                        key: 'city',
+//                        width: 100
+//                    },
+//                    {
+//                        title: '地址',
+//                        key: 'address',
+//                        width: 200
+//                    },
+//                    {
+//                        title: '邮编',
+//                        key: 'zip',
+//                        width: 100
+//                    },
+//                    {
+//                        title: '操作',
+//                        key: 'action',
+//                        fixed: 'right',
+//                        width: 120,
+//                        render: (h, params) => {
+//                            return h(test);
+//                        }
+//                    }
+                ],
+                data3: [
+                    {
+                        name: '王小明',
+                        age: 18,
+                        address: '北京市朝阳区芍药居',
+                        province: '北京市',
+                        city: '朝阳区',
+                        zip: 100000
                     },
                     {
-                        title: '状态',
-                        key: 'status'
+                        name: '张小刚',
+                        age: 25,
+                        address: '北京市海淀区西二旗',
+                        province: '北京市',
+                        city: '海淀区',
+                        zip: 100000
                     },
-                    {
-                        title: '标记',
-                        key: 'action',
-                        width: 180,
-                        align: 'center',
-                        render (row, column, index) {
-                            return `<i-button  size="small" @click="show(${index})">查看</i-button> <i-button  size="small" @click="editUser(${row.id})">编辑</i-button> <i-button type="error"  size="small" @click="remove(${index},${row.id})">删除</i-button>`;
-                        }
-                    }
+//                    {
+//                        name: '李小红',
+//                        age: 30,
+//                        address: '上海市浦东新区世纪大道',
+//                        province: '上海市',
+//                        city: '浦东新区',
+//                        zip: 100000
+//                    },
+//                    {
+//                        name: '周小伟',
+//                        age: 26,
+//                        address: '深圳市南山区深南大道',
+//                        province: '广东',
+//                        city: '南山区',
+//                        zip: 100000
+//                    }
                 ]
             }
         },
         methods: {
-            remove (index) {
-                this.data6.splice(index, 1);
+            change1 (d, l) {
+//                console.log(d)
+//                console.log(l)
             },
-            show:function (){
-                this.modal9 = true;
+            change2 (d, l) {
+                console.log(d);
+                console.log(l);
+            },
+            addData () {
+                this.data3.push({
+                    name: '周小伟',
+                    age: 26,
+                    address: '深圳市南山区深南大道',
+                    province: '广东',
+                    city: '南山区',
+                    zip: 100000
+                })
+            },
+            edit () {
+                
             }
         }
     }

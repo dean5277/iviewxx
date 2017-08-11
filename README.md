@@ -1,6 +1,6 @@
-# iview-table-change
-**已经兼容了 2.0.0-rc.13版本** <br />
-iview 的table功能目前太简单了，满足不了业务需要，所以在iview的基础上进行开发。 <br />
+# iview-dtable
+**已经兼容了 2.0.0-rc.2.0版本** <br />
+终于闲下来兼容下新render写法了。 <br />
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
@@ -8,7 +8,7 @@ iview 的table功能目前太简单了，满足不了业务需要，所以在ivi
 ### 已完成功能
 2017/05/11 完成table children <br />
 2017/05/16 完成合并单元格 <br />
-2017/05/18 兼容  2.0.0-rc.13版本<br />
+2017/08/11 兼容  2.0.0-rc.20版本<br />
 ### 未完成的功能 
 嵌套table <br />
 
@@ -30,6 +30,8 @@ table children参数：<br />
 stretch:是否显示子菜单<br />
 indentSize:自定义间距<br />
 
+** 为了避免IVIEW更新又要匹配代码，所以把原有的table单独抽离出一个新模块 dTable
+
 合并单元格参数：<br />
 请参考json<br />
 注意：  不要用(index < num)去设置rowspan
@@ -38,7 +40,7 @@ indentSize:自定义间距<br />
 ```html
 <template>
     <div>
-        <Table border :context="self" :columns="columns7" :data="data6"></Table>
+        <dTable border :context="self" :columns="columns7" :data="data6"></dTable>
     </div>
 </template>
 <script>
@@ -178,24 +180,36 @@ indentSize:自定义间距<br />
                     },
                     {
                         title: '买家',
-                        key: 'buyer'
+                        key: 'buyer',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Icon', {
+                                    props: {
+                                        type: 'person'
+                                    }
+                                }),
+                                h('strong', params.row.name)
+                            ]);
+                        }
                     },
                     {
                         title: '国家',
                         key: 'country',
+                        type: 'span',
                         width: 200,
-                        render (row,column, index){//合并单元格
+                        render : (h,params) =>{
                             const obj = {
-                              children:  `${row.country}`,
+                              children:  params.row.country,
                               props: {},
                             };
-                            if (index === 3) {//不要用大比较去设置rowspan
+                            if (params.index === 3) {
                               obj.props.rowSpan = 2;
                             }
-                            if (index === 8) {
+                            // These two are merged into above cell
+                            if (params.index === 8) {
                               obj.props.rowSpan = 4;
                             }
-                            if (index === 7) {
+                            if (params.index === 7) {
                               obj.props.colSpan = 4;
                             }
                             return obj;
@@ -215,8 +229,10 @@ indentSize:自定义间距<br />
                         key: 'action',
                         width: 180,
                         align: 'center',
-                        render (row, column, index) {
-                            return `<i-button  size="small" @click="show(${index})">查看</i-button> <i-button  size="small" @click="editUser(${row.id})">编辑</i-button> <i-button type="error"  size="small" @click="remove(${index},${row.id})">删除</i-button>`;
+                        render (h,params) {
+                           return h('Button',{
+
+                           },"编辑")
                         }
                     }
                 ]
@@ -231,6 +247,8 @@ indentSize:自定义间距<br />
             }
         }
     }
+</script>
+
 </script>
 
 

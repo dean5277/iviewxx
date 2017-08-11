@@ -37,14 +37,14 @@
                 </table>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
-                <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                         fixed="left"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
-                <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                         fixed="right"
                         :prefix-cls="prefixCls"
@@ -88,16 +88,19 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
+    import { on, off } from '../../utils/dom';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
-    import Emitter from '../../mixins/emitter';
-    import store from './store';
+
     const prefixCls = 'ivu-table';
+
+    let rowKey = 1;
+    let columnKey = 1;
 
     export default {
         name: 'Table',
-        mixins: [ Locale,Emitter ],
+        mixins: [ Locale ],
         components: { tableHead, tableBody },
         props: {
             data: {
@@ -153,6 +156,9 @@
             },
             noFilteredDataText: {
                 type: String
+            },
+            disabledHover: {
+                type: Boolean
             }
         },
         data () {
@@ -207,6 +213,14 @@
                         [`${prefixCls}-border`]: this.border,
                         [`${prefixCls}-stripe`]: this.stripe,
                         [`${prefixCls}-with-fixed-top`]: !!this.height
+                    }
+                ];
+            },
+            fixedHeaderClasses () {
+                return [
+                    `${prefixCls}-fixed-header`,
+                    {
+                        [`${prefixCls}-fixed-header-with-empty`]: !this.rebuildData.length
                     }
                 ];
             },
@@ -352,10 +366,12 @@
                 });
             },
             handleMouseIn (_index) {
+                if (this.disabledHover) return;
                 if (this.objData[_index]._isHover) return;
                 this.objData[_index]._isHover = true;
             },
             handleMouseOut (_index) {
+                if (this.disabledHover) return;
                 this.objData[_index]._isHover = false;
             },
             highlightCurrentRow (_index) {
@@ -400,10 +416,20 @@
                 this.objData[_index]._isChecked = status;
 
                 const selection = this.getSelection();
-                if (status) {
-                    this.$emit('on-select', selection, JSON.parse(JSON.stringify(this.data[_index])));
-                }
+                this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
                 this.$emit('on-selection-change', selection);
+            },
+            toggleExpand (_index) {
+                let data = {};
+
+                for (let i in this.objData) {
+                    if (parseInt(i) === _index) {
+                        data = this.objData[i];
+                    }
+                }
+                const status = !data._isExpanded;
+                this.objData[_index]._isExpanded = status;
+                this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {
@@ -547,66 +573,11 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-                let dataArr = [],//
-                    that = this,
-                    t = -1,//索引
-                    status = [];
-                let fn = ((data) =>{
-                    return function(row, i){
-                        t++;
-                        status[i] = [];//创建每个grid组的数组
-                        row.nodeIndex = 1;//层级
-                        status[i][0] = [-1,row.stretch];//组元素赋值，第一个参数是上级在组中的索引
-                        row.sIndex = 0;//组中索引
-                        row.grid = i;
-                        if(!row.children){
-                           row._index = t;//索引
-                           dataArr.push(row);
-                        }else{
-                            row._index = t;
-                            row.hasChild = true;
-                            dataArr.push(row);
-                            if(row.stretch){
-                                checkChildren(row.children,row._index, true,1,i,row.children.length);
-                            }else{
-                                checkChildren(row.children,row._index, false,1,i,row.children.length);
-                            }
-                           
-                        }
-                      
-                       
-                        return row;
-                    }
+                data.forEach((row, index) => {
+                    row._index = index;
+                    row._rowKey = rowKey++;
                 });
-                data.forEach(fn(data));
-                
-                function checkChildren(cd,pid,display,nodeIndex,grid,rcl){   
-                    cd.forEach((n,i) =>{
-                        t++;
-                        n._index = t;
-                        n.pid = pid;//所属父级ID
-                        dataArr.push(n);
-                        n.sIndex = status[grid].length;
-                        n.grid = grid;
-                        status[grid].splice(status[grid].length,0,[pid,n.stretch]);//插入数组
-                 
-                        n.nodeIndex = nodeIndex + 1;
-                        if(n.children){
-                            n.hasChild = true;
-                            
-                            if(n.stretch){
-                                checkChildren(n.children,n._index, true,nodeIndex + 1,i); 
-                            }else{
-                                checkChildren(n.children,n._index, false,nodeIndex + 1,i); 
-                            }
-                           
-                        }
-                    })
-                }
-                this.objData = this.makeChildObjData(dataArr);
-                this.cloneData = deepCopy(dataArr);
-                store.commit('status', status);
-                return dataArr;
+                return data;
             },
             makeDataWithSort () {
                 let data = this.makeData();
@@ -640,9 +611,9 @@
                 this.data.forEach((row, index) => {
                     const newRow = deepCopy(row);// todo 直接替换
                     newRow._isHover = false;
-                    if(newRow._disabled){
+                    if (newRow._disabled) {
                         newRow._isDisabled = newRow._disabled;
-                    }else{
+                    } else {
                         newRow._isDisabled = false;
                     }
                     if (newRow._checked) {
@@ -650,29 +621,10 @@
                     } else {
                         newRow._isChecked = false;
                     }
-                    if (newRow._highlight) {
-                        newRow._isHighlight = newRow._highlight;
+                    if (newRow._expanded) {
+                        newRow._isExpanded = newRow._expanded;
                     } else {
-                        newRow._isHighlight = false;
-                    }
-                    data[index] = newRow;
-                });
-                return data;
-            },
-            makeChildObjData(dataArr){
-                let data = {};
-                dataArr.forEach((row, index) => {
-                    const newRow = deepCopy(row);// todo 直接替换
-                    newRow._isHover = false;
-                    if(newRow._disabled){
-                        newRow._isDisabled = newRow._disabled;
-                    }else{
-                        newRow._isDisabled = false;
-                    }
-                    if (newRow._checked) {
-                        newRow._isChecked = newRow._checked;
-                    } else {
-                        newRow._isChecked = false;
+                        newRow._isExpanded = false;
                     }
                     if (newRow._highlight) {
                         newRow._isHighlight = newRow._highlight;
@@ -688,8 +640,10 @@
                 let left = [];
                 let right = [];
                 let center = [];
+
                 columns.forEach((column, index) => {
                     column._index = index;
+                    column._columnKey = columnKey++;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
@@ -706,6 +660,10 @@
                         column._isFiltered = true;
                     }
 
+                    if ('sortType' in column) {
+                        column._sortType = column.sortType;
+                    }
+
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {
@@ -716,9 +674,6 @@
                 });
                 return left.concat(center).concat(right);
             },
-           
-
-
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
@@ -756,7 +711,8 @@
             this.handleResize();
             this.fixedHeader();
             this.$nextTick(() => this.ready = true);
-            window.addEventListener('resize', this.handleResize, false);
+//            window.addEventListener('resize', this.handleResize, false);
+            on(window, 'resize', this.handleResize);
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
@@ -765,14 +721,19 @@
             });
         },
         beforeDestroy () {
-            window.removeEventListener('resize', this.handleResize, false);
+//            window.removeEventListener('resize', this.handleResize, false);
+            off(window, 'resize', this.handleResize);
         },
         watch: {
             data: {
                 handler () {
+                    const oldDataLen = this.rebuildData.length;
                     this.objData = this.makeObjData();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
+                    if (!oldDataLen) {
+                        this.fixedHeader();
+                    }
                     // here will trigger before clickCurrentRow, so use async
                     setTimeout(() => {
                         this.cloneData = deepCopy(this.data);

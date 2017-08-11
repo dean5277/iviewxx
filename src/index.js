@@ -7,6 +7,7 @@ import BackTop from './components/back-top';
 import Badge from './components/badge';
 import Breadcrumb from './components/breadcrumb';
 import Button from './components/button';
+import Buttons from './components/buttons';
 import Card from './components/card';
 import Carousel from './components/carousel';
 import Cascader from './components/cascader';
@@ -44,6 +45,7 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import { Row, Col } from './components/grid';
 import { Select, Option, OptionGroup } from './components/select';
+import dTable from './components/dtable';
 import locale from './locale';
 
 const iview = {
@@ -71,6 +73,9 @@ const iview = {
     iForm: Form,
     FormItem: Form.Item,
     Col,
+    Buttons,
+    ButtonsItem: Buttons.Item,
+    ButtonsMenu: Buttons.Menu,
     iCol: Col,
     Collapse,
     Icon,
@@ -108,6 +113,7 @@ const iview = {
     iSwitch: Switch,
     iTable: Table,
     Table,
+    dTable,
     Tabs: Tabs,
     TabPane: Tabs.Pane,
     Tag,

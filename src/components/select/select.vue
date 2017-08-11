@@ -25,7 +25,13 @@
             <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
-            <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
+            <Drop
+                :class="dropdownCls"
+                v-show="dropVisible"
+                :placement="placement"
+                ref="dropdown"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
@@ -37,6 +43,7 @@
     import Icon from '../icon';
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf, findComponentDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
@@ -47,9 +54,14 @@
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
         components: { Icon, Drop },
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         props: {
             value: {
+                type: [String, Number, Array],
+                default: ''
+            },
+            // 使用时，也得设置 value 才行
+            label: {
                 type: [String, Number, Array],
                 default: ''
             },
@@ -106,6 +118,10 @@
                     return oneOf(value, ['top', 'bottom']);
                 },
                 default: 'bottom'
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -123,7 +139,8 @@
                 inputLength: 20,
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
-                model: this.value
+                model: this.value,
+                currentLabel: this.label
             };
         },
         computed: {
@@ -140,6 +157,12 @@
                     }
                 ];
             },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-dropdown-transfer']: this.transfer,
+                    [prefixCls + '-multiple']: this.multiple && this.transfer
+                };
+            },
             showPlaceholder () {
                 let status = false;
 
@@ -151,6 +174,8 @@
                     if (!this.model.length) {
                         status = true;
                     }
+                } else if( this.model === null){
+                    status = true;
                 }
 
                 return status;
@@ -303,7 +328,6 @@
             },
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
-                    // todo 这里的 label 有问题，另删除字符时也有问题
                     let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
@@ -580,10 +604,31 @@
                 } else {
                     this.broadcast('iOption', 'on-query-change', val);
                 }
+            },
+            // 处理 remote 初始值
+            updateLabel () {
+                if (this.remote) {
+                    if (!this.multiple && this.model !== '') {
+                        this.selectToChangeQuery = true;
+                        if (this.currentLabel === '') this.currentLabel = this.model;
+                        this.lastQuery = this.currentLabel;
+                        this.query = this.currentLabel;
+                    } else if (this.multiple && this.model.length) {
+                        if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
+                        this.selectedMultiple = this.model.map((item, index) => {
+                            return {
+                                value: item,
+                                label: this.currentLabel[index]
+                            };
+                        });
+                    }
+                }
             }
         },
         mounted () {
             this.modelToQuery();
+            // 处理 remote 初始值
+            this.updateLabel();
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
@@ -662,6 +707,10 @@
                 this.model = val;
                 if (val === '') this.query = '';
             },
+            label (val) {
+                this.currentLabel = val;
+                this.updateLabel();
+            },
             model () {
                 this.$emit('input', this.model);
                 this.modelToQuery();
@@ -673,6 +722,12 @@
                     }
                 } else {
                     this.updateSingleSelected();
+                }
+                // #957
+                if (!this.visible && this.filterable) {
+                    this.$nextTick(() => {
+                        this.broadcastQuery('');
+                    });
                 }
             },
             visible (val) {
@@ -687,6 +742,11 @@
                             this.findChild(child => {
                                 child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                             });
+                            // remote下，设置了默认值，第一次打开时，搜索一次
+                            const options = this.$slots.default || [];
+                            if (this.query !== '' && !options.length) {
+                                this.remoteMethod(this.query);
+                            }
                         }
                     }
                     this.broadcast('Drop', 'on-update-popper');
