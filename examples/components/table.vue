@@ -8,6 +8,12 @@
             return {
                 columns2: [
                     {
+                        type: 'selection',
+                        align: 'center',
+                        combine: true,
+                        width:70
+                    },
+                    {
                         title: '姓名',
                         key: 'name',
                         width: 100,

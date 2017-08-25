@@ -45,6 +45,11 @@
                  {{row[column.key]}}
              </template>
         </template>
+        <template v-if="renderType === 'expand' && !row._disableExpand">
+            <div :class="expandCls" @click="toggleExpand">
+                <Icon type="ios-arrow-right"></Icon>
+            </div>
+        </template>
         <template v-if="renderType === 'normal'"><span v-html="row[column.key]" ></span></template>
         <Cell
             v-if="renderType === 'render'"
@@ -52,6 +57,19 @@
             :column="column"
             :index="index"
             :render="column.render"></Cell>
+        <template v-if="renderType === 'mixSelection'">
+            <template v-if="cs == null && rs == null">
+                 <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
+            </template>
+            <template v-else>
+                  <Cell
+                    :row="row"
+                    :column="column"
+                    :index="index"
+                    :render="column.render"></Cell>
+
+            </template>
+        </template>
     </div>
 </template>
 <script>
@@ -71,12 +89,22 @@
             index: Number,           // _index of data
             checked: Boolean,
             disabled: Boolean,
+            expanded: Boolean,
             fixed: {
                 type: [Boolean, String],
                 default: false
             },
-            iconStatus:Boolean
+            iconStatus:Boolean,
+            cs:{
+                type:Number,
+                default:null
+            },
+            rs:{
+                type:Number,
+                default:null
+            }
         },
+        
         data () {
             return {
                 renderType: '',
@@ -90,7 +118,8 @@
                     `${this.prefixCls}-cell`,
                     {
                         [`${this.prefixCls}-hidden`]: !this.fixed && this.column.fixed && (this.column.fixed === 'left' || this.column.fixed === 'right'),
-                        [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false
+                        [`${this.prefixCls}-cell-ellipsis`]: this.column.ellipsis || false,
+                        [`${this.prefixCls}-cell-with-expand`]: this.renderType === 'expand'
                     }
                 ];
             },
@@ -101,6 +130,14 @@
                     return '';
                 }
                
+            },
+            expandCls () {
+                return [
+                    `${this.prefixCls}-cell-expand`,
+                    {
+                        [`${this.prefixCls}-cell-expand-expanded`]: this.expanded
+                    }
+                ];
             }
         },
         methods: {
@@ -180,6 +217,9 @@
             toggleSelect () {
                 this.$parent.$parent.toggleSelect(this.index);
             },
+            toggleExpand () {
+                this.$parent.$parent.$parent.toggleExpand(this.index);
+            },
             showRelated (grid,sIndex){
                 this.$parent.showRelated(grid,sIndex);
             }
@@ -187,15 +227,19 @@
         created () {
             if (this.column.type === 'index') {
                 this.renderType = 'index';
-            } else if (this.column.type === 'selection') {
+            }else if((this.column.type === 'selection' && this.column.combine)) {
+                this.renderType = "mixSelection";
+            } else if (this.column.type === 'selection' && !this.column.combine) {
                 this.renderType = 'selection';
             }else if(this.column.type === 'switch'){
                 this.renderType = 'switch';
+            } else if (this.column.type === 'expand') {
+                this.renderType = 'expand';
             } else if(this.column.type === 'childSection'){
                 this.renderType = 'childSection';
-            }  else if (this.column.render) {
+            }  else if (this.column.render || this.column.combine) {
                 this.renderType = 'render';
-            }else{
+            } else{
                 this.renderType = 'normal';
             }
         }

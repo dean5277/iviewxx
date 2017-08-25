@@ -14,11 +14,11 @@
                         @mouseleave.stop="handleMouseOut(row._index)"
                         @click.stop="clickCurrentRow(row._index)"
                         @dblclick.stop="dblclickCurrentRow(row._index)">
-
+                      
     
                        <template v-for="(column,n) in colPos[index]"  >
-                          
-                            <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan"   >
+                         
+                            <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                 <Cell
                                   :fixed="fixed"
                                   :prefix-cls="prefixCls"
@@ -30,6 +30,7 @@
                                   :disabled="rowDisabled(row._index)"
                                   :iconStatus="iconPos[row._index]"
                                   :expanded="rowExpanded(row._index)"
+                                  :rs="column.rowSpan"
                                   >
                                 </Cell>
                             </td>
@@ -45,6 +46,8 @@
                                   :disabled="rowDisabled(row._index)"
                                   :iconStatus="iconPos[row._index]"
                                   :expanded="rowExpanded(row._index)"
+                                  :rs="column.rowSpan"
+                                  :cs="column.colSpan"
                                   >
                                 </Cell>
                             </td>
@@ -60,6 +63,7 @@
                                   :disabled="rowDisabled(row._index)"
                                   :iconStatus="iconPos[row._index]"
                                   :expanded="rowExpanded(row._index)"
+                                   :cs="column.colSpan"
                                   >
                                 </Cell>
                             </td>
@@ -86,6 +90,7 @@
                
                 </template>
                 <template v-else>
+
                     <tr 
                      :key="row._index"
                      :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index)]"
@@ -94,9 +99,8 @@
                      @mouseleave.stop="handleMouseOut(row._index)"
                      @click.stop="clickCurrentRow(row._index)"
                      @dblclick.stop="dblclickCurrentRow(row._index)">
-                       
                         <template v-for="(column,n) in colPos[index]"  >
-                          
+                             <!--   {{row}} -->
                             <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan"   >
                                 <Cell
                                   :fixed="fixed"
@@ -109,6 +113,7 @@
                                   :disabled="rowDisabled(row._index)"
                                   :iconStatus="iconPos[row._index]"
                                   :expanded="rowExpanded(row._index)"
+                                  :rs="column.rowSpan"
                                   >
                                 </Cell>
                             </td>
@@ -124,6 +129,8 @@
                                   :disabled="rowDisabled(row._index)"
                                   :iconStatus="iconPos[row._index]"
                                   :expanded="rowExpanded(row._index)"
+                                  :rs="column.rowSpan"
+                                  :cs="column.colSpan"
                                   >
                                 </Cell>
                             </td>
@@ -139,6 +146,7 @@
                                   :disabled="rowDisabled(row._index)"
                                   :iconStatus="iconPos[row._index]"
                                   :expanded="rowExpanded(row._index)"
+                                  :cs="column.colSpan"
                                   >
                                 </Cell>
                             </td>
@@ -190,10 +198,11 @@
         data (){
             return {
                status:store.state.status,
-               displayValue:this.makeDisplayValue()[0],
                iconPos:this.makeDisplayValue()[1],
                colPos:this.makeColPos(),
-               dataIndexPos:[]
+               dataIndexPos:[],
+               displayValue:this.makeDisplayValue()[0]
+
             }
         },
         props: {
@@ -221,7 +230,22 @@
                     }
                 }
                 return render;
+            },
+           
+        },
+        watch:{
+          data (n,o){
+            if(n != o){
+              this.status = store.state.status;
+              this.$nextTick(function(){
+                  this.colPos = this.makeColPos()
+                  this.displayValue = this.makeDisplayValue()[0]
+                  this.compile()
+
+              })
+            
             }
+          }
         },
         methods: {
             makeColPos (){
@@ -246,7 +270,7 @@
             compile (){
                 this.columns.forEach((column,i) =>{
                
-                    if (column.render && column.type == 'span') {
+                    if (column.render && column.combine == true) {
 
                      
                       
@@ -256,9 +280,9 @@
                               column:this.columns,
                               index:n
                             }
-                          //  console.log(column.render)
-                           const template = column.render(Expand.render, obj);
-                           // console.log(template.children)
+
+                          
+                            const template = column.render(Expand.render, obj);
                             if(typeof template == "object" && template.props.colSpan && !template.props.rowSpan){
                                 this.makeColSpan(n,i,template.props.colSpan);
                             }else if(typeof template == "object" && template.props.rowSpan && !template.props.colSpan){
@@ -266,7 +290,8 @@
                             }else if(typeof template == "object" && template.props.rowSpan && template.props.colSpan){
                                 this.makeColAndRow(n,i,template.props.rowSpan,template.props.colSpan);
                             }
-                            return template.children;
+                      
+                            return template.childrens;
                         });
                     
                     }

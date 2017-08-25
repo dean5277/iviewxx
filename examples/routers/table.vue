@@ -81,40 +81,7 @@
 //                        }
 //                    }
                 ],
-                data3: [
-                    {
-                        name: '王小明',
-                        age: 18,
-                        address: '北京市朝阳区芍药居',
-                        province: '北京市',
-                        city: '朝阳区',
-                        zip: 100000
-                    },
-                    {
-                        name: '张小刚',
-                        age: 25,
-                        address: '北京市海淀区西二旗',
-                        province: '北京市',
-                        city: '海淀区',
-                        zip: 100000
-                    },
-//                    {
-//                        name: '李小红',
-//                        age: 30,
-//                        address: '上海市浦东新区世纪大道',
-//                        province: '上海市',
-//                        city: '浦东新区',
-//                        zip: 100000
-//                    },
-//                    {
-//                        name: '周小伟',
-//                        age: 26,
-//                        address: '深圳市南山区深南大道',
-//                        province: '广东',
-//                        city: '南山区',
-//                        zip: 100000
-//                    }
-                ]
+                data3:[]
             }
         },
         methods: {
@@ -139,6 +106,48 @@
             edit () {
                 
             }
+        },
+        mounted (){
+            var self = this;
+            setTimeout(function(){
+                self.$nextTick(function(){
+                    this.data3 =  [
+                        {
+                            name: '王小明',
+                            age: 18,
+                            address: '北京市朝阳区芍药居',
+                            province: '北京市',
+                            city: '朝阳区',
+                            zip: 100000
+                        },
+                        {
+                            name: '张小刚',
+                            age: 25,
+                            address: '北京市海淀区西二旗',
+                            province: '北京市',
+                            city: '海淀区',
+                            zip: 100000
+                        },
+    //                    {
+    //                        name: '李小红',
+    //                        age: 30,
+    //                        address: '上海市浦东新区世纪大道',
+    //                        province: '上海市',
+    //                        city: '浦东新区',
+    //                        zip: 100000
+    //                    },
+    //                    {
+    //                        name: '周小伟',
+    //                        age: 26,
+    //                        address: '深圳市南山区深南大道',
+    //                        province: '广东',
+    //                        city: '南山区',
+    //                        zip: 100000
+    //                    }
+                    ]
+                })
+            },1000)
+
         }
     }
 </script>
