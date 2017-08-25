@@ -72,8 +72,10 @@ ex.<br />
     }
    
 },
-```<br />
+```
+<br /><br />
 
+完整demo
 ```html
 <template>
     <div>
