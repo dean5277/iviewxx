@@ -1,20 +1,19 @@
 <template>
-    <div style="width: 400px;">
-        <Row>
-            <i-col span="12">
-                <Cascader transfer v-model="value3" :data="data" filterable></Cascader>
-            </i-col>
-            <i-col span="12">
-                <Cascader v-model="value3" :data="data" filterable></Cascader>
-            </i-col>
-        </Row>
+    <div style="margin: 100px;width: 300px;">
+        <Cascader v-model="value" :data="data" change-on-select></Cascader>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                data: [{
+                value: ['beijing', 'gugong'],
+                data: []
+            }
+        },
+        mounted () {
+            setTimeout(() => {
+                this.data = [{
                     value: 'beijing',
                     label: '北京',
                     children: [
@@ -60,9 +59,8 @@
                             ]
                         }
                     ],
-                }],
-                value3: []
-            }
+                }];
+            }, 100)
         }
     }
 </script>

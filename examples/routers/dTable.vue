@@ -18,6 +18,7 @@
                         country:"中国1",
                         pay:"支付宝",
                         status:"未处理",
+                        _display:true,
                         stretch:true,//是否显示子菜单
                         children:[
                             {
@@ -131,22 +132,8 @@
                     {
                         type: 'selection',
                         width: 70,
-                        align: 'center',
-                        combine:true,
-                        render:(h,params)=>{
+                        align: 'center'
                        
-                            const obj = {
-                              childrens:[["div",{class:"combiePackageCode"},321],['div',{class:"combineShipping"},'123 > 321'],['span',{class:"icon iconfont icon-dayin prinTime"},'']],
-
-                              props: {
-                              },
-                            };
-                            if (params.index === 3) {
-                              obj.props.colSpan = 4;
-                              
-                            }
-                            return obj;
-                        }
                     },
                     {
                         type: 'switch',
@@ -216,7 +203,7 @@
                 ],
                 columns8:[
                     {
-                
+                        type: 'selection',
                         width: 70,
                         align: 'center'
                        
@@ -260,16 +247,16 @@
                               childrens:  params.row.country,
                               props: {},
                             };
-                            /*if (params.index === 3) {
+                            if (params.index === 3) {
                               obj.props.rowSpan = 2;
                             }
                             // These two are merged into above cell
                             if (params.index === 8) {
                               obj.props.rowSpan = 4;
-                            }*/
-                            if (params.index === 7) {
-                              obj.props.colSpan = 4;
                             }
+                           /* if (params.index === 7) {
+                              obj.props.colSpan = 4;
+                            }*/
                             return obj;
                          
                         }
@@ -313,9 +300,10 @@
                         {
                             orderNum:"54465456456",
                             buyer:"大王0",
-                            country:"中国1",
+                            country:"中国122",
                             pay:"支付宝",
                             status:"未处理",
+                            _display:true,
                             stretch:true,//是否显示子菜单
                             children:[
                                 {

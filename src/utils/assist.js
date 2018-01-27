@@ -189,20 +189,12 @@ function findComponentUpward (context, componentName, componentNames) {
 export {findComponentUpward};
 
 // Find component downward
-function findComponentDownward (context, componentName) {
+export function findComponentDownward (context, componentName) {
     const childrens = context.$children;
     let children = null;
 
     if (childrens.length) {
-        childrens.forEach(child => {
-            const name = child.$options.name;
-            if (name === componentName) {
-                children = child;
-            }
-        });
-
-        for (let i = 0; i < childrens.length; i++) {
-            const child = childrens[i];
+        for (const child of childrens) {
             const name = child.$options.name;
             if (name === componentName) {
                 children = child;
@@ -215,27 +207,36 @@ function findComponentDownward (context, componentName) {
     }
     return children;
 }
-export {findComponentDownward};
 
 // Find components downward
-function findComponentsDownward (context, componentName, components = []) {
-    const childrens = context.$children;
-
-    if (childrens.length) {
-        childrens.forEach(child => {
-            const name = child.$options.name;
-            const childs = child.$children;
-
-            if (name === componentName) components.push(child);
-            if (childs.length) {
-                const findChilds = findComponentsDownward(child, componentName, components);
-                if (findChilds) components.concat(findChilds);
-            }
-        });
-    }
-    return components;
+export function findComponentsDownward (context, componentName) {
+    return context.$children.reduce((components, child) => {
+        if (child.$options.name === componentName) components.push(child);
+        const foundChilds = findComponentsDownward(child, componentName);
+        return components.concat(foundChilds);
+    }, []);
 }
-export {findComponentsDownward};
+
+// Find components upward
+export function findComponentsUpward (context, componentName) {
+    let parents = [];
+    if (context.$parent) {
+        if (context.$parent.$options.name === componentName) parents.push(context.$parent);
+        return parents.concat(findComponentsUpward(context.$parent, componentName));
+    } else {
+        return [];
+    }
+}
+
+// Find brothers components
+export function findBrothersComponents (context, componentName) {
+    let res = context.$parent.$children.filter(item => {
+        return item.$options.name === componentName;
+    });
+    let index = res.indexOf(context);
+    res.splice(index, 1);
+    return res;
+}
 
 /* istanbul ignore next */
 const trim = function(string) {
@@ -296,5 +297,27 @@ export function removeClass(el, cls) {
     }
     if (!el.classList) {
         el.className = trim(curClass);
+    }
+}
+
+export const dimensionMap = {
+    xs: '480px',
+    sm: '768px',
+    md: '992px',
+    lg: '1200px',
+    xl: '1600px',
+};
+
+export function setMatchMedia () {
+    if (typeof window !== 'undefined') {
+        const matchMediaPolyfill = mediaQuery => {
+            return {
+                media: mediaQuery,
+                matches: false,
+                on() {},
+                off() {},
+            };
+        };
+        window.matchMedia = window.matchMedia || matchMediaPolyfill;
     }
 }

@@ -149,6 +149,11 @@
         position: relative;
         cursor: pointer;
         .placeholder();
+
+        &[disabled]{
+            cursor: @cursor-disabled;
+            color: #ccc;
+        }
     }
 
     &-single &-input{
@@ -161,7 +166,8 @@
     }
 
     &-small &-input{
-        height: @input-height-small;
+        height: @input-height-small - 2px;
+        line-height: @input-height-small - 2px;
     }
 
     &-multiple &-input{
@@ -239,3 +245,4 @@
         }
     }
 }
+.ivu-select-selection .ivu-tag{height: auto !important;max-width: 100%;word-wrap: break-word;white-space: normal;overflow: hidden;}

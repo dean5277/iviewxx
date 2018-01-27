@@ -1,6 +1,6 @@
 # iview-dtable
-**已经兼容了 2.0.0-rc.2.0版本** <br />
-终于闲下来兼容下新render写法了。 <br />
+**已经兼容了 2.9.0 Agent A版本** <br />
+
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
@@ -9,9 +9,25 @@
 2017/05/11 完成table children <br />
 2017/05/16 完成合并单元格 <br />
 2017/08/11 兼容  2.0.0-rc.20版本<br />
-2017/08/25 <br />
 1.修复合并单元格时候render只支持字符串的问题，目前可以支持render以及在select单元格里开始合并<br />
 2.修复部分已知BUG
+
+2017/01/25 兼容 2.9.0 Agent A版本<br />
+1.修复dTable 点击row的时候报错的BUG
+2.增加了组件Buttons
+3.增加在线Demo
+4.增加npm 安装方法
+
+### Install
+npm install iviewxx
+
+
+
+[在线DEMO](http://www.deancheng.com:82/#/dTable)
+
+
+
+
 
 
 ### table children
@@ -26,7 +42,11 @@
 
 
 ## Usage
-/dist直接替换iview 的/dist
+es6
+import Vue from 'vue'
+import iview from 'iviewxx'
+Vue.use(iview)
+
 
 table children参数：<br />
 stretch:是否显示子菜单<br />

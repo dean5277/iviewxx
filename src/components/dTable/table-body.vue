@@ -9,11 +9,11 @@
                      <tr 
                         :key="row._index"
                         v-show="displayValue[row._index]"
-                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index)]"
+                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '']"
                         @mouseenter.stop="handleMouseIn(row._index)"
                         @mouseleave.stop="handleMouseOut(row._index)"
-                        @click.stop="clickCurrentRow(row._index)"
-                        @dblclick.stop="dblclickCurrentRow(row._index)">
+                        @click.stop="clickCurrentRow(row._index,row.nodeIndex)"
+                        @dblclick.stop="dblclickCurrentRow(row._index,row.nodeIndex)">
                       
     
                        <template v-for="(column,n) in colPos[index]"  >
@@ -97,8 +97,8 @@
                      v-show="displayValue[row._index]"
                      @mouseenter.stop="handleMouseIn(row._index)"
                      @mouseleave.stop="handleMouseOut(row._index)"
-                     @click.stop="clickCurrentRow(row._index)"
-                     @dblclick.stop="dblclickCurrentRow(row._index)">
+                     @click.stop="clickCurrentRow(row._index,row.nodeIndex)"
+                     @dblclick.stop="dblclickCurrentRow(row._index,row.nodeIndex)">
                         <template v-for="(column,n) in colPos[index]"  >
                              <!--   {{row}} -->
                             <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan"   >
@@ -403,10 +403,10 @@
             handleMouseOut (_index) {
                 this.$parent.handleMouseOut(_index);
             },
-            clickCurrentRow (_index) {
-                this.$parent.clickCurrentRow(_index);
+            clickCurrentRow (_index,nodeIndex) {
+              this.$parent.clickCurrentRow(_index);
             },
-            dblclickCurrentRow (_index) {
+            dblclickCurrentRow (_index,nodeIndex) {
                 this.$parent.dblclickCurrentRow(_index);
             },showRelated (grid,sIndex){//实际上是改变status..[grid,sIndex]组ID，节点索引
                 let status = store.state.status;
