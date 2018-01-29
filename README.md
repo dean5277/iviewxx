@@ -12,11 +12,11 @@
 1.修复合并单元格时候render只支持字符串的问题，目前可以支持render以及在select单元格里开始合并<br />
 2.修复部分已知BUG
 
-2017/01/25 兼容 2.9.0 Agent A版本<br />
-1.修复dTable 点击row的时候报错的BUG
-2.增加了组件Buttons
-3.增加在线Demo
-4.增加npm 安装方法
+2018/01/25 兼容 2.9.0 Agent A版本<br />
+1.修复dTable 点击row的时候报错的BUG <br />
+2.增加了组件Buttons <br />
+3.增加在线Demo <br />
+4.增加npm 安装方法 <br />
 
 ### Install
 npm install iviewxx
