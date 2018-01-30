@@ -42,10 +42,10 @@ npm install iviewxx
 
 
 ## Usage
-es6
-import Vue from 'vue'
-import iview from 'iviewxx'
-Vue.use(iview)
+es6<br />
+import Vue from 'vue'<br />
+import iview from 'iviewxx'<br />
+Vue.use(iview)<br /><br />
 
 
 table children参数：<br />
