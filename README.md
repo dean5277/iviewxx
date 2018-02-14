@@ -25,7 +25,7 @@
 3.增加了组件treeSelect 目前最多支持5000个节点，多了就炸了T.T<br />
 4.tree组件增加了个prop _hide:true  隐藏该页<br />
 
-### forever feature 
+###  Feature Request
 1.表格拖动,得空写。
 
 
