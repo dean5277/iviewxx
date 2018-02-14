@@ -26,8 +26,8 @@
 4.tree组件增加了个prop _hide:true  隐藏该页<br />
 
 <br />
-##forever feature
-1.表格拖动
+##forever feature <br />
+1.表格拖动,得空写。
 
 
 
