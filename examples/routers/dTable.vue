@@ -11,8 +11,8 @@
         data () {
             return {
                 self: this,
-                data4: [],
-                
+                data7: [],
+              
                 columns8:[
                     {
                         type: 'selection',

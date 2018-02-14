@@ -1,0 +1,249 @@
+@treeSelect-prefix-cls: ~"@{css-prefix}treeSelect";
+@treeSelect-item-prefix-cls: ~"@{css-prefix}treeSelect-item";
+@treeSelect-group-prefix-cls: ~"@{css-prefix}treeSelect-group";
+.@{treeSelect-prefix-cls} {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    vertical-align: middle;
+    color: @text-color;
+    font-size: @font-size-base;
+    //position: relative;
+    line-height: normal;
+    &-container{
+        margin:5px
+    }
+    &-selection {
+        display: block;
+        box-sizing: border-box;
+        outline: none;
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+
+        background-color: #fff;
+        border-radius: @btn-border-radius;
+        border: 1px solid @border-color-base;
+        transition: all @transition-time @ease-in-out;
+
+        .@{treeSelect-prefix-cls}-arrow:nth-of-type(1) {
+            display: none;
+            cursor: pointer;
+        }
+
+        &:hover {
+            .hover();
+            .@{treeSelect-prefix-cls}-arrow:nth-of-type(1) {
+                display: inline-block;
+            }
+        }
+    }
+    &-show-clear &-selection:hover .@{treeSelect-prefix-cls}-arrow:nth-of-type(2){
+        display: none;
+    }
+
+    &-arrow {
+        .inner-arrow();
+    }
+
+    &-visible{
+        .@{treeSelect-prefix-cls}-selection{
+            .active();
+        }
+
+        .@{treeSelect-prefix-cls}-arrow:nth-of-type(2) {
+            transform: rotate(180deg);
+        }
+    }
+
+    &-disabled {
+        .@{treeSelect-prefix-cls}-selection {
+            .disabled();
+
+            .@{treeSelect-prefix-cls}-arrow:nth-of-type(1) {
+                display: none;
+            }
+
+            &:hover {
+                border-color: @border-color-base;
+                box-shadow: none;
+
+                .@{treeSelect-prefix-cls}-arrow:nth-of-type(2) {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    &-single &-selection{
+        height: @input-height-base;
+        position: relative;
+
+        .@{treeSelect-prefix-cls}-placeholder{
+            color: @input-placeholder-color;
+        }
+
+        .@{treeSelect-prefix-cls}-placeholder, .@{treeSelect-prefix-cls}-selected-value{
+            display: block;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
+            font-size: @font-size-small;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-left: 8px;
+            padding-right: 24px;
+        }
+    }
+
+    &-large&-single &-selection{
+        height: @input-height-large;
+
+        .@{treeSelect-prefix-cls}-placeholder, .@{treeSelect-prefix-cls}-selected-value{
+            height: @input-height-large - 2px;
+            line-height: @input-height-large - 2px;
+            font-size: @font-size-base;
+        }
+    }
+
+    &-small&-single &-selection{
+        height: @input-height-small;
+        border-radius: @btn-border-radius-small;
+
+        .@{treeSelect-prefix-cls}-placeholder, .@{treeSelect-prefix-cls}-selected-value{
+            height: @input-height-small - 2px;
+            line-height: @input-height-small - 2px;
+        }
+    }
+
+    &-showCheckbox &-selection{
+        padding: 0 24px 0 4px;
+        min-height: @input-height-base !important;
+        height:auto;
+
+        .@{treeSelect-prefix-cls}-placeholder{
+            display: block;
+            height: @input-height-base - 2px;
+            line-height: @input-height-base - 2px;
+            color: @input-placeholder-color;
+            font-size: @font-size-small;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-left: 4px;
+            padding-right: 22px;
+        }
+    }
+
+    // input
+    &-input{
+        display: inline-block;
+        height: @input-height-base;
+        line-height: @input-height-base;
+        padding: 0 24px 0 8px;
+        font-size: @font-size-small;
+        outline: none;
+        border: none;
+        box-sizing: border-box;
+        color: @input-color;
+        background-color: transparent;
+        position: relative;
+        cursor: pointer;
+        .placeholder();
+
+        &[disabled]{
+            cursor: @cursor-disabled;
+            color: #ccc;
+        }
+    }
+
+    &-single &-input{
+        width: 100%;
+    }
+
+    &-large &-input{
+        font-size: @font-size-base;
+        height: @input-height-large;
+    }
+
+    &-small &-input{
+        height: @input-height-small - 2px;
+        line-height: @input-height-small - 2px;
+    }
+
+    &-showCheckbox &-input{
+        height: @input-height-base - 3px;
+        line-height: @input-height-base;
+        padding: 0 0 0 4px;
+    }
+
+    &-not-found{
+        text-align: center;
+        color: @btn-disable-color;
+        li:not([class^=ivu-]){
+            margin-bottom: 0;
+        }
+    }
+    &-loading{
+        text-align: center;
+        color: @btn-disable-color;
+    }
+
+    &-showCheckbox .@{css-prefix}tag{
+        margin: 3px 4px 2px 0;
+    }
+}
+
+.select-item(@treeSelect-prefix-cls, @treeSelect-item-prefix-cls);
+
+.@{treeSelect-prefix-cls}-showCheckbox .@{treeSelect-item-prefix-cls} {
+    &-selected{
+        color: @selected-color;
+        background: #fff;
+    }
+    &-focus,&-selected:hover{
+        background: @background-color-select-hover;
+    }
+
+    &-selected&-focus {
+        color: shade(@selected-color, 10%);
+        background: #fff;
+    }
+
+    &-selected:after{
+        .ivu-icon();
+        float: right;
+        font-size: 24px;
+        content: '\F3FD';
+        color: @selected-color;
+    }
+}
+
+.@{treeSelect-group-prefix-cls} {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &-title {
+        padding-left: 8px;
+        font-size: 12px;
+        color: @legend-color;
+        height: 30px;
+        line-height: 30px;
+    }
+}
+
+.@{form-item-prefix-cls}-error{
+    .@{treeSelect-prefix-cls}{
+        &-selection{
+            border: 1px solid @error-color;
+        }
+        &-arrow{
+            color: @error-color;
+        }
+        &-visible .@{select-prefix-cls}-selection{
+            .active-error;
+        }
+    }
+}
+.ivu-select-selection .ivu-tag{height: auto !important;max-width: 100%;word-wrap: break-word;white-space: normal;overflow: hidden;}

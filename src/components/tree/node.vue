@@ -16,8 +16,9 @@
                 <Render v-else-if="isParentRender" :render="parentRender" :data="data" :node="node"></Render>
                 <span v-else :class="titleClasses" @click="handleSelect">{{ data.title }}</span>
                 <Tree-node
-                        v-if="data.expand"
+                       
                         v-for="(item, i) in data.children"
+                        v-if="data.expand && !item._hide"
                         :key="i"
                         :data="item"
                         :multiple="multiple"

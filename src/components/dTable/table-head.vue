@@ -5,7 +5,11 @@
         </colgroup>
         <thead>
             <tr>
-                <th v-for="(column, index) in columns" :class="alignCls(column)">
+                <th 
+                    v-for="(column, index) in columns" 
+                    :class="alignCls(column)"
+                    @mouseenter="handleMouseenter"
+                >
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'childSection'">
                             {{column.title}}
@@ -79,6 +83,9 @@
                 default: false
             }
         },
+        created (){
+
+        },
         computed: {
             styles () {
                 const style = Object.assign({}, this.styleObject);
@@ -101,6 +108,9 @@
             }
         },
         methods: {
+            handleMouseenter (){
+                console.log(666)
+            },
             cellClasses (column) {
                 return [
                     `${this.prefixCls}-cell`,

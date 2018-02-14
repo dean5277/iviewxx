@@ -10,7 +10,6 @@ import locale from '../src/locale/lang/zh-CN';
 
 Vue.use(VueRouter);
 Vue.use(iView, { locale });
-
 // 开启debug模式
 Vue.config.debug = true;
 
@@ -205,6 +204,16 @@ const router = new VueRouter({
         {
             path: '/dTable',
             component: (resolve) => require(['./routers/dTable.vue'], resolve)
+
+        },
+        {
+            path: '/treeSelect',
+            component: (resolve) => require(['./routers/treeSelect.vue'], resolve)
+
+        },
+        {
+            path: '/buttons',
+            component: (resolve) => require(['./routers/buttons.vue'], resolve)
 
         }
     ]

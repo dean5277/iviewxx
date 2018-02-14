@@ -219,7 +219,7 @@
 <template>
     <Row>
         <Col span="12" style="padding-right:10px">
-        <Select v-model="model11" disabled filterable>
+        <Select v-model="model11"  multiple>
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         </Col>
@@ -261,7 +261,7 @@
                         label: 'Canberra'
                     }
                 ],
-                model11: 'New York',
+                model11: [],
                 model12: [],
                 model13: 'New York'
             }

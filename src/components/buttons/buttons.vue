@@ -5,7 +5,7 @@
        >
         <div :class="[prefixCls + '-rel']" ref="reference">
             <slot></slot>
-            <div class="buttonsArrows" @click="handleClick" :class="{'buttonsArrowHover':currentVisible}"><Icon type="arrow-down-b" class="arrowDown"></Icon></div>
+            <div  @click="handleClick" :class="buttonsArrows" class="ivu-btns"><Icon type="arrow-down-b" class="arrowDown"></Icon></div>
         </div>
         <transition :name="transition">
             <but v-show="currentVisible" :placement="placement" ref="but"><slot name="list"></slot></but>
@@ -17,7 +17,8 @@
     import clickoutside from '../../directives/clickoutside';
     import { oneOf, findComponentUpward } from '../../utils/assist';
 
-    const prefixCls = 'ivu-dropdown';
+    const prefixCls = 'ivu-dropdown',
+          buttonsCls = 'ivu-btns';
 
     export default {
         name: 'Buttons',
@@ -28,7 +29,7 @@
                 validator (value) {
                     return oneOf(value, ['click', 'hover', 'custom']);
                 },
-                default: 'hover'
+                default: 'click'
             },
             placement: {
                 validator (value) {
@@ -39,12 +40,27 @@
             visible: {
                 type: Boolean,
                 default: false
+            },
+            type: {
+                validator (value) {
+                    return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default']);
+                },
+                default:"default"
             }
         },
         computed: {
             transition () {
                 return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
+            },
+            buttonsArrows (){
+                return `${buttonsCls}`,
+                    {
+                     [`${buttonsCls}-${this.type}`]: !!this.type
+                    }
             }
+        },
+        created (){
+            console.log(this.buttonsArrows)
         },
         data () {
             return {

@@ -2,6 +2,7 @@
     <div :class="prefixCls">
         <Tree-node
             v-for="(item, i) in stateTree"
+            v-if="!item._hide"
             :key="i"
             :data="item"
             visible
@@ -59,6 +60,7 @@
                 deep: true,
                 handler () {
                     this.stateTree = this.data;
+                    //console.log(this.stateTree)
                     this.flatState = this.compileFlatState();
                     this.rebuildTree();
                 }

@@ -95,7 +95,6 @@
     import Locale from '../../mixins/locale';
     import store from './store';
     const prefixCls = 'ivu-table';
-
     let rowKey = 1;
     let columnKey = 1;
 

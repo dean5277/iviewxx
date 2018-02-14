@@ -11,6 +11,7 @@ export default {
         }
     },
     render: (h, ctx) => {
+        console.log('........')
         const params = {
             row: ctx.props.row,
             index: ctx.props.index

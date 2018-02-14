@@ -8,7 +8,7 @@
                 <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple">
                     <span class="ivu-tag-text">{{ item.label }}</span>
-                    <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
+                    <Icon type="ios-close-empty" @click.native.stop="removeTag(index,item.nodeKey)"></Icon>
                 </div>
                 <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
                 <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
@@ -39,11 +39,20 @@
                 ref="dropdown"
                 :data-transfer="transfer"
                 v-transfer-dom>
-                <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']">
-                    <slot></slot>
-                </ul>
-                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+                <ul v-if="filterable && cacheData.length > 0 && cacheData[0].hasOwnProperty('_hide')" v-show="cacheData[0]._hide" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <div :class="treeSelectContainer">
+                    <Tree 
+                        :data="cacheData" 
+                        @on-select-change="treeSelectChange"
+                        @on-check-change="treeSelectCheckChange"
+                        @on-toggle-expand="treeSelectToggleExpand"
+                      
+                     
+                        :show-checkbox="showCheckbox"
+                    >
+                    </Tree>
+                </div>
+               
             </Drop>
         </transition>
     </div>
@@ -53,19 +62,30 @@
     import Drop from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
-    import { oneOf, findComponentDownward } from '../../utils/assist';
+    import { oneOf, findComponentDownward, deepCopy } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
     import { debounce } from './utils';
+    import Tree from '../tree'
 
-    const prefixCls = 'ivu-select';
+    const prefixCls = 'ivu-treeSelect';
 
     export default {
-        name: 'iSelect',
+        name: 'treeSelect',
         mixins: [ Emitter, Locale ],
         components: { Icon, Drop },
-        directives: { clickoutside, TransferDom },
+        directives: { clickoutside, TransferDom , Tree},
         props: {
+            showCheckbox: {
+                type: Boolean,
+                default: false
+            },
+            treeData:{
+                type: Array,
+                default () {
+                    return []
+                }
+            },
             value: {
                 type: [String, Number, Array],
                 default: ''
@@ -161,7 +181,9 @@
                 notFound: false,
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
-                currentLabel: this.label
+                currentLabel: this.label,
+                elementaryData:null,
+                cacheData:[]
             };
         },
         computed: {
@@ -171,7 +193,7 @@
                     {
                         [`${prefixCls}-visible`]: this.visible,
                         [`${prefixCls}-disabled`]: this.disabled,
-                        [`${prefixCls}-multiple`]: this.multiple,
+                        [`${prefixCls}-showCheckbox`]: this.showCheckbox,
                         [`${prefixCls}-single`]: !this.multiple,
                         [`${prefixCls}-show-clear`]: this.showCloseIcon,
                         [`${prefixCls}-${this.size}`]: !!this.size
@@ -184,6 +206,9 @@
                     [prefixCls + '-multiple']: this.multiple && this.transfer,
                     ['ivu-auto-complete']: this.autoComplete,
                 };
+            },
+            treeSelectContainer (){
+                return `${prefixCls}` + '-container'
             },
             selectionCls () {
                 return {
@@ -213,7 +238,7 @@
             inputStyle () {
                 let style = {};
 
-                if (this.multiple) {
+                if (this.multiple || this.showCheckbox) {
                     if (this.showPlaceholder) {
                         style.width = '100%';
                     } else {
@@ -262,6 +287,188 @@
             }
         },
         methods: {
+            treeSelectGetValue (value){
+                if (this.model === value) {
+                    if (this.autoComplete) this.$emit('on-change', value);
+                    this.hideMenu();
+                } else {
+                    if(this.showCheckbox){
+                        this.model = []; 
+                        if(value.length > 0){
+                     
+                            class valueQuery {
+                                constructor (){
+                                    this.items = value;
+                                    this.newItems = value;
+                                    this.newArr = [];
+                                    this.indexArr = [];
+                                }
+                                removeItem (index){
+                                 
+                                    if(this.newArr.indexOf(this.newItems[index]) >= 0) return false;
+                                    this.newArr.push(this.newItems[index])
+                                }
+                                nextInLeaf (nextArr){
+                                    if(nextArr.length == 0) return false;
+                                    nextArr.every((n,i)=>{
+                                        if(!n.indeterminate && n.checked && n.children && n.nodeKey == 0) {
+                                            this.removeItem(i);
+                                            return false;
+                                        }else if(!n.indeterminate && n.checked && n.children && n.nodeKey != 0) {
+                                            this.removeItem(i);
+                                            this.removeHasLeaf(n.children,i);
+                                            return false;
+                                           //
+                                        }else if(!n.indeterminate && n.checked && !n.children && n.nodeKey != 0){
+                                            console.log("n:",n)
+                                             this.removeItem(i);
+                                            // return false;
+                                        }
+                                        return true;
+                                    })
+                                }
+                                removeHasLeaf (child,index){
+                                    child.forEach((n,i)=>{
+                                        this.newItems.forEach((m,t)=>{
+                                            if(n.nodeKey == m.nodeKey){
+                                                this.newItems.splice(t,1);
+                                                if(m.children) this.removeNextChildLeaf(m.children,t);
+                                            }
+                                        })
+
+                                    });
+                                    this.newItems.splice(index,1)
+                                    this.nextInLeaf(this.newItems);
+                                }
+                                removeNextChildLeaf (child,index){
+                                    child.forEach((n,i)=>{
+                                        this.newItems.forEach((m,t)=>{
+                                            if(n.nodeKey == m.nodeKey){
+                                                this.newItems.splice(t,1);
+                                                if(m.children) this.removeNextChildLeaf(m.children,t);
+                                            }
+                                        })
+
+                                    });
+
+                                }
+                            }
+                            let vq = new valueQuery();
+                            vq.nextInLeaf(vq.items);
+                            console.log("newArr:",vq.newArr)
+                            this.model = vq.newArr;
+                          
+                        }   
+
+                    } else {
+                        this.model = value;
+                        if (this.filterable) {
+                        
+                           this.query = value;
+                          
+                        }
+                    }
+                }
+            },
+            compileFlatState (treeData) { // so we have always a relation parent/children of each node
+                let keyCounter = 0;
+                const flatTree = [];
+                function flattenChildren(node, parent) {
+                    node.nodeKey = keyCounter++;
+                    flatTree[node.nodeKey] = { node: node, nodeKey: node.nodeKey };
+                    if (typeof parent != 'undefined') {
+                        flatTree[node.nodeKey].parent = parent.nodeKey;
+                        flatTree[parent.nodeKey].children.push(node.nodeKey);
+                    }
+
+                    if (node.children) {
+                        flatTree[node.nodeKey].children = [];
+                        node.children.forEach(child => flattenChildren(child, node));
+                    }
+                }
+                treeData.forEach(rootNode => {
+                    flattenChildren(rootNode);
+                });
+                return flatTree;
+            },
+            searchTree (value) {
+                let v = this,
+                    l = value.length,
+                    Arr = [];
+                function findParentsNode (pid){
+                    v.elementaryData.forEach((n,i)=>{
+                        if(n.nodeKey == pid){
+                            if(Arr.indexOf(n.nodeKey) < 0){
+                                Arr.push(n.nodeKey);
+                                if(n.parent || n.parent == 0){
+                                   findParentsNode(n.parent);
+                                }
+                            }
+                        }
+                    })
+                }
+              
+                v.elementaryData.forEach((n,i)=>{
+                    if(n.node.title.substr(0,l) == value){
+                        if(Arr.indexOf(n.nodeKey) < 0){
+                            Arr.push(n.nodeKey);
+                            if(n.parent || n.parent == 0){
+                               findParentsNode(n.parent);
+                            }
+                        }
+                    }
+                   
+                });
+           
+                v.makeNewsNode(Arr);
+            },
+            makeNewsNode (pidArr){
+                let v = this,
+                    newChildArr = [];
+                function removeDiscard(nodeId){
+                    v.cacheData.forEach((n,i)=>{
+                        if(n.nodeKey == nodeId && n.children && n.children.length >= 0){
+                            n.children.forEach((m,t)=>{
+                                if(pidArr.indexOf(m.nodeKey) < 0){
+                                   v.$set(m,'_hide',true)
+                                }else {
+                                    v.$set(m,'_hide',false)
+                                }
+                            })
+                        }
+                    })
+                }
+                if(pidArr.length == 0){
+                     v.$set(v.cacheData[0],'_hide',true);
+                }else{
+                     v.$set(v.cacheData[0],'_hide',false);
+                }
+                v.cacheData.forEach((n,i)=>{
+                    
+                    if(pidArr.indexOf(n.nodeKey) >= 0){
+                       
+                        removeDiscard(n.nodeKey);
+                    }
+                })
+            },
+            treeSelectChange (data){
+                if(this.showCheckbox){
+                    return false;
+                }
+                let value = data[0].title;
+
+                this.selectedSingle = value;
+               
+                this.treeSelectGetValue(value);
+             
+            },
+            treeSelectCheckChange (value){
+                let v = this;
+                this.treeSelectGetValue(value);
+            },
+            treeSelectToggleExpand (){
+
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;
@@ -297,40 +504,13 @@
                     });
                 }
             },
-            updateOptions (slot = false) {
-                let options = [];
-                let index = 1;
-
-                this.findChild((child) => {
-                    options.push({
-                        value: child.value,
-                        label: (child.label === undefined) ? child.$el.textContent : child.label
-                    });
-                    child.index = index++;
-
-                    this.optionInstances.push(child);
-                });
-
-                this.options = options;
-
-                if (!this.remote) {
-                    this.updateSingleSelected(true, slot);
-                    this.updateMultipleSelected(true, slot);
-                }
-            },
+          
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
 
                 if (type === 'string' || type === 'number') {
                     let findModel = false;
 
-                    for (let i = 0; i < this.options.length; i++) {
-                        if (this.model === this.options[i].value) {
-                            this.selectedSingle = this.options[i].label;
-                            findModel = true;
-                            break;
-                        }
-                    }
 
                     if (slot && !findModel) {
                         this.model = '';
@@ -352,8 +532,52 @@
                     }
                 }
             },
+            updateCheckboxSelected (init = false, slot = false){
+                let v = this;
+                let selected = this.remote ? this.selectedMultiple : [];
+                for (let i = 0; i < this.model.length; i++) {
+                    const model = this.model[i];
+
+                    //console.log(model)
+                    selected.push({
+                        nodeKey: model.nodeKey,
+                        value: model.title,
+                        label: model.title
+                    });
+                       
+                    
+                }
+                const selectedArray = [];
+                const selectedObject = {};
+
+                selected.forEach(item => {
+                    if (!selectedObject[item.value]) {
+                        selectedArray.push(item);
+                        selectedObject[item.value] = 1;
+                    }
+                });
+                // #2066
+               
+                this.selectedMultiple = this.remote ? this.model.length ? selectedArray : [] : selected;
+                if (slot) {
+                    let selectedModel = [];
+
+                    for (let i = 0; i < selected.length; i++) {
+                        selectedModel.push(selected[i].value);
+                    }
+
+                    // if slot change and remove a selected option, emit user
+                    if (this.model.length === selectedModel.length) {
+                        this.slotChangeDuration = true;
+                    }
+
+                    this.model = selectedModel;
+                }
+                this.toggleMultipleSelected(this.model, init);
+                
+            },
             updateMultipleSelected (init = false, slot = false) {
-                if (this.multiple && Array.isArray(this.model)) {
+                if ((this.multiple || this.showCheckbox) && Array.isArray(this.model)) {
                     let selected = this.remote ? this.selectedMultiple : [];
 
                     for (let i = 0; i < this.model.length; i++) {
@@ -401,7 +625,21 @@
                 }
                 this.toggleMultipleSelected(this.model, init);
             },
-            removeTag (index) {
+
+            cancelCheckbox (nodeKey){
+                let v = this,
+                    r = false;
+                const changes = {
+                    checked: false && false,
+                    nodeKey: nodeKey
+                };
+                this.broadcast('Tree', 'on-check', changes);
+            },
+
+
+            removeTag (index,nodeKey) {
+                console.log(nodeKey)
+
                 if (this.disabled) {
                     return false;
                 }
@@ -410,7 +648,14 @@
                     const tag = this.model[index];
                     this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
                 }
-
+                if(this.showCheckbox){
+                    console.log(this.model);
+                    console.log('xxxxx')
+                    this.cancelCheckbox(nodeKey);
+                   // this.$set(this.model[modelIndex],'checked',false);
+                    //this.cacheData.splice(modelIndex,0,)
+                }
+              
                 this.model.splice(index, 1);
 
                 if (this.filterable && this.visible) {
@@ -418,20 +663,14 @@
                 }
 
                 this.broadcast('Drop', 'on-update-popper');
+               
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
-                if (!this.multiple) {
+                if (!this.multiple && !this.showCheckbox ) {
                     let label = '';
 
-                    this.findChild((child) => {
-                        if (child.value === value) {
-                            child.selected = true;
-                            label = (child.label === undefined) ? child.$el.innerHTML : child.label;
-                        } else {
-                            child.selected = false;
-                        }
-                    });
+               
 
                     this.hideMenu();
 
@@ -454,24 +693,13 @@
             },
             // to select option for multiple
             toggleMultipleSelected (value, init = false) {
-                if (this.multiple) {
+                if (this.multiple || this.showCheckbox) {
                     let hybridValue = [];
                     for (let i = 0; i < value.length; i++) {
                         hybridValue.push({
                             value: value[i]
                         });
                     }
-
-                    this.findChild((child) => {
-                        const index = value.indexOf(child.value);
-
-                        if (index >= 0) {
-                            child.selected = true;
-                            hybridValue[index].label = (child.label === undefined) ? child.$el.innerHTML : child.label;
-                        } else {
-                            child.selected = false;
-                        }
-                    });
 
                     if (!init) {
                         if (this.labelInValue) {
@@ -558,7 +786,6 @@
             },
             resetScrollTop () {
                 const index = this.focusIndex - 1;
-                if (!this.optionInstances.length) return;
                 let bottomOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
                 let topOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
 
@@ -575,6 +802,7 @@
                     const model = this.model;
 
                     if (this.multiple) {
+                        //debugger;
                         this.query = '';
                     } else {
                         if (model !== '') {
@@ -599,7 +827,7 @@
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
             },
             handleInputDelete () {
-                if (this.multiple && this.model.length && this.query === '') {
+                if ((this.multiple || this.showCheckbox) && this.model.length && this.query === '') {
                     this.removeTag(this.model.length - 1);
                 }
             },
@@ -613,7 +841,7 @@
                 this.query = query;
             },
             modelToQuery() {
-                if (!this.multiple && this.filterable && this.model !== undefined) {
+                if (!this.multiple && !this.showCheckbox && this.filterable && this.model !== undefined) {
                     this.findChild((child) => {
                         if (this.model === child.value) {
                             if (child.label) {
@@ -643,22 +871,22 @@
                     } else {
                         this.findChild((child) => {
                             child.updateSearchLabel();   // #1865
-                            child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                            child.selected = (this.multiple || this.showCheckbox) ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                         });
                     }
                     this.slotChange();
-                    this.updateOptions(true);
+                    //this.updateOptions(true);
                 });
             },
             // 处理 remote 初始值
             updateLabel () {
                 if (this.remote) {
-                    if (!this.multiple && this.model !== '') {
+                    if (!this.multiple && !this.showCheckbox && this.model !== '') {
                         this.selectToChangeQuery = true;
                         if (this.currentLabel === '') this.currentLabel = this.model;
                         this.lastQuery = this.currentLabel;
                         this.query = this.currentLabel;
-                    } else if (this.multiple && this.model.length) {
+                    } else if ((this.multiple || this.showCheckbox) && this.model.length) {
                         if (this.currentLabel.length !== this.model.length) this.currentLabel = this.model;
                         this.selectedMultiple = this.model.map((item, index) => {
                             return {
@@ -666,7 +894,7 @@
                                 label: this.currentLabel[index]
                             };
                         });
-                    } else if (this.multiple && !this.model.length) {
+                    } else if ((this.multiple || this.showCheckbox) && !this.model.length) {
                         this.selectedMultiple = [];
                     }
                 }
@@ -680,46 +908,19 @@
                 this.broadcastQuery('');
             });
 
-            this.updateOptions();
+          // this.updateOptions();
             document.addEventListener('keydown', this.handleKeydown);
 
             this.$on('append', this.debouncedAppendRemove());
             this.$on('remove', this.debouncedAppendRemove());
+            this.cacheData = deepCopy(this.treeData);
+            if(this.filterable){
+                this.elementaryData = this.compileFlatState(this.treeData);
+                
+            }
+            
 
-            this.$on('on-select-selected', (value) => {
-                if (this.model === value) {
-                    if (this.autoComplete) this.$emit('on-change', value);
-                    this.hideMenu();
-                } else {
-                    if (this.multiple) {
-                        const index = this.model.indexOf(value);
-                        if (index >= 0) {
-                            this.removeTag(index);
-                        } else {
-                            this.model.push(value);
-                            this.broadcast('Drop', 'on-update-popper');
-                        }
 
-                        if (this.filterable) {
-                            // remote&filterable&multiple时，一次点多项，不应该设置true，因为无法置为false，下次的搜索会失效
-                            if (this.query !== '') this.selectToChangeQuery = true;
-                            this.query = '';
-                            this.$refs.input.focus();
-                        }
-                    } else {
-                        this.model = value;
-
-                        if (this.filterable) {
-                            this.findChild((child) => {
-                                if (child.value === value) {
-                                    if (this.query !== '') this.selectToChangeQuery = true;
-                                    this.lastQuery = this.query = child.label === undefined ? child.searchLabel : child.label;
-                                }
-                            });
-                        }
-                    }
-                }
-            });
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
@@ -727,8 +928,7 @@
         watch: {
             value (val) {
                 this.model = val;
-                // #982
-                if (val === '' || val === null) this.query = '';
+                if (val === '') this.query = '';
             },
             label (val) {
                 this.currentLabel = val;
@@ -737,11 +937,17 @@
             model () {
                 this.$emit('input', this.model);
                 this.modelToQuery();
-                if (this.multiple) {
+                if (this.multiple && !this.showCheckbox) {
                     if (this.slotChangeDuration) {
                         this.slotChangeDuration = false;
                     } else {
                         this.updateMultipleSelected();
+                    }
+                } else if(this.showCheckbox && !this.multiple){
+                   if (this.slotChangeDuration) {
+                        this.slotChangeDuration = false;
+                    } else {
+                        this.updateCheckboxSelected();
                     }
                 } else {
                     this.updateSingleSelected();
@@ -756,14 +962,14 @@
             visible (val) {
                 if (val) {
                     if (this.filterable) {
-                        if (this.multiple) {
+                        if (this.multiple || this.showCheckbox) {
                             this.$refs.input.focus();
                         } else {
                             if (!this.autoComplete) this.$refs.input.select();
                         }
                         if (this.remote) {
                             this.findChild(child => {
-                                child.selected = this.multiple ? this.model.indexOf(child.value) > -1 : this.model === child.value;
+                                child.selected = (this.multiple || this.showCheckbox) ? this.model.indexOf(child.value) > -1 : this.model === child.value;
                             });
                             // remote下，设置了默认值，第一次打开时，搜索一次
                             const options = this.$slots.default || [];
@@ -785,6 +991,7 @@
                 }
             },
             query (val) {
+                
                 if (this.remote && this.remoteMethod) {
                     if (!this.selectToChangeQuery) {
                         this.$emit('on-query-change', val);
@@ -795,21 +1002,22 @@
                         child.isFocus = false;
                     });
                 } else {
-                    if (!this.selectToChangeQuery) {
+                    this.searchTree(val);
+                   /* if (!this.selectToChangeQuery) {
                         this.$emit('on-query-change', val);
-                    }
-                    this.broadcastQuery(val);
+                    }*/
+                  //  this.broadcastQuery(val);
 
-                    let is_hidden = true;
+                 /*   let is_hidden = true;*/
 
-                    this.$nextTick(() => {
+                  /*  this.$nextTick(() => {
                         this.findChild((child) => {
                             if (!child.hidden) {
                                 is_hidden = false;
                             }
                         });
                         this.notFound = is_hidden;
-                    });
+                    });*/
                 }
                 this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');

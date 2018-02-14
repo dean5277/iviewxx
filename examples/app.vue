@@ -60,6 +60,8 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
                 <li><router-link to="/color-picker">ColorPicker</router-link></li>
                 <li><router-link to="/auto-complete">AutoComplete</router-link></li>
                 <li><router-link to="/scroll">Scroll</router-link></li>
+                <li><router-link to="/treeSelect">treeSelect</router-link></li>
+                 <li><router-link to="/buttons">buttons</router-link></li>
             </ul>
         </nav>
         <router-view></router-view>
