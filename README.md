@@ -35,6 +35,11 @@
 npm install iviewxx<br />
 目前版本1.3
 
+## Usage
+es6<br />
+import Vue from 'vue'<br />
+import iview from 'iviewxx'<br />
+Vue.use(iview)<br /><br />
 
 
 [在线DEMO](http://www.deancheng.com:82/#/dTable)
@@ -51,18 +56,7 @@ npm install iviewxx<br />
 
 
 
-## Usage
-es6<br />
-import Vue from 'vue'<br />
-import iview from 'iviewxx'<br />
-Vue.use(iview)<br /><br />
 
-
-table children参数：<br />
-stretch:是否显示子菜单<br />
-indentSize:自定义间距<br />
-
-** 详细用法源文件例子吧。
 
 
 
