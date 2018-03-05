@@ -166,6 +166,7 @@
             }
         },
         data () {
+            var self = this;
             return {
                 prefixCls: prefixCls,
                 visible: false,
@@ -182,7 +183,8 @@
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
                 currentLabel: this.label,
-                elementaryData:null
+                cacheData:[]
+                
                 
             };
         },
@@ -285,8 +287,11 @@
                 const options = this.$slots.default || [];
                 return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
             },
-            cacheData (){
-                return deepCopy(this.treeData)
+            elementaryData (){
+                if(this.filterable){
+                    return this.compileFlatState(this.treeData);
+                    
+                }
             }
         },
         methods: {
@@ -907,11 +912,8 @@
 
             this.$on('append', this.debouncedAppendRemove());
             this.$on('remove', this.debouncedAppendRemove());
-            //this.cacheData = deepCopy(this.treeData);
-            if(this.filterable){
-                this.elementaryData = this.compileFlatState(this.treeData);
-                
-            }
+            this.cacheData = deepCopy(this.treeData);
+            
             
 
 
@@ -1002,11 +1004,10 @@
                 this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
             },
-            'treeData':{
-                handler:(n,o)=>{
-                    if(n != o){
-                        console.log('...')
-                        this.cacheData = this.deepCopy(n);
+            'elementaryData':{
+                handler (n,o){
+                    if(n.length != o.length){
+                        this.cacheData = deepCopy(this.treeData);
                     }
                 },
                 deep:true
