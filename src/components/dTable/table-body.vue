@@ -9,7 +9,7 @@
                      <tr 
                         :key="row._index"
                         v-show="displayValue[row._index]"
-                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '']"
+                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '',row._heighLight ? 'ivu-table-row-highlight' : '']"
                         @mouseenter.stop="handleMouseIn(row._index)"
                         @mouseleave.stop="handleMouseOut(row._index)"
                         @click.stop="clickCurrentRow(row._index,row.nodeIndex)"
@@ -93,7 +93,7 @@
 
                     <tr 
                      :key="row._index"
-                     :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index)]"
+                     :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index),row._heighLight ? 'ivu-table-row-heighlight' : '']"
                      v-show="displayValue[row._index]"
                      @mouseenter.stop="handleMouseIn(row._index)"
                      @mouseleave.stop="handleMouseOut(row._index)"
@@ -198,7 +198,7 @@
         data (){
             return {
                status:store.state.status,
-               iconPos:this.makeDisplayValue()[1],
+              
                colPos:this.makeColPos(),
                dataIndexPos:[],
                displayValue:this.makeDisplayValue()[0]
@@ -231,6 +231,9 @@
                 }
                 return render;
             },
+            iconPos () {
+              return this.makeDisplayValue()[1]
+            }
            
         },
         watch:{
@@ -352,8 +355,8 @@
             makeDisplayValue (){
                 let pos = [],
                     stretchPos = [];//树原始状态集
-                 store.state.status.forEach((n,i) =>{
-                      let parnode = true;
+                store.state.status.forEach((n,i) =>{
+                    let parnode = true;
                     n.forEach((m,t)=>{
                         if(m[0] == -1){
                             stretchPos.push(m[1]);
@@ -375,7 +378,6 @@
                        
                     })
                 })
-              
                 return [pos,stretchPos];
             },
             rowClasses (_index) {

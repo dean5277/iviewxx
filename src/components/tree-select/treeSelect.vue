@@ -182,8 +182,8 @@
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
                 currentLabel: this.label,
-                elementaryData:null,
-                cacheData:[]
+                elementaryData:null
+                
             };
         },
         computed: {
@@ -284,6 +284,9 @@
             notFoundShow () {
                 const options = this.$slots.default || [];
                 return (this.notFound && !this.remote) || (this.remote && !this.loading && !options.length);
+            },
+            cacheData (){
+                return deepCopy(this.treeData)
             }
         },
         methods: {
@@ -320,7 +323,6 @@
                                             return false;
                                            //
                                         }else if(!n.indeterminate && n.checked && !n.children && n.nodeKey != 0){
-                                            console.log("n:",n)
                                              this.removeItem(i);
                                             // return false;
                                         }
@@ -355,7 +357,6 @@
                             }
                             let vq = new valueQuery();
                             vq.nextInLeaf(vq.items);
-                            console.log("newArr:",vq.newArr)
                             this.model = vq.newArr;
                           
                         }   
@@ -537,8 +538,6 @@
                 let selected = this.remote ? this.selectedMultiple : [];
                 for (let i = 0; i < this.model.length; i++) {
                     const model = this.model[i];
-
-                    //console.log(model)
                     selected.push({
                         nodeKey: model.nodeKey,
                         value: model.title,
@@ -638,7 +637,6 @@
 
 
             removeTag (index,nodeKey) {
-                console.log(nodeKey)
 
                 if (this.disabled) {
                     return false;
@@ -649,11 +647,7 @@
                     this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
                 }
                 if(this.showCheckbox){
-                    console.log(this.model);
-                    console.log('xxxxx')
                     this.cancelCheckbox(nodeKey);
-                   // this.$set(this.model[modelIndex],'checked',false);
-                    //this.cacheData.splice(modelIndex,0,)
                 }
               
                 this.model.splice(index, 1);
@@ -913,7 +907,7 @@
 
             this.$on('append', this.debouncedAppendRemove());
             this.$on('remove', this.debouncedAppendRemove());
-            this.cacheData = deepCopy(this.treeData);
+            //this.cacheData = deepCopy(this.treeData);
             if(this.filterable){
                 this.elementaryData = this.compileFlatState(this.treeData);
                 
@@ -1003,24 +997,19 @@
                     });
                 } else {
                     this.searchTree(val);
-                   /* if (!this.selectToChangeQuery) {
-                        this.$emit('on-query-change', val);
-                    }*/
-                  //  this.broadcastQuery(val);
-
-                 /*   let is_hidden = true;*/
-
-                  /*  this.$nextTick(() => {
-                        this.findChild((child) => {
-                            if (!child.hidden) {
-                                is_hidden = false;
-                            }
-                        });
-                        this.notFound = is_hidden;
-                    });*/
+                 
                 }
                 this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
+            },
+            'treeData':{
+                handler:(n,o)=>{
+                    if(n != o){
+                        console.log('...')
+                        this.cacheData = this.deepCopy(n);
+                    }
+                },
+                deep:true
             }
         }
     };

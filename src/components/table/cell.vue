@@ -89,7 +89,6 @@
             } else if (this.column.type === 'expand') {
                 this.renderType = 'expand';
             } else if (this.column.render) {
-                console.log('xxxxxxxxxx')
                 this.renderType = 'render';
             } else {
                 this.renderType = 'normal';

@@ -30,23 +30,23 @@
 			let v = this,
 				Arr = [];
 			function makeTree (){
-				for (let i = 1; i < 200; i++){
-					v.treeData[0].children.push({
+				for (let i = 1; i < 20; i++){
+					Arr.push({
 						title: 'parent 0-' + i,
 						expand : true,
 						children:[
 							{
-	                            title: 'leaf 0-' + i + "-1"
-	                        },
-	                        {
-	                            title: 'leaf 0-' + i + "-2",
-	                            expand:true,
-	                            children:[
-	                            	{
-	                            		title:"66"
-	                            	}
-	                            ]
-	                        }
+                 title: 'leaf 0-' + i + "-1"
+              },
+              {
+                title: 'leaf 0-' + i + "-2",
+                expand:true,
+                children:[
+                	{
+                		title:"66"
+                	}
+                ]
+              }
 						]
 					})
 				}
@@ -55,10 +55,8 @@
 			async function addTree (){
 				const a = await makeTree();
 				if(a){
-					
 					v.$set(v.treeData[0],'children',Arr);
-					
-					//console.log(v.treeData)
+				
 				}
 				
 				

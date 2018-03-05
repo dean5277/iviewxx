@@ -176,11 +176,14 @@
         <div style="width: 50%; float: right;">
             <Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects
             <br>
-            <Date-picker type="daterange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates
+            <Date-picker type="daterange"  @on-clear="resetDate" @on-change="getDateValue" placeholder="选择日期和时间32" style="width: 300px"></Date-picker> | Range, no dates
             <br>
             <Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels
             <br>
-            <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm
+            <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm"  placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm
+            <Date-picker type="datetimerange" style="width:100%" @on-clear="resetDate" @on-change="getDateValue" :clearable="clearAble" :options="options2" format="yyyy-MM-dd HH:mm:ss" placement="bottom-end" placeholder="select" :value="payTimeArr"></Date-picker>
+            <br>
+            <Date-picker type="datetimerange" style="width:100%" @on-clear="resetDate" @on-change="getDateValue" :clearable="clearAble" :options="options2" format="yyyy-MM-dd HH:mm:ss" placement="bottom-end" placeholder="123" :value="payTimeArr"></Date-picker>
         </div>
         <div style="width: 50%; float: right;">
             <TimePicker type="timerange" placeholder="Select time" style="width: 168px"></TimePicker>
@@ -197,7 +200,62 @@
                 singleDate: new Date(1978, 4, 10),
                 dateRange: [new Date(2010, 4, 1), new Date()],
                 minDate: new Date(2010, 4, 1),
-                maxDate: new Date(now + oneMonth)
+                maxDate: new Date(now + oneMonth),
+                pageParams:{
+                    payStartTime:"",
+                    payEndTime:""
+                },
+                options2: {
+                    shortcuts: [
+                        {
+                            text: '一周',
+                            value :function() {
+                                var end = new Date();
+                                var start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '一个月',
+                            value :function() {
+                                var end = new Date();
+                                var start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                                return [start, end];
+                            }
+                        },
+                        {
+                            text: '近3月',
+                            value :function() {
+                                var end = new Date();
+                                var start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                                return [start, end];
+                            }
+                        }
+                    ]
+                },
+                clearAble:true,
+                payTimeArr:[]
+            }
+        },
+        methods:{
+            resetDate (){
+                var v = this;
+                v.pageParams.payStartTime = "";
+                v.pageParams.payEndTime = "";
+                //v.pageParamsStatus = true;
+            },
+            getDateValue (value){//获取日期返回值
+                var v = this;
+                console.log(value);
+               /* if(value[0] != ""){
+                  //  v.pageParams.payStartTime = v.getUniversalTime(new Date(value[0]).getTime(),'fulltime');
+                   // v.pageParams.payEndTime = v.getUniversalTime(new Date(value[1]).getTime(),'fulltime');
+                }*/
+
+
             }
         }
     }

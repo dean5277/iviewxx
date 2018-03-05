@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapClasses">
-        <template v-if="type !== 'textarea'">
+        <template v-if="type !== 'textarea' && type !== 'tags'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
             <i class="ivu-icon" :class="['ivu-icon-ios-close', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable" @click="handleClear"></i>
             <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
@@ -33,7 +33,7 @@
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
-            v-else
+            v-else-if="type !== 'tags' && type == 'textarea'"
             :id="elementId"
             :autocomplete="autocomplete"
             :spellcheck="spellcheck"
@@ -56,27 +56,68 @@
             @blur="handleBlur"
             @input="handleInput">
         </textarea>
+        <template v-else>
+            <div class="ivu-input-tagsContainer" v-clickoutside="handleClose">
+                <div
+                    :class="tagsCls"
+                    ref="reference"
+                    id="tagsCls"
+                >
+                    <input type="hidden" :name="name" :value="model">
+                    <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in tagsMultiple">
+                        <span class="ivu-tag-text">{{ item }}</span>
+                        <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
+                    </div>
+                   <!--  <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder">{{ localePlaceholder }}</span>
+                   <span :class="[prefixCls + '-tags-value']" v-show="!showPlaceholder">{{ tagsSingle }}</span> -->
+                    <input 
+                       :id="elementId"
+                       ref="input"
+                       :class="tagsTextareaClasses"
+                       :disabled="disabled"
+                       :rows="rows"
+                       :placeholder="showPlaceholder ? localePlaceholder : ''"
+                       :maxlength="maxlength"
+                       :readonly="readonly"
+                       :name="name"
+                       :value="currentValue"
+                       :autofocus="autofocus"
+                       autocomplete="off"
+                       :style="inputStyle"
+                       @keyup.enter="handleEnter"
+                       @keyup="handleKeyup"
+                       @keypress="handleKeypress"
+                       @keydown="resetInputState"
+                       @focus="handleFocus"
+                       @blur="handleBlur"
+                       @input="handleInput"
+                   >
+                   </input>
+                </div>
+            </div>
+        </template>
     </div>
 </template>
 <script>
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
-
+    import clickoutside from '../../directives/clickoutside';
     const prefixCls = 'ivu-input';
 
     export default {
         name: 'Input',
         mixins: [ Emitter ],
+        directives: { clickoutside },
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date']);
+                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date', 'tags']);
                 },
                 default: 'text'
             },
             value: {
-                type: [String, Number],
+                type: [String, Number, Array],
                 default: ''
             },
             size: {
@@ -144,7 +185,11 @@
                 prepend: true,
                 append: true,
                 slotReady: false,
-                textareaStyles: {}
+                textareaStyles: {},
+                tagsMultiple:[],
+                model:this.value,
+                tagsSingle: '',    // label
+                visible: false
             };
         },
         computed: {
@@ -178,10 +223,52 @@
                         [`${prefixCls}-disabled`]: this.disabled
                     }
                 ];
+            },
+            tagsTextareaClasses (){
+                return `${prefixCls}-input`
+            },
+            tagsCls (){
+                return `${prefixCls}-tagsCls`
+            },
+            showPlaceholder () {
+                let status = false;
+
+                if (this.tagsMultiple.length > 0) {
+                    status = false;
+                }else {
+                    status = true;
+                }
+
+                return status;
+            },
+            localePlaceholder () {
+                if (this.placeholder === undefined) {
+                    return this.t('i.tags.placeholder');
+                } else {
+                    return this.placeholder;
+                }
+            },
+            inputStyle () {
+                let style = {};
+
+               
+                if (this.showPlaceholder) {
+                    style.width = '100%';
+                } else {
+                    style.width = `${this.inputLength}px`;
+                }
+              
+
+                return style;
             }
         },
         methods: {
             handleEnter (event) {
+                if(this.type == 'tags'){
+                    this.tagsMultiple.push(this.currentValue);
+                    this.currentValue = '';
+                    console.log(this.tagsMultiple)
+                }
                 this.$emit('on-enter', event);
             },
             handleKeydown (event) {
@@ -255,11 +342,45 @@
                 this.$emit('input', '');
                 this.setCurrentValue('');
                 this.$emit('on-change', e);
+            },
+            removeTag (index) {
+                if (this.disabled) {
+                    return false;
+                }
+
+                this.model.splice(index, 1);
+
+                if (this.filterable && this.visible) {
+                    this.$refs.input.focus();
+                }
+
+               
+            },
+            clearTags (){
+                if(this.disabled) {
+                    return false;
+                }
+                this.model = '';
+            },
+            resetInputState () {
+                this.inputLength = this.$refs.input.value.length * 12 + 20;    
+            },
+            handleClose () {
+                console.log('....')
+                this.hideMenu();
+            },
+            hideMenu () {
+                this.visible = false;
             }
         },
         watch: {
             value (val) {
                 this.setCurrentValue(val);
+            },
+            visible (val) {
+                if (!val) {
+                    this.$refs.input.focus();
+                }
             }
         },
         mounted () {

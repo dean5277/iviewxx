@@ -59,9 +59,6 @@
                     }
             }
         },
-        created (){
-            console.log(this.buttonsArrows)
-        },
         data () {
             return {
                 prefixCls: prefixCls,

@@ -386,11 +386,11 @@
                     }
                 }
                 this.objData[_index]._isHighlight = true;
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.cloneData[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
+               
+                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.rebuildData[oldIndex]));
+                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.rebuildData[_index])), oldData);
             },
             clickCurrentRow (_index,nodeIndex) {
-               // console.log(this.rebuildData)
                 this.highlightCurrentRow (_index);
             
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.rebuildData[_index])), _index);    

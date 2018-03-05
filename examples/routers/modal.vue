@@ -1,44 +1,19 @@
 <template>
     <div>
-        <Button @click="instance('info')">Info</Button>
-        <Button @click="instance('success')">Success</Button>
-        <Button @click="instance('warning')">Warning</Button>
-        <Button @click="instance('error')">Error</Button>
+        <Button @click="instance()">confirm1</Button>
+   
     </div>
 </template>
 <script>
     export default {
         methods: {
-            instance (type) {
-                const title = 'Title';
-                const content = '<p>Content of dialog</p><p>Content of dialog</p>';
-                switch (type) {
-                    case 'info':
-                        this.$Modal.info({
-                            title: title,
-                            content: content,
-                            closable: true
-                        });
-                        break;
-                    case 'success':
-                        this.$Modal.success({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'warning':
-                        this.$Modal.warning({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                    case 'error':
-                        this.$Modal.error({
-                            title: title,
-                            content: content
-                        });
-                        break;
-                }
+            instance () {
+                this.$Modal.confirm({
+                    title: '批量放行',
+                    okText: '整包裹放行',
+                    content: '<p>订单所在包裹为合并包裹，请选择整包裹放行或取消操作</p>'
+                   
+                });
             }
         }
     }

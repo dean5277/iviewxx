@@ -219,7 +219,7 @@
 <template>
     <Row>
         <Col span="12" style="padding-right:10px">
-        <Select v-model="model11"  multiple>
+        <Select v-model="model11"  multiple filterable>
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         </Col>

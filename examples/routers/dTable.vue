@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <dTable border :context="self" :columns="columns7" :data="data6"></dTable> -->
-        <div style="margin-top:10px"> <dTable border :context="self" :columns="columns8" :data="data7"></dTable></div>
+        <div style="margin-top:10px"> <dTable highlight-row border :context="self" :columns="columns8" :data="data7"></dTable></div>
     </div>
 </template>
 <script>
@@ -115,7 +115,8 @@
                             country:"中国122",
                             pay:"支付宝",
                             status:"未处理",
-                            _display:true,
+                            _heighLight:true,
+                     
                             stretch:true,//是否显示子菜单
                             children:[
                                 {

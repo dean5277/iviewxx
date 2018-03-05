@@ -25,6 +25,9 @@
 3.增加了组件treeSelect 目前最多支持5000个节点，多了就炸了T.T<br />
 4.tree组件增加了个prop _hide:true  隐藏该页<br />
 
+2018/03/05  兼容 2.9.2 版本<br />
+1.解决treeSelect不能异步渲染的BUG
+
 ###  Feature Request
 1.表格拖动,得空写。
 

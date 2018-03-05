@@ -178,14 +178,21 @@
             };
         },
         computed: {
-            publicValue(){
+            publicVModelValue(){
                 if (this.multiple){
                     return this.internalValue.slice();
                 } else {
                     const isRange = this.type.includes('range');
-                    const val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+                    let val = this.internalValue.map(date => date instanceof Date ? new Date(date) : (date || ''));
+
+                    if (this.type.match(/^time/)) val = val.map(this.formatDate);
                     return (isRange || this.multiple) ? val : val[0];
                 }
+            },
+            publicStringValue(){
+                const {formatDate, publicVModelValue, type} = this;
+                if (type.match(/^time/)) return publicVModelValue;
+                return Array.isArray(publicVModelValue) ? publicVModelValue.map(formatDate) : formatDate(publicVModelValue);
             },
             opened () {
                 return this.open === null ? this.visible : this.open;
@@ -293,9 +300,9 @@
                 );
             },
             emitChange () {
-                this.$emit('on-change', this.visualValue, this.publicValue);
                 this.$nextTick(() => {
-                    this.dispatch('FormItem', 'on-form-change', this.publicValue);
+                    this.$emit('on-change', this.publicStringValue);
+                    this.dispatch('FormItem', 'on-form-change', this.publicStringValue);
                 });
             },
             parseDate(val) {
@@ -386,7 +393,7 @@
             type(type){
                 this.onSelectionModeChange(type);
             },
-            publicValue(now, before){
+            publicVModelValue(now, before){
                 const newValue = JSON.stringify(now);
                 const oldValue = JSON.stringify(before);
                 const shouldEmitInput = newValue !== oldValue || typeof now !== typeof before;
@@ -395,9 +402,9 @@
         },
         mounted () {
             const initialValue = this.value;
-            const parsedValue = this.publicValue;
+            const parsedValue = this.publicVModelValue;
             if (typeof initialValue !== typeof parsedValue || JSON.stringify(initialValue) !== JSON.stringify(parsedValue)){
-                this.$emit('input', this.publicValue); // to update v-model
+                this.$emit('input', this.publicVModelValue); // to update v-model
             }
             if (this.open !== null) this.visible = this.open;
         }
