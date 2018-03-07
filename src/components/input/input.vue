@@ -57,19 +57,18 @@
             @input="handleInput">
         </textarea>
         <template v-else>
-            <div class="ivu-input-tagsContainer" v-clickoutside="handleClose">
+            <div class="ivu-input-tagsContainer" >
                 <div
                     :class="tagsCls"
                     ref="reference"
                     id="tagsCls"
+                    @click="focusInput"
                 >
                     <input type="hidden" :name="name" :value="model">
                     <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in tagsMultiple">
                         <span class="ivu-tag-text">{{ item }}</span>
                         <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
                     </div>
-                   <!--  <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder">{{ localePlaceholder }}</span>
-                   <span :class="[prefixCls + '-tags-value']" v-show="!showPlaceholder">{{ tagsSingle }}</span> -->
                     <input 
                        :id="elementId"
                        ref="input"
@@ -91,7 +90,7 @@
                        @focus="handleFocus"
                        @blur="handleBlur"
                        @input="handleInput"
-                   >
+                    >
                    </input>
                 </div>
             </div>
@@ -102,13 +101,11 @@
     import { oneOf, findComponentUpward } from '../../utils/assist';
     import calcTextareaHeight from '../../utils/calcTextareaHeight';
     import Emitter from '../../mixins/emitter';
-    import clickoutside from '../../directives/clickoutside';
     const prefixCls = 'ivu-input';
 
     export default {
         name: 'Input',
         mixins: [ Emitter ],
-        directives: { clickoutside },
         props: {
             type: {
                 validator (value) {
@@ -180,14 +177,14 @@
         },
         data () {
             return {
-                currentValue: this.value,
+                currentValue: this.type === 'tags' ? '' : this.value,
                 prefixCls: prefixCls,
                 prepend: true,
                 append: true,
                 slotReady: false,
                 textareaStyles: {},
-                tagsMultiple:[],
-                model:this.value,
+                tagsMultiple: [],
+                model: this.value,
                 tagsSingle: '',    // label
                 visible: false
             };
@@ -232,13 +229,11 @@
             },
             showPlaceholder () {
                 let status = false;
-
                 if (this.tagsMultiple.length > 0) {
                     status = false;
                 }else {
                     status = true;
                 }
-
                 return status;
             },
             localePlaceholder () {
@@ -249,22 +244,18 @@
                 }
             },
             inputStyle () {
-                let style = {};
-
-               
-                if (this.showPlaceholder) {
+                let style = {};    
+                if (this.showPlaceholder && this.value.length < 1) {
                     style.width = '100%';
                 } else {
                     style.width = `${this.inputLength}px`;
                 }
-              
-
                 return style;
             }
         },
         methods: {
             handleEnter (event) {
-                if(this.type == 'tags'){
+                if(this.type === 'tags'){
                     this.tagsMultiple.push(this.currentValue);
                     this.currentValue = '';
                     console.log(this.tagsMultiple)
@@ -274,7 +265,7 @@
             handleKeydown (event) {
                 this.$emit('on-keydown', event);
             },
-            handleKeypress(event) {
+            handleKeypress (event) {
                 this.$emit('on-keypress', event);
             },
             handleKeyup (event) {
@@ -347,14 +338,7 @@
                 if (this.disabled) {
                     return false;
                 }
-
-                this.model.splice(index, 1);
-
-                if (this.filterable && this.visible) {
-                    this.$refs.input.focus();
-                }
-
-               
+                this.tagsMultiple.splice(index, 1);
             },
             clearTags (){
                 if(this.disabled) {
@@ -363,15 +347,17 @@
                 this.model = '';
             },
             resetInputState () {
-                this.inputLength = this.$refs.input.value.length * 12 + 20;    
+                let inputWidth = this.$refs.reference.offsetWidth;
+                if (inputWidth > 60){
+                    this.inputLength = 100;
+                }else{
+                    this.inputLength = inputWidth;
+                }
             },
-            handleClose () {
-                console.log('....')
-                this.hideMenu();
-            },
-            hideMenu () {
-                this.visible = false;
+            focusInput () {
+                this.$refs.input.focus();
             }
+
         },
         watch: {
             value (val) {
@@ -390,6 +376,9 @@
             } else {
                 this.prepend = false;
                 this.append = false;
+            }
+            if (this.type === 'tags' && typeof this.value === 'object' && this.value.length >  0){
+                this.tagsMultiple = this.value;
             }
             this.slotReady = true;
             this.resizeTextarea();

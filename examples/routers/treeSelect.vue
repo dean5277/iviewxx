@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<Row>
-	        <Col span="12" style="padding-right:10px">
-				<treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
-			</Col>
+	      <Col span="12" style="padding-right:10px">
+					<treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
+				</Col>
 		</Row>
 	</div>
 </template>
