@@ -23,6 +23,7 @@
 		},
 		methods:{
 			getTreeData (value){
+				console.log(this.data)
 				console.log("getTreeValue:",value)
 			}
 		},

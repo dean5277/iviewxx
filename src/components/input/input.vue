@@ -258,7 +258,6 @@
                 if(this.type === 'tags'){
                     this.tagsMultiple.push(this.currentValue);
                     this.currentValue = '';
-                    console.log(this.tagsMultiple)
                 }
                 this.$emit('on-enter', event);
             },

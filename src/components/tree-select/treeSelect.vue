@@ -25,6 +25,7 @@
                     spellcheck="false"
                     @blur="handleBlur"
                     @keydown="resetInputState"
+                    @keyup="searchTree"
                     @keydown.delete="handleInputDelete"
                     ref="input">
                 <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
@@ -45,9 +46,7 @@
                         :data="cacheData" 
                         @on-select-change="treeSelectChange"
                         @on-check-change="treeSelectCheckChange"
-                        @on-toggle-expand="treeSelectToggleExpand"
-                      
-                     
+                        @on-toggle-expand="treeSelectToggleExpand"             
                         :show-checkbox="showCheckbox"
                     >
                     </Tree>
@@ -303,43 +302,39 @@
                     if(this.showCheckbox){
                         this.model = []; 
                         if(value.length > 0){
-                     
                             class valueQuery {
-                                constructor (){
+                                constructor () {
                                     this.items = value;
                                     this.newItems = value;
                                     this.newArr = [];
                                     this.indexArr = [];
                                 }
-                                removeItem (index){
-                                 
+                                removeItem (index){      
                                     if(this.newArr.indexOf(this.newItems[index]) >= 0) return false;
-                                    this.newArr.push(this.newItems[index])
+                                    this.newArr.push(this.newItems[index]);
                                 }
-                                nextInLeaf (nextArr){
-                                    if(nextArr.length == 0) return false;
-                                    nextArr.every((n,i)=>{
-                                        if(!n.indeterminate && n.checked && n.children && n.nodeKey == 0) {
+                                nextInLeaf (nextArr) {
+                                    if(nextArr.length === 0) return false;
+                                    nextArr.every((n,i) => {
+                                        if(!n.indeterminate && n.checked && n.children && n.nodeKey === 0) {
                                             this.removeItem(i);
                                             return false;
                                         }else if(!n.indeterminate && n.checked && n.children && n.nodeKey != 0) {
                                             this.removeItem(i);
-                                            this.removeHasLeaf(n.children,i);
+                                            this.removeHasLeaf(n.children, i);
                                             return false;
-                                           //
                                         }else if(!n.indeterminate && n.checked && !n.children && n.nodeKey != 0){
-                                             this.removeItem(i);
-                                            // return false;
+                                            this.removeItem(i);
                                         }
                                         return true;
                                     })
                                 }
                                 removeHasLeaf (child,index){
-                                    child.forEach((n,i)=>{
-                                        this.newItems.forEach((m,t)=>{
+                                    child.forEach((n,i) => {
+                                        this.newItems.forEach((m,t) => {
                                             if(n.nodeKey == m.nodeKey){
-                                                this.newItems.splice(t,1);
-                                                if(m.children) this.removeNextChildLeaf(m.children,t);
+                                                this.newItems.splice(t, 1);
+                                                if(m.children) this.removeNextChildLeaf(m.children, t);
                                             }
                                         })
 
@@ -362,17 +357,20 @@
                             }
                             let vq = new valueQuery();
                             vq.nextInLeaf(vq.items);
-                            this.model = vq.newArr;
-                          
+                            this.model = vq.newArr;                  
                         }   
 
                     } else {
                         this.model = value;
-                        if (this.filterable) {
-                        
-                           this.query = value;
-                          
+                        if(value.length > 0){
+                            this.query = value[0].title; 
+                        }else{
+                            this.query = '';
                         }
+                        
+                       /* if (this.filterable) {
+                           this.query = value[0].title;      
+                        }*/
                     }
                 }
             },
@@ -397,8 +395,9 @@
                 });
                 return flatTree;
             },
-            searchTree (value) {
+            searchTree () {
                 let v = this,
+                    value = this.query,
                     l = value.length,
                     Arr = [];
                 function findParentsNode (pid){
@@ -425,7 +424,6 @@
                     }
                    
                 });
-           
                 v.makeNewsNode(Arr);
             },
             makeNewsNode (pidArr){
@@ -433,26 +431,24 @@
                     newChildArr = [];
                 function removeDiscard(nodeId){
                     v.cacheData.forEach((n,i)=>{
-                        if(n.nodeKey == nodeId && n.children && n.children.length >= 0){
+                        if(n.nodeKey === nodeId && n.children && n.children.length >= 0){
                             n.children.forEach((m,t)=>{
                                 if(pidArr.indexOf(m.nodeKey) < 0){
                                    v.$set(m,'_hide',true)
                                 }else {
-                                    v.$set(m,'_hide',false)
+                                   v.$set(m,'_hide',false)
                                 }
                             })
                         }
                     })
                 }
                 if(pidArr.length == 0){
-                     v.$set(v.cacheData[0],'_hide',true);
+                    v.$set(v.cacheData[0],'_hide',true);
                 }else{
-                     v.$set(v.cacheData[0],'_hide',false);
+                    v.$set(v.cacheData[0],'_hide',false);
                 }
-                v.cacheData.forEach((n,i)=>{
-                    
-                    if(pidArr.indexOf(n.nodeKey) >= 0){
-                       
+                v.cacheData.forEach((n,i)=>{ 
+                    if(pidArr.indexOf(n.nodeKey) >= 0){ 
                         removeDiscard(n.nodeKey);
                     }
                 })
@@ -465,12 +461,9 @@
                 if(data.length >  0){
                     value = data[0].title;
                 }
-                
-
-                this.selectedSingle = value;
-               
-                this.treeSelectGetValue(value);
-             
+                //console.log('data:', data)
+                this.selectedSingle = data; 
+                this.treeSelectGetValue(data);       
             },
             treeSelectCheckChange (value){
                 let v = this;
@@ -517,17 +510,14 @@
           
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
-
                 if (type === 'string' || type === 'number') {
                     let findModel = false;
-
-
                     if (slot && !findModel) {
                         this.model = '';
                         this.query = '';
                     }
                 }
-
+                console.log('query', this.model)
                 this.toggleSingleSelected(this.model, init);
             },
             clearSingleSelect () {
@@ -646,43 +636,33 @@
 
 
             removeTag (index,nodeKey) {
-
                 if (this.disabled) {
                     return false;
                 }
-
                 if (this.remote) {
                     const tag = this.model[index];
                     this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
                 }
                 if(this.showCheckbox){
                     this.cancelCheckbox(nodeKey);
-                }
-              
+                }             
                 this.model.splice(index, 1);
-
                 if (this.filterable && this.visible) {
                     this.$refs.input.focus();
                 }
-
-                this.broadcast('Drop', 'on-update-popper');
-               
+                this.broadcast('Drop', 'on-update-popper');      
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
                 if (!this.multiple && !this.showCheckbox ) {
                     let label = '';
                     this.hideMenu();
-                    if (!init) {
-                       
-                        this.$emit('on-change', {
+                    if (!init) {               
+                        this.$emit('on-change', value[0]);
+                       /* this.dispatch('FormItem', 'on-form-change', {
                             value: value,
                             label: label
-                        });
-                        this.dispatch('FormItem', 'on-form-change', {
-                            value: value,
-                            label: label
-                        });
+                        });*/
                        
                     }
                 }
@@ -821,6 +801,7 @@
             },
             resetInputState () {
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
+                //this.searchTree(this.query);
             },
             handleInputDelete () {
                 if ((this.multiple || this.showCheckbox) && this.model.length && this.query === '') {
@@ -903,17 +884,10 @@
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
-
-          // this.updateOptions();
             document.addEventListener('keydown', this.handleKeydown);
-
             this.$on('append', this.debouncedAppendRemove());
             this.$on('remove', this.debouncedAppendRemove());
             this.cacheData = deepCopy(this.treeData);
-            
-            
-
-
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
@@ -983,8 +957,7 @@
                     this.broadcast('Drop', 'on-destroy-popper');
                 }
             },
-            query (val) {
-                
+            query (val) {           
                 if (this.remote && this.remoteMethod) {
                     if (!this.selectToChangeQuery) {
                         this.$emit('on-query-change', val);
@@ -994,10 +967,7 @@
                     this.findChild(child => {
                         child.isFocus = false;
                     });
-                } else {
-                    this.searchTree(val);
-                 
-                }
+                } 
                 this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
             },
