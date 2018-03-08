@@ -403,7 +403,7 @@
                     Arr = [];
                 function findParentsNode (pid){
                     v.elementaryData.forEach((n,i)=>{
-                        if(n.nodeKey == pid){
+                        if(n.nodeKey === pid){
                             if(Arr.indexOf(n.nodeKey) < 0){
                                 Arr.push(n.nodeKey);
                                 if(n.parent || n.parent == 0){
@@ -415,7 +415,7 @@
                 }
               
                 v.elementaryData.forEach((n,i)=>{
-                    if(n.node.title.substr(0,l) == value){
+                    if(n.node.title.substr(0,l) === value){
                         if(Arr.indexOf(n.nodeKey) < 0){
                             Arr.push(n.nodeKey);
                             if(n.parent || n.parent == 0){
@@ -461,7 +461,11 @@
                 if(this.showCheckbox){
                     return false;
                 }
-                let value = data[0].title;
+                let value = '';
+                if(data.length >  0){
+                    value = data[0].title;
+                }
+                
 
                 this.selectedSingle = value;
                
@@ -668,25 +672,18 @@
             toggleSingleSelected (value, init = false) {
                 if (!this.multiple && !this.showCheckbox ) {
                     let label = '';
-
-               
-
                     this.hideMenu();
-
                     if (!init) {
-                        if (this.labelInValue) {
-                            this.$emit('on-change', {
-                                value: value,
-                                label: label
-                            });
-                            this.dispatch('FormItem', 'on-form-change', {
-                                value: value,
-                                label: label
-                            });
-                        } else {
-                            this.$emit('on-change', value);
-                            this.dispatch('FormItem', 'on-form-change', value);
-                        }
+                       
+                        this.$emit('on-change', {
+                            value: value,
+                            label: label
+                        });
+                        this.dispatch('FormItem', 'on-form-change', {
+                            value: value,
+                            label: label
+                        });
+                       
                     }
                 }
             },
