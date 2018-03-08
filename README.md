@@ -36,7 +36,7 @@
 
 ### Install
 npm install iviewxx<br />
-目前版本1.4
+目前版本1.4.2
 
 ## Usage
 es6<br />
