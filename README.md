@@ -40,6 +40,7 @@
 
 ### Install
 npm install iviewxx<br />
+
 目前版本1.5
 
 ## Usage
