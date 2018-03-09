@@ -1,5 +1,5 @@
 # iviewxx
-**已经兼容了 2.9.2 Agent A版本** <br />
+**已经兼容了 iview 2.10.0 Reigns** <br />
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
