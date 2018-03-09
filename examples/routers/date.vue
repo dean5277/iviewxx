@@ -150,116 +150,58 @@
 <!--</script>-->
 
 
-<template>
-    <div>
-        <div style="width: 50%; float: left;">
-            <Date-picker type="date" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single date, no date
-            <br>
-            <Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, no date
-            <br>
-            <Date-picker type="datetime" v-model="dateString" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, string date
-            <br>
-            <Date-picker type="datetime" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object
-            <br>
-            <Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single datetime, format yyyy-MM-dd HH:mm
-            <br>
-            <Date-picker type="date" multiple style="width: 200px"></Date-picker> | Single date, multiple
-            <br>
-            <Date-picker type="date" multiple style="width: 200px" show-week-numbers></Date-picker> | Single date, multiple, show week numbers
-            <br>
-            <Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm
-            <br>
-            <Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date
-            <br>
+<!--<template>-->
+    <!--<div>-->
+        <!--<div style="width: 50%; float: left;">-->
+            <!--<Date-picker type="date" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single date, no date-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, no date-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" v-model="dateString" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, string date-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single datetime, format yyyy-MM-dd HH:mm-->
+            <!--<br>-->
+            <!--<Date-picker type="date" multiple style="width: 200px"></Date-picker> | Single date, multiple-->
+            <!--<br>-->
+            <!--<Date-picker type="date" multiple style="width: 200px" show-week-numbers></Date-picker> | Single date, multiple, show week numbers-->
+            <!--<br>-->
+            <!--<Date-picker type="date" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 200px"></Date-picker> | Single date, format MM-dd HH:mm-->
+            <!--<br>-->
+            <!--<Date-picker type="datetime" :start-date="minDate" v-model="singleDate" placeholder="选择日期和时间" style="width: 200px"></Date-picker> | Single datetime, date object, start date-->
+            <!--<br>-->
 
-        </div>
-        <div style="width: 50%; float: right;">
-            <Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects
-            <br>
-            <Date-picker type="daterange"  @on-clear="resetDate" @on-change="getDateValue" placeholder="选择日期和时间32" style="width: 300px"></Date-picker> | Range, no dates
-            <br>
-            <Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels
-            <br>
-            <Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm"  placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm
-            <Date-picker type="datetimerange" style="width:100%" @on-clear="resetDate" @on-change="getDateValue" :clearable="clearAble" :options="options2" format="yyyy-MM-dd HH:mm:ss" placement="bottom-end" placeholder="select" :value="payTimeArr"></Date-picker>
-            <br>
-            <Date-picker type="datetimerange" style="width:100%" @on-clear="resetDate" @on-change="getDateValue" :clearable="clearAble" :options="options2" format="yyyy-MM-dd HH:mm:ss" placement="bottom-end" placeholder="123" :value="payTimeArr"></Date-picker>
-        </div>
-        <div style="width: 50%; float: right;">
-            <TimePicker type="timerange" placeholder="Select time" style="width: 168px"></TimePicker>
-        </div>
-    </div>
-</template>
-<script>
-    export default {
-        data(){
-            const now = new Date().getTime();
-            const oneMonth = 2592e6;
-            return {
-                dateString: '2018-01-03 20:52:59',
-                singleDate: new Date(1978, 4, 10),
-                dateRange: [new Date(2010, 4, 1), new Date()],
-                minDate: new Date(2010, 4, 1),
-                maxDate: new Date(now + oneMonth),
-                pageParams:{
-                    payStartTime:"",
-                    payEndTime:""
-                },
-                options2: {
-                    shortcuts: [
-                        {
-                            text: '一周',
-                            value :function() {
-                                var end = new Date();
-                                var start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                                return [start, end];
-                            }
-                        },
-                        {
-                            text: '一个月',
-                            value :function() {
-                                var end = new Date();
-                                var start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                                return [start, end];
-                            }
-                        },
-                        {
-                            text: '近3月',
-                            value :function() {
-                                var end = new Date();
-                                var start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                                return [start, end];
-                            }
-                        }
-                    ]
-                },
-                clearAble:true,
-                payTimeArr:[]
-            }
-        },
-        methods:{
-            resetDate (){
-                var v = this;
-                v.pageParams.payStartTime = "";
-                v.pageParams.payEndTime = "";
-                //v.pageParamsStatus = true;
-            },
-            getDateValue (value){//获取日期返回值
-                var v = this;
-                console.log(value);
-               /* if(value[0] != ""){
-                  //  v.pageParams.payStartTime = v.getUniversalTime(new Date(value[0]).getTime(),'fulltime');
-                   // v.pageParams.payEndTime = v.getUniversalTime(new Date(value[1]).getTime(),'fulltime');
-                }*/
-
-
-            }
-        }
-    }
-</script>
+        <!--</div>-->
+        <!--<div style="width: 50%; float: right;">-->
+            <!--<Date-picker type="datetimerange" :value="dateRange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | DateTimeRange, date objects-->
+            <!--<br>-->
+            <!--<Date-picker type="daterange" placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates-->
+            <!--<br>-->
+            <!--<Date-picker type="daterange" split-panels placeholder="选择日期和时间" style="width: 300px"></Date-picker> | Range, no dates, split panels-->
+            <!--<br>-->
+            <!--<Date-picker type="datetimerange" format="yyyy-MM-dd HH:mm" placeholder="选择日期和时间（不含秒）" style="width: 300px"></Date-picker> | DateTimeRange, format yyyy-MM-dd HH:mm-->
+        <!--</div>-->
+        <!--<div style="width: 50%; float: right;">-->
+            <!--<TimePicker type="timerange" placeholder="Select time" style="width: 168px"></TimePicker>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</template>-->
+<!--<script>-->
+    <!--export default {-->
+        <!--data(){-->
+            <!--const now = new Date().getTime();-->
+            <!--const oneMonth = 2592e6;-->
+            <!--return {-->
+                <!--dateString: '2018-01-03 20:52:59',-->
+                <!--singleDate: new Date(1978, 4, 10),-->
+                <!--dateRange: [new Date(2010, 4, 1), new Date()],-->
+                <!--minDate: new Date(2010, 4, 1),-->
+                <!--maxDate: new Date(now + oneMonth)-->
+            <!--}-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->
 
 
 <!--<template>-->
@@ -304,3 +246,21 @@
         <!--}-->
     <!--}-->
 <!--</script>-->
+
+<template>
+    <div style="width: 500px;margin: 100px;">
+        <Row>
+            <Col span="12">
+            <DatePicker type="date" show-week-numbers placeholder="Select date" style="width: 200px"></DatePicker>
+            </Col>
+            <Col span="12">
+            <DatePicker type="daterange" show-week-numbers placement="bottom-end" placeholder="Select date" style="width: 200px"></DatePicker>
+            </Col>
+        </Row>
+    </div>
+</template>
+<script>
+    export default {
+
+    }
+</script>

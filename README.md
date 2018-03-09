@@ -31,12 +31,16 @@
 2018/03/07<br />
 1.Input 新增类型 tags<br />
 
+2018/03/09<br />
+1.兼容iview 2.10.0 Reigns <br />
+2.修复组件Input tags 输入空时的BUG
+
 ###  Feature Request
 1.表格拖动,得空写。
 
 ### Install
 npm install iviewxx<br />
-目前版本1.4
+目前版本1.5
 
 ## Usage
 es6<br />

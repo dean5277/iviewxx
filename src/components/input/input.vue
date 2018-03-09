@@ -255,7 +255,10 @@
         },
         methods: {
             handleEnter (event) {
-                if(this.type === 'tags'){
+                const trim = function(string) {
+                    return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
+                };
+                if(this.type === 'tags' && trim(this.currentValue) !== ''){
                     this.tagsMultiple.push(this.currentValue);
                     this.currentValue = '';
                 }

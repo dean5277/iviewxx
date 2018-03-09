@@ -219,7 +219,7 @@
 <template>
     <Row>
         <Col span="12" style="padding-right:10px">
-        <Select v-model="model11" filterable>
+        <Select v-model="model11" filterable multiple>
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         </Col>
@@ -237,28 +237,28 @@
             return {
                 cityList: [
                     {
-                        value: 'New York',
-                        label: 'New York'
+                        value: '122',
+                        label: '1'
                     },
                     {
-                        value: 'London',
-                        label: 'London'
+                        value: '12',
+                        label: '1'
                     },
                     {
-                        value: 'Sydney',
-                        label: 'Sydney'
+                        value: '13',
+                        label: '1'
                     },
                     {
-                        value: 'Ottawa',
-                        label: 'Ottawa'
+                        value: '144',
+                        label: '1'
                     },
                     {
                         value: 'Paris',
-                        label: 'Paris'
+                        label: '1'
                     },
                     {
                         value: 'Canberra',
-                        label: 'Canberra'
+                        label: '1'
                     }
                 ],
                 model11: [],
