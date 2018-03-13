@@ -40,7 +40,9 @@
 2.vue 版本限制到2.5.13, vue 2.5.15 会让render返回空
 
 ###  Feature Request
-1.表格列拖动切换
+1.dTable表格列拖动切换 <br />
+2.dTable多级表头 <br />
+都是抽空做，没有具体完成时间
 
 ### Install
 npm install iviewxx<br />
