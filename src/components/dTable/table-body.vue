@@ -1,5 +1,5 @@
 <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
+    <table cellspacing="0" cellpadding="0" border="0" :style="styleObject" class="ive-table-body">
         <colgroup>
             <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
         </colgroup>
@@ -9,77 +9,73 @@
                      <tr 
                         :key="row._index"
                         v-show="displayValue[row._index]"
-                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '',row._heighLight ? 'ivu-table-row-highlight' : '']"
+                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
                         @mouseenter.stop="handleMouseIn(row._index)"
                         @mouseleave.stop="handleMouseOut(row._index)"
-                        @click.stop="clickCurrentRow(row._index,row.nodeIndex)"
-                        @dblclick.stop="dblclickCurrentRow(row._index,row.nodeIndex)">
-                      
-    
+                        @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
+                        @dblclick.stop="dblclickCurrentRow(row._index, row.nodeIndex)">
                        <template v-for="(column,n) in colPos[index]"  >
-                         
                             <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                 <Cell
-                                  :fixed="fixed"
-                                  :prefix-cls="prefixCls"
-                                  :row="row"
-                                  :column="column"
-                                  :natural-index="index"
-                                  :index="row._index"
-                                  :checked="rowChecked(row._index)"
-                                  :disabled="rowDisabled(row._index)"
-                                  :iconStatus="iconPos[row._index]"
-                                  :expanded="rowExpanded(row._index)"
-                                  :rs="column.rowSpan"
+                                    :fixed="fixed"
+                                    :prefix-cls="prefixCls"
+                                    :row="row"
+                                    :column="column"
+                                    :natural-index="index"
+                                    :index="row._index"
+                                    :checked="rowChecked(row._index)"
+                                    :disabled="rowDisabled(row._index)"
+                                    :iconStatus="iconPos[row._index]"
+                                    :expanded="rowExpanded(row._index)"
+                                    :rs="column.rowSpan"
                                   >
                                 </Cell>
                             </td>
                             <td :class="alignCls(column, row)" v-if="column.rowSpan && column.colSpan" :rowSpan="column.rowSpan"  :colSpan="column.colSpan"  >
                                 <Cell
-                                  :fixed="fixed"
-                                  :prefix-cls="prefixCls"
-                                  :row="row"
-                                  :column="column"
-                                  :natural-index="index"
-                                  :index="row._index"
-                                  :checked="rowChecked(row._index)"
-                                  :disabled="rowDisabled(row._index)"
-                                  :iconStatus="iconPos[row._index]"
-                                  :expanded="rowExpanded(row._index)"
-                                  :rs="column.rowSpan"
-                                  :cs="column.colSpan"
+                                    :fixed="fixed"
+                                    :prefix-cls="prefixCls"
+                                    :row="row"
+                                    :column="column"
+                                    :natural-index="index"
+                                    :index="row._index"
+                                    :checked="rowChecked(row._index)"
+                                    :disabled="rowDisabled(row._index)"
+                                    :iconStatus="iconPos[row._index]"
+                                    :expanded="rowExpanded(row._index)"
+                                    :rs="column.rowSpan"
+                                    :cs="column.colSpan"
                                   >
                                 </Cell>
                             </td>
                             <td :class="alignCls(column, row)" v-if="!column.rowSpan && column.colSpan" :colSpan="column.colSpan"   >
                                 <Cell
-                                  :fixed="fixed"
-                                  :prefix-cls="prefixCls"
-                                  :row="row"
-                                  :column="column"
-                                  :natural-index="index"
-                                  :index="row._index"
-                                  :checked="rowChecked(row._index)"
-                                  :disabled="rowDisabled(row._index)"
-                                  :iconStatus="iconPos[row._index]"
-                                  :expanded="rowExpanded(row._index)"
-                                   :cs="column.colSpan"
+                                    :fixed="fixed"
+                                    :prefix-cls="prefixCls"
+                                    :row="row"
+                                    :column="column"
+                                    :natural-index="index"
+                                    :index="row._index"
+                                    :checked="rowChecked(row._index)"
+                                    :disabled="rowDisabled(row._index)"
+                                    :iconStatus="iconPos[row._index]"
+                                    :expanded="rowExpanded(row._index)"
+                                    :cs="column.colSpan"
                                   >
                                 </Cell>
                             </td>
-                            <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >
-                                     
+                            <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >      
                                 <Cell
-                                   :fixed="fixed"
-                                   :prefix-cls="prefixCls"
-                                   :row="row"
-                                   :column="column"
-                                   :natural-index="index"
-                                   :index="row._index"
-                                   :checked="rowChecked(row._index)"
-                                   :disabled="rowDisabled(row._index)"
-                                   :iconStatus="iconPos[row._index]"
-                                   :expanded="rowExpanded(row._index)"
+                                    :fixed="fixed"
+                                    :prefix-cls="prefixCls"
+                                    :row="row"
+                                    :column="column"
+                                    :natural-index="index"
+                                    :index="row._index"
+                                    :checked="rowChecked(row._index)"
+                                    :disabled="rowDisabled(row._index)"
+                                    :iconStatus="iconPos[row._index]"
+                                    :expanded="rowExpanded(row._index)"
                                    >
                                  </Cell>
                             </td>
@@ -90,10 +86,9 @@
                
                 </template>
                 <template v-else>
-
                     <tr 
                      :key="row._index"
-                     :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index),row._heighLight ? 'ivu-table-row-heighlight' : '']"
+                     :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index),row._isHighlight ? 'ivu-table-row-heighlight' : '']"
                      v-show="displayValue[row._index]"
                      @mouseenter.stop="handleMouseIn(row._index)"
                      @mouseleave.stop="handleMouseOut(row._index)"
@@ -172,21 +167,17 @@
                     </tr>
               
                 </template>
-
                 <tr v-if="rowExpanded(row._index)">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
                         <Expand :key="row._rowKey" :row="row" :render="expandRender" :index="row._index"></Expand>
                     </td>
                 </tr>
-                
-                <!-- -->
             </template>
          
         </tbody>
     </table>
 </template>
 <script>
-    // todo :key="row"
     import Cell from './cell.vue';
     import Mixin from './mixin';
     import Expand from './expand.js';
@@ -198,11 +189,10 @@
         data (){
             return {
                status:store.state.status,
-              
+               iconPos: [],
                colPos:this.makeColPos(),
                dataIndexPos:[],
                displayValue:this.makeDisplayValue()[0]
-
             }
         },
         props: {
@@ -231,9 +221,6 @@
                 }
                 return render;
             },
-            iconPos () {
-              return this.makeDisplayValue()[1]
-            }
            
         },
         watch:{
@@ -241,19 +228,18 @@
             if(n != o){
               this.status = store.state.status;
               this.$nextTick(function(){
-                  this.colPos = this.makeColPos()
-                  this.displayValue = this.makeDisplayValue()[0]
-                  this.compile()
-
+                  this.colPos = this.makeColPos();
+                  this.displayValue = this.makeDisplayValue()[0];
+                  this.compile();
+                  this.iconPos = this.makeDisplayValue()[1];
               })
-            
             }
           }
         },
         methods: {
             makeColPos (){
-                let v = this,
-                    pos = new Array();
+                let v = this;
+                let pos = new Array();
                 for(let i = 0; i< v.data.length; i++){
                     pos.push(this.makeNewColumn(v.columns));
                 }
@@ -263,43 +249,34 @@
                 return this.objData[_index] && this.objData[_index]._isExpanded;
             },
             makeNewColumn (columns){
-                   let pos = [];
-                    columns.forEach((n,i) =>{
+                let pos = [];
+                columns.forEach((n,i) =>{
                     let m =  Object.assign(Object.create(null),n);
                     pos.push(m);
-                   })
-                   return pos;
+                })
+                return pos;
             },
-            compile (){
-                this.columns.forEach((column,i) =>{
-               
-                    if (column.render && column.combine == true) {
-
-                     
-                      
+            compile () {
+                this.columns.forEach((column,i) => {         
+                    if (column.render && column.combine == true) {     
                         this.data.forEach((item,n) =>{
                             var obj = {
                               row:item,
                               column:this.columns,
                               index:n
                             }
-
-                          
                             const template = column.render(Expand.render, obj);
-                            if(typeof template == "object" && template.props.colSpan && !template.props.rowSpan){
+                            if(typeof template === "object" && template.props.colSpan && !template.props.rowSpan){
                                 this.makeColSpan(n,i,template.props.colSpan);
-                            }else if(typeof template == "object" && template.props.rowSpan && !template.props.colSpan){
+                            }else if(typeof template === "object" && template.props.rowSpan && !template.props.colSpan){
                                 this.makeRowSpan(n,i,template.props.rowSpan);
-                            }else if(typeof template == "object" && template.props.rowSpan && template.props.colSpan){
+                            }else if(typeof template === "object" && template.props.rowSpan && template.props.colSpan){
                                 this.makeColAndRow(n,i,template.props.rowSpan,template.props.colSpan);
                             }
-                      
                             return template.childrens;
                         });
-                    
                     }
-                });
-                
+                });   
             },
             makeColSpan(dataIndex,colIndex,colSpan,rowSpan){//需要合并的tr,第几个td,输入的合并格数
                 let colSpanNum = 0;//实际合并多少格
@@ -406,19 +383,18 @@
                 this.$parent.handleMouseOut(_index);
             },
             clickCurrentRow (_index,nodeIndex) {
-              this.$parent.clickCurrentRow(_index);
+                this.$parent.clickCurrentRow(_index);
             },
             dblclickCurrentRow (_index,nodeIndex) {
                 this.$parent.dblclickCurrentRow(_index);
-            },showRelated (grid,sIndex){//实际上是改变status..[grid,sIndex]组ID，节点索引
+            },
+            showRelated (grid,sIndex) { //实际上是改变status..[grid,sIndex]组ID，节点索引
                 let status = store.state.status;
                 if(status[grid][sIndex][1]){
                     status[grid][sIndex][1] = false;
                 }else{
                     status[grid][sIndex][1] = true;
                 }
-                
-
                 store.commit('status',status);
                 this.displayValue = this.makeDisplayValue()[0];
                 this.iconPos = this.makeDisplayValue()[1]

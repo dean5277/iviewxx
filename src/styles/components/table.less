@@ -366,9 +366,17 @@
             }
         }
     }
-
-    &-expanded-hidden{
+    &-expanded-hidden {
         visibility: hidden;
+    }
+    &-column-resize-proxy {
+        position: absolute;
+        left: 200px;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        border-left: 1px solid #ebeef5;
+        z-index: 10;
     }
 }
 .tableGrayBg td{background-color: #f5f5f5;}

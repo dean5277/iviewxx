@@ -1,14 +1,16 @@
 <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="styles">
         <colgroup>
-            <col v-for="(column, index) in columns" :width="setCellWidth(column, index, true)">
+            <col v-for="(column, index) in columns" :v="index" :t="column._width" :class="column._id" :width="setCellWidth(column, index, true)">
         </colgroup>
         <thead>
             <tr>
                 <th 
                     v-for="(column, index) in columns" 
                     :class="alignCls(column)"
-                    @mouseenter="handleMouseenter"
+                    @mouseover="handleMouseenter($event, column, index)"
+                    @mousedown="handleMousedown($event, column, index)"
+                    @mouseout="handleMouseOut"
                 >
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'childSection'">
@@ -66,7 +68,7 @@
     import iButton from '../button/button.vue';
     import Mixin from './mixin';
     import Locale from '../../mixins/locale';
-
+    import { hasClass, addClass, removeClass } from '../../utils/assist'
     export default {
         name: 'TableHead',
         mixins: [ Mixin, Locale ],
@@ -76,6 +78,7 @@
             styleObject: Object,
             columns: Array,
             objData: Object,
+            border: Boolean,
             data: Array,    // rebuildData
             columnsWidth: Object,
             fixed: {
@@ -83,8 +86,12 @@
                 default: false
             }
         },
-        created (){
-
+        data () {
+            return {
+                draggingColumn: null,
+                dragging: false,
+                dragState: {}
+            }
         },
         computed: {
             styles () {
@@ -108,8 +115,129 @@
             }
         },
         methods: {
-            handleMouseenter (){
-                console.log(666)
+            handleMouseenter (event, column, index) {
+                if (this.$isServer) return;
+                if (index === this.columns.length - 1) return;
+                let target = event.target;
+                while (target && target.tagName !== 'TH') {
+                    target = target.parentNode;
+                }
+                if (!column || !column._resizable) return;
+                if (!this.dragging && this.border) {
+                    let rect = target.getBoundingClientRect();
+                    const bodyStyle = document.body.style;
+                    if (rect.width > 12 && rect.right - event.pageX < 8) {
+                      bodyStyle.cursor = 'col-resize';
+                      if (hasClass(target, 'is-sortable')) {
+                        target.style.cursor = 'col-resize';
+                      }
+                      this.draggingColumn = column;
+                    } else if (!this.dragging) {
+                      bodyStyle.cursor = '';
+                      if (hasClass(target, 'is-sortable')) {
+                        target.style.cursor = 'pointer';
+                      }
+                      this.draggingColumn = null;
+                    }
+                }
+            },
+            handleMouseOut() {
+              if (this.$isServer) return;
+              document.body.style.cursor = '';
+            },
+            handleMousedown (event, column, index) {
+                if (this.$isServer) return;
+                if (index === this.columns.length - 1) return;
+                if (column.children && column.children.length > 0) return;
+                if (this.draggingColumn && this.border) {
+                    this.dragging = true;
+                    this.$parent.resizeProxyVisible = true;
+                    const table = this.$parent;
+                    const tableEl = table.$el;
+                    const tableLeft = tableEl.getBoundingClientRect().left;
+                    const columnEl = this.$el.querySelector(`th.${column._id}`);
+                    const columnRect = columnEl.getBoundingClientRect();
+                    const minLeft = columnRect.left - tableLeft + 30;            
+                    addClass(columnEl, 'noclick');
+                    this.dragState = {
+                        startMouseLeft: event.clientX,
+                        startLeft: columnRect.right - tableLeft,
+                        startColumnLeft: columnRect.left - tableLeft,
+                        tableLeft
+                    };
+
+                    const resizeProxy = table.$refs.resizeProxy;
+                    resizeProxy.style.left = this.dragState.startLeft + 'px';
+
+                    document.onselectstart = function() { return false; };
+                    document.ondragstart = function() { return false; };
+
+                    const handleMouseMove = (event) => {
+                        const deltaLeft = event.clientX - this.dragState.startMouseLeft;
+                        const proxyLeft = this.dragState.startLeft + deltaLeft;
+                        resizeProxy.style.left = Math.max(minLeft, proxyLeft) + 'px';
+                    };
+
+                    const handleMouseUp = () => {
+                        if (this.dragging) {
+                            const {
+                               startColumnLeft,
+                               startLeft
+                            } = this.dragState;
+                            const finalLeft = parseInt(resizeProxy.style.left, 10);
+                            const columnWidth = finalLeft - startColumnLeft;
+                            column.width = column.realWidth = columnWidth;
+                            column._width = column.realWidth = columnWidth;
+                            table.$emit('header-dragend', column.width, startLeft - startColumnLeft, column, event);
+                            this.scheduleLayout(index);
+                            document.body.style.cursor = '';
+                            this.dragging = false;
+                            this.draggingColumn = null;
+                            this.dragState = {};
+                            table.resizeProxyVisible = false;
+                        }
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                        document.onselectstart = null;
+                        document.ondragstart = null;
+
+                        setTimeout(function() {
+                            removeClass(columnEl, 'noclick');
+                        }, 0);
+                    };
+
+                    document.addEventListener('mousemove', handleMouseMove);
+                    document.addEventListener('mouseup', handleMouseUp);
+                  }
+            },
+            scheduleLayout (index) {
+                const table = this.$parent;
+                const len = table.columns.length;
+                const oldWidth = this.columnsWidth[index].width;
+                const newWidth = this.columns[index].width;
+                let fixedColumns = [];
+                for (let i = 0; i < len; i++ ){
+                    let ev = table.columns[i];
+                   // this.$set(this.columns[i], 'width', this.columnsWidth[i].width)
+                    if (ev.hasOwnProperty('fixed')) {
+                        fixedColumns.push(i);
+                    }
+                }
+                if (index < len - 1) {
+                    if (oldWidth < newWidth) {
+                        this.columns[index + 1].width = this.columnsWidth[index + 1].width - (newWidth - oldWidth);
+                    } else {
+                        this.columns[index + 1].width = this.columnsWidth[index + 1].width + (oldWidth - newWidth);
+                    } 
+                } else if(index === len - 1) {
+                    if (oldWidth < newWidth) {
+                        this.columns[index - 1].width = this.columnsWidth[index - 1].width - (newWidth - oldWidth);
+                    } else {
+                        this.columns[index - 1].width = this.columnsWidth[index - 1].width + (oldWidth - newWidth);
+                    } 
+                }
+               
+                this.$emit('asyncColumns', this.columns, fixedColumns);
             },
             cellClasses (column) {
                 return [

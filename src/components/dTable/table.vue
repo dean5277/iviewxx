@@ -9,7 +9,9 @@
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :obj-data="objData"
+                    :border = "this.border"           
                     :columns-width="columnsWidth"
+                    @asyncColumns="asyncColumns"
                     :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body" @scroll="handleBodyScroll"
@@ -83,6 +85,7 @@
             </div>
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
+        <div :class="[prefixCls + '-column-resize-proxy']" ref="resizeProxy" v-show="resizeProxyVisible"></div>
     </div>
 </template>
 <script>
@@ -97,7 +100,7 @@
     const prefixCls = 'ivu-table';
     let rowKey = 1;
     let columnKey = 1;
-
+   
     export default {
         name: 'Table',
         mixins: [ Locale ],
@@ -162,7 +165,9 @@
             }
         },
         data () {
+          /*  const thisStore = new TableStore(this, {});*/
             return {
+               /* thisStore,*/
                 ready: false,
                 tableWidth: 0,
                 columnsWidth: {},
@@ -177,7 +182,12 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data)    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                resizeProxyVisible: false,
+                resizeState: {
+                  width: null,
+                  height: null
+                }
             };
         },
         computed: {
@@ -377,25 +387,21 @@
             },
             highlightCurrentRow (_index) {
                 if (!this.highlightRow || this.objData[_index]._isHighlight) return;
-
                 let oldIndex = -1;
                 for (let i in this.objData) {
                     if (this.objData[i]._isHighlight) {
                         oldIndex = parseInt(i);
+                        this.rebuildData[i]._isHighlight = false;
                         this.objData[i]._isHighlight = false;
                     }
                 }
                 this.objData[_index]._isHighlight = true;
-               
-                const oldData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.rebuildData[oldIndex]));
-                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.rebuildData[_index])), oldData);
+                const objData = oldIndex < 0 ? null : JSON.parse(JSON.stringify(this.rebuildData[oldIndex]));
+                this.$emit('on-current-change', JSON.parse(JSON.stringify(this.rebuildData[_index])), objData);
             },
             clickCurrentRow (_index,nodeIndex) {
                 this.highlightCurrentRow (_index);
-            
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.rebuildData[_index])), _index);    
-               
-               
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.rebuildData[_index])), _index);      
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
@@ -410,16 +416,13 @@
             },
             toggleSelect (_index) {
                 let data = {};
-
                 for (let i in this.objData) {
                     if (parseInt(i) === _index) {
                         data = this.objData[i];
                     }
                 }
                 const status = !data._isChecked;
-
                 this.objData[_index]._isChecked = status;
-
                 const selection = this.getSelection();
                 this.$emit(status ? 'on-select' : 'on-select-cancel', selection, JSON.parse(JSON.stringify(this.data[_index])));
                 this.$emit('on-selection-change', selection);
@@ -587,47 +590,42 @@
                 let fn = ((data) =>{
                     return function(row, i){
                         t++;
-                        status[i] = [];//创建每个grid组的数组
-                        row.nodeIndex = 1;//层级
-                        status[i][0] = [-1,row.stretch];//组元素赋值，第一个参数是上级在组中的索引
-                        row.sIndex = 0;//组中索引
+                        status[i] = []; //创建每个grid组的数组
+                        row.nodeIndex = 1; //层级
+                        status[i][0] = [-1,row.stretch]; //组元素赋值，第一个参数是上级在组中的索引
+                        row.sIndex = 0; //组中索引
                         row.grid = i;
                         row._rowKey = rowKey++;
                         if(!row.children){
-                           row._index = t;//索引
+                           row._index = t; //索引
                            dataArr.push(row);
                         }else{
                             row._index = t;
                             row.hasChild = true;
                             dataArr.push(row);
                             if(row.stretch){
-                                checkChildren(row.children,row._index, true,1,i,row.children.length);
+                                checkChildren(row.children,row._index, true, 1, i, row.children.length);
                             }else{
-                                checkChildren(row.children,row._index, false,1,i,row.children.length);
+                                checkChildren(row.children,row._index, false, 1, i, row.children.length);
                             }
                            
                         }
-                      
-                       
                         return row;
                     }
                 });
-                data.forEach(fn(data));
-                
-                function checkChildren(cd,pid,display,nodeIndex,grid,rcl){   
-                    cd.forEach((n,i) =>{
+                data.forEach(fn(data));       
+                function checkChildren(cd, pid, display, nodeIndex, grid, rcl){   
+                    cd.forEach((n,i) => {
                         t++;
                         n._index = t;
                         n.pid = pid;//所属父级ID
                         dataArr.push(n);
                         n.sIndex = status[grid].length;
                         n.grid = grid;
-                        status[grid].splice(status[grid].length,0,[pid,n.stretch]);//插入数组
-                 
+                        status[grid].splice(status[grid].length,0,[pid,n.stretch]); //插入数组
                         n.nodeIndex = nodeIndex + 1;
                         if(n.children){
-                            n.hasChild = true;
-                            
+                            n.hasChild = true;   
                             if(n.stretch){
                                 checkChildren(n.children,n._index, true,nodeIndex + 1,i); 
                             }else{
@@ -647,7 +645,6 @@
                 let sortType = 'normal';
                 let sortIndex = -1;
                 let isCustom = false;
-
                 for (let i = 0; i < this.cloneColumns.length; i++) {
                     if (this.cloneColumns[i]._sortType !== 'normal') {
                         sortType = this.cloneColumns[i]._sortType;
@@ -656,8 +653,7 @@
                         break;
                     }
                 }
-                if (sortType !== 'normal' && !isCustom) data =  this.sortData(data, sortType, sortIndex);
-
+                if (sortType !== 'normal' && !isCustom) data = this.sortData(data, sortType, sortIndex);
                 return data;
             },
             makeDataWithFilter () {
@@ -685,11 +681,11 @@
                     } else {
                         newRow._isChecked = false;
                     }
-                    if (newRow._highlight) {
-                        newRow._isHighlight = newRow._highlight;
+   /*                 if (newRow._highLight) {
+                        newRow._isHighlight = newRow._highLight;
                     } else {
                         newRow._isHighlight = false;
-                    }
+                    }*/
                     data[index] = newRow;
                 });
                 return data;
@@ -709,17 +705,20 @@
                     } else {
                         newRow._isChecked = false;
                     }
-                    if (newRow._highlight) {
-                        newRow._isHighlight = newRow._highlight;
+                  /*  if (newRow._highLight) {
+                        newRow._isHighlight = newRow._highLight;
                     } else {
                         newRow._isHighlight = false;
-                    }
+                    }*/
                     data[index] = newRow;
                 });
                 return data;
             },
-            makeColumns () {
-                let columns = deepCopy(this.columns);
+            makeColumns (columns) {
+                if(!columns){
+                    var columns = deepCopy(this.columns);
+                }
+               
                 let left = [];
                 let right = [];
                 let center = [];
@@ -731,7 +730,8 @@
                     column._filterVisible = false;
                     column._isFiltered = false;
                     column._filterChecked = [];
-
+                    column._resizable = true;
+                    column._id = 'column_' + index;
                     if ('filterMultiple' in column) {
                         column._filterMultiple = column.filterMultiple;
                     } else {
@@ -756,9 +756,6 @@
                 });
                 return left.concat(center).concat(right);
             },
-           
-
-
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
@@ -784,7 +781,8 @@
 
                 const data = Csv(columns, datas, ',', noHeader);
                 ExportCsv.download(params.filename, data);
-            },toggleExpand (_index) { 
+            },
+            toggleExpand (_index) { 
                 let data = {};
 
                 for (let i in this.objData) {
@@ -796,12 +794,22 @@
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
             },
+            asyncColumns (obj, asyncColumns){
+                if (asyncColumns.length === 0) {
+                    this.cloneColumns = this.makeColumns(obj);
+                }else{
+                    this.cloneColumns = this.makeColumns(obj);
+                    this.handleResize();
+                }
+                
+            }
         },
         created () {
             if (!this.context) this.currentContext = this.$parent;
             this.showSlotHeader = this.$slots.header !== undefined;
             this.showSlotFooter = this.$slots.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();
+           // this.debouncedUpdateLayout = debounce(50, () => this.doLayout());
         },
         mounted () {
             this.handleResize();

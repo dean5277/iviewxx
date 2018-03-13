@@ -1,5 +1,5 @@
 # iviewxx
-**已经兼容了 iview 2.10.0 Reigns** <br />
+**已经兼容了 iview 2.10.0 Reigns， dTable支持拖动表头**  <br />
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
@@ -35,13 +35,17 @@
 1.兼容iview 2.10.0 Reigns <br />
 2.修复组件Input tags 输入空时的BUG
 
+2018/03/13<br />
+1.dTable 支持拖动表头 <br />
+2.vue 版本限制到2.5.13, vue 2.5.15 会让render返回空
+
 ###  Feature Request
-1.表格拖动,得空写。
+1.表格列拖动切换
 
 ### Install
 npm install iviewxx<br />
 
-目前版本1.5
+目前版本1.6.1
 
 ## Usage
 es6<br />

@@ -6,7 +6,8 @@ export default {
                 cellClassName = row.cellClassName[column.key];
             }
             return [
-                {
+                    `${column._id}`,
+                {   
                     [`${cellClassName}`]: cellClassName,    // cell className
                     [`${column.className}`]: column.className,    // column className
                     [`${this.prefixCls}-column-${column.align}`]: column.align,

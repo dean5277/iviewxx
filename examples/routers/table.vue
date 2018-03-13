@@ -36,7 +36,6 @@
                         fixed:"right",
                         render:(h,params)=>{
                             let placement = "bottom";
-                            console.log(params.index)
                             if(self.data1 && self.data1.length > 0 && params.index == self.data1.length - 1 ){
                                 console.log('6666666');
                                 placement = "top";
