@@ -1,16 +1,29 @@
 <template>
 	<div>
-		<Row>
-	      <Col span="12" style="padding-right:10px">
-					<treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
-				</Col>
-		</Row>
+		<sliderModal v-model="showModal"  >
+			<Row>
+		      <Col span="12" style="padding-right:10px">
+						<treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
+
+					</Col>
+					<Col span="12" style="padding-right:10px">
+		        <Select v-model="model11" filterable multiple>
+		            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+		        </Select>
+	        </Col>
+			</Row>
+		</sliderModal>
 	</div>
 </template>
 <script>
+	import Vue from 'vue'
+	import SliderModal from 'slider-modal'
+	Vue.use(SliderModal)
+	import '../../node_modules/slider-modal/dist/styles/slider-modal.css'
 	export default {
 		data (){
 			return {
+				showModal:true,
 				data:[],
 				treeData: [
 					{
@@ -18,7 +31,34 @@
 						expand:true,
 						children:[]
 					}
-				]
+				],
+				cityList: [
+                    {
+                        value: '122',
+                        label: '1'
+                    },
+                    {
+                        value: '12',
+                        label: '1'
+                    },
+                    {
+                        value: '13',
+                        label: '1'
+                    },
+                    {
+                        value: '144',
+                        label: '1'
+                    },
+                    {
+                        value: 'Paris',
+                        label: '1'
+                    },
+                    {
+                        value: 'Canberra',
+                        label: '1'
+                    }
+                ],
+                model11: []
 			}
 		},
 		methods:{

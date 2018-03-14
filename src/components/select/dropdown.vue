@@ -40,6 +40,8 @@
                     });
                 } else {
                     this.$nextTick(() => {
+                        console.log(this.$parent.$refs.reference);
+                        console.log(this.$el)
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
                             gpuAcceleration: false,
                             placement: this.placement,

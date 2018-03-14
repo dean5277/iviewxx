@@ -36,8 +36,12 @@
 2.修复组件Input tags 输入空时的BUG
 
 2018/03/13<br />
-1.dTable 支持拖动表头 <br />
+1.dTable 支持拖动表头大小 <br />
 2.vue 版本限制到2.5.13, vue 2.5.15 会让render返回空
+
+2018/03/14<br />
+1.修复 treeSelect 在Modal下触发宽度不正确的问题 <br />
+
 
 ###  Feature Request
 1.dTable表格列拖动切换 <br />
@@ -47,7 +51,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.6.1
+目前版本1.6.6
 
 ## Usage
 es6<br />
