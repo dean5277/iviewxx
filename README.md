@@ -36,7 +36,7 @@
 2.修复组件Input tags 输入空时的BUG
 
 2018/03/13<br />
-1.dTable 支持拖动表头 <br />
+1.dTable 支持拖动表头大小 <br />
 2.vue 版本限制到2.5.13, vue 2.5.15 会让render返回空
 
 ###  Feature Request
