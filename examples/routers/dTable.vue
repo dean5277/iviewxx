@@ -1,125 +1,231 @@
 <template>
     <div>
-        <dTable border ref="selection" buttons :columns="columns4" :data="data1"></dTable>
+        <div style="margin-top:10px">
+            <dTable highlight-row border :context="self" :columns="columns8" :data="data7"></dTable>
+        </div>
     </div>
 </template>
 <script>
+    import abc from '../components/test.vue';
     export default {
+        components: { abc },
         data () {
-            var self = this;
             return {
-                columns4: [
+                self: this,
+                data7: [],
+              
+                columns8:[
                     {
                         type: 'selection',
-                        width: 60,
+                        width: 70,
                         align: 'center'
+                       
                     },
                     {
-                        title: 'Name',
-                        key: 'name'
+                        type: 'switch',
+                        title: '订单号',
+                        key: 'orderNum',
+                        width:250
+                        
+                        
                     },
                     {
-                        title: 'Age',
-                        key: 'age'
-                    },
-                    {
-                        title: 'Address',
-                        key: 'address'
-                    },
-                    {
-                        title:"操作",
-                        key:"operate",
+                        title: '买家',
+                        key: 'buyer',
+                        combine:true,
                         render:(h,params)=>{
-                            let placement = "bottom";
-                            if(self.data1 && self.data1.length > 0 && params.index == self.data1.length - 1 ){
-                                console.log('6666666');
-                                placement = "top";
+                       
+                            const obj = {
+                              childrens:[["div",{class:"combiePackageCode"},321],['div',{class:"combineShipping"},'123 > 321'],['span',{class:"icon iconfont icon-dayin prinTime"},'']],
+                              props: {
+                              },
+                            };
+                            if (params.index === 1) {
+                                 obj.props.colSpan = 3;
+                              
                             }
-                           return h('div', [
-                                h('Buttons',{
-                                    props:{
-                                        trigger:"click",
-                                        placement:placement
-                                    },
-                                    class:"defaultStyle",
-                                    on:{
-                                        "on-click":(value)=>{
-                                            if(value == "1"){
-                                                
-                                            }
-                                            //console.log(value)
-                                            //self.show();
-                                        }
-                                    }
-                                },[
-                                    h('Button',{
-                                        type:"default",
-                                        class:"iconbuttons",
-                                        on:{
-                                            click:()=>{
-                                              
-                                            }
-                                        }
-                                    },[
-                                        h('Icon',{
-                                            props:{
-                                                type:"printer"
-                                            },
-                                            style:{
-                                                marginRight:"5px"
-                                            }
-                                            
-                                        }),
-
-                                        h('span',"dd")
-                                    ]),
-
-                                    h('Buttons-menu',{
-                                        slot:"list"
-                                        
-                                    },[
-                                        h('Buttons-item',{
-                                            props:{
-                                                name:"1"
-                                            },
-                                           
-                                        },"ddfdsd")
-                                        
-                                    ])
-                                ])
-                                    
-                            ]); 
+                           // console.log(obj)
+                            return obj;
                         }
-                    }
-                ],
-                data1: [
-                    {
-                        name: 'John Brown',
-                        age: 18,
-                        address: 'New York No. 1 Lake Park',
-                        date: '2016-10-03'
                     },
                     {
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'London No. 1 Lake Park',
-                        date: '2016-10-01'
+                        title: '国家',
+                        key: 'country',
+                        combine:true,
+                        width: 200,
+                        render : (h,params) =>{
+                            const obj = {
+                              childrens:  params.row.country,
+                              props: {},
+                            };
+                            if (params.index === 3) {
+                              obj.props.rowSpan = 2;
+                            }
+                            // These two are merged into above cell
+                            if (params.index === 8) {
+                              obj.props.rowSpan = 2;
+                            }
+                           /* if (params.index === 7) {
+                              obj.props.colSpan = 4;
+                            }*/
+                            return obj;
+                         
+                        }
                     },
                     {
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park',
-                        date: '2016-10-02'
+                        title: '付款',
+                        key: 'pay'
                     },
                     {
-                        name: 'Jon Snow',
-                        age: 26,
-                        address: 'Ottawa No. 2 Lake Park',
-                        date: '2016-10-04'
+                        title: '状态',
+                        key: 'status'
+                    },
+                    {
+                        title: '标记',
+                        key: 'action',
+                        width: 180,
+                        align: 'center',
+                        render (h,params) {
+                           return h('Button',{
+                           },"编辑")
+                        }
                     }
                 ]
             }
+        },
+        methods: {
+            remove (index) {
+                this.data6.splice(index, 1);
+            },
+            show:function (){
+                this.modal9 = true;
+            }
+        },
+        mounted (){
+            var self = this;
+            setTimeout(function(){
+                self.$nextTick(function(){
+                    this.data7 =  [
+                        {
+                            orderNum:"54465456456",
+                            buyer:"大王0",
+                            country:"中国122",
+                            pay:"支付宝",
+                            status:"未处理",
+                            _heighLight:true,
+                     
+                            stretch:true,//是否显示子菜单
+                            children:[
+                                {
+                                    orderNum:"324234",
+                                    buyer:"大王00",
+                                    country:"中国2",
+                                    pay:"支付宝",
+                                    status:"未处理",
+                                    indentSize:15,//自定义的间距
+                                    stretch:false,
+                                    children:[
+                                        {
+                                            orderNum:"123123",
+                                            buyer:"大王000",
+                                            country:"中国3",
+                                            pay:"支付宝",
+                                            status:"未处理",
+                                            indentSize:30,
+                                            stretch:false,
+                                            
+                                        }
+                                    ]
+                                },
+                                {
+                                    orderNum:"gggg666",
+                                    buyer:"大王01",
+                                    country:"中国4",
+                                    pay:"支付宝",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false
+                                },
+                                {
+                                    orderNum:"43",
+                                    buyer:"大王02",
+                                    country:"中国1",
+                                    pay:"支付宝1",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false
+                                },
+                                {
+                                    orderNum:"43",
+                                    buyer:"大王03",
+                                    country:"中国",
+                                    pay:"支付宝",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false
+                                },
+                                {
+                                    orderNum:"956599555",
+                                    buyer:"大王04",
+                                    country:"中国1",
+                                    pay:"支付宝1",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false
+                                },
+                                {
+                                    orderNum:"5656",
+                                    buyer:"大王05",
+                                    country:"中国",
+                                    pay:"支付宝",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false
+                                },
+                                {
+                                    orderNum:"656556",
+                                    buyer:"大王06",
+                                    country:"中国1",
+                                    pay:"支付宝1",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false
+                                }
+                            ]
+                        },
+                        {
+                            orderNum:"1156456",
+                            buyer:"大王1",
+                            country:"中国",
+                            pay:"支付宝",
+                            status:"未处理",
+                            stretch:false
+                        },
+                        {
+                            orderNum:"456456456",
+                            buyer:"大王2",
+                            country:"中国",
+                            pay:"支付宝",
+                            status:"未处理",
+                            stretch:false,
+                            children:[
+                                {
+                                    orderNum:"222",
+                                    buyer:"大王20",
+                                    country:"中国",
+                                    pay:"支付宝",
+                                    status:"未处理",
+                                    indentSize:15,
+                                    stretch:false,
+                                    
+                                }
+                            ]
+                        }
+                    ];
+                     console.log(self.data7)
+                })
+                 
+            },1000)
         }
-
     }
 </script>
