@@ -1,5 +1,9 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div
+        tabindex="0"
+        @keydown.down="handleFocus"
+        :class="classes"
+        v-clickoutside="handleClose">
         <div
             :class="selectionCls"
             ref="reference"
@@ -31,7 +35,7 @@
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
             </slot>
         </div>
-        <transition :name="transitionName">
+        <transition name="transition-drop">
             <Drop
                 :class="dropdownCls"
                 v-show="dropVisible"
@@ -40,9 +44,7 @@
                 :data-transfer="transfer"
                 v-transfer-dom>
                 <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']">
-                    <slot></slot>
-                </ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
                 <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
         </transition>
@@ -262,6 +264,10 @@
             }
         },
         methods: {
+            // open when focus on Select and press `down` key
+            handleFocus () {
+                if (!this.visible) this.toggleMenu();
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;

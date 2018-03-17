@@ -5,7 +5,7 @@
     import Vue from 'vue';
     const isServer = Vue.prototype.$isServer;
     import { getStyle } from '../../utils/assist';
-    const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
+    const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js');  // eslint-disable-line
 
     export default {
         name: 'Drop',
@@ -40,17 +40,20 @@
                     });
                 } else {
                     this.$nextTick(() => {
-                        console.log(this.$parent.$refs.reference);
-                        console.log(this.$el)
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
-                            gpuAcceleration: false,
                             placement: this.placement,
-                            boundariesPadding: 0,
-                            forceAbsolute: true,
-                            boundariesElement: 'body'
-                        });
-                        this.popper.onCreate(popper => {
-                            this.resetTransformOrigin(popper);
+                            modifiers: {
+                                computeStyle:{
+                                    gpuAcceleration: false,
+                                }
+                            },
+                            onCreate:()=>{
+                                this.resetTransformOrigin();
+                                this.$nextTick(this.popper.update());
+                            },
+                            onUpdate:()=>{
+                                this.resetTransformOrigin();
+                            }
                         });
                     });
                 }
@@ -61,7 +64,6 @@
             },
             destroy () {
                 if (this.popper) {
-                    this.resetTransformOrigin(this.popper);
                     setTimeout(() => {
                         if (this.popper) {
                             this.popper.destroy();
@@ -70,11 +72,9 @@
                     }, 300);
                 }
             },
-            resetTransformOrigin(popper) {
-                let placementMap = {top: 'bottom', bottom: 'top'};
-                let placement = popper._popper.getAttribute('x-placement').split('-')[0];
-                let origin = placementMap[placement];
-                popper._popper.style.transformOrigin = `center ${ origin }`;
+            resetTransformOrigin() {
+                let placement = this.popper.popper.getAttribute('x-placement').split('-')[0];
+                this.popper.popper.style.transformOrigin = placement==='bottom'?'center top':'center bottom';
             }
         },
         created () {

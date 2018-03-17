@@ -1,38 +1,31 @@
 <template>
-	<div>
-		<sliderModal v-model="showModal"  >
-			<Row>
-		      <Col span="12" style="padding-right:10px">
-						<treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
+  <div>
+      <Row>
+          <Col span="12" style="padding-right:10px">
+            <treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
 
-					</Col>
-					<Col span="12" style="padding-right:10px">
-		        <Select v-model="model11" filterable multiple>
-		            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-		        </Select>
-	        </Col>
-			</Row>
-		</sliderModal>
-	</div>
+          </Col>
+          <Col span="12" style="padding-right:10px">
+            <Select v-model="model11" filterable multiple>
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </Col>
+      </Row>
+  </div>
 </template>
 <script>
-	import Vue from 'vue'
-	import SliderModal from 'slider-modal'
-	Vue.use(SliderModal)
-	import '../../node_modules/slider-modal/dist/styles/slider-modal.css'
-	export default {
-		data (){
-			return {
-				showModal:true,
-				data:[],
-				treeData: [
-					{
-						title:"parent 0",
-						expand:true,
-						children:[]
-					}
-				],
-				cityList: [
+  export default {
+    data (){
+      return {
+        data:[],
+        treeData: [
+          {
+            title:"parent 0",
+            expand:true,
+            children:[]
+          }
+        ],
+        cityList: [
                     {
                         value: '122',
                         label: '1'
@@ -59,53 +52,53 @@
                     }
                 ],
                 model11: []
-			}
-		},
-		methods:{
-			getTreeData (value){
-				console.log(this.data)
-				console.log("getTreeValue:",value)
-			}
-		},
-		created (){
-			let v = this,
-				Arr = [];
-			function makeTree (){
-				for (let i = 1; i < 20; i++){
-					Arr.push({
-						title: 'parent 0-' + i,
-						expand : true,
-						children:[
-							{
+      }
+    },
+    methods:{
+      getTreeData (value){
+        console.log(this.data)
+        console.log("getTreeValue:",value)
+      }
+    },
+    created (){
+      let v = this,
+        Arr = [];
+      function makeTree (){
+        for (let i = 1; i < 20; i++){
+          Arr.push({
+            title: 'parent 0-' + i,
+            expand : true,
+            children:[
+              {
                  title: 'leaf 0-' + i + "-1"
               },
               {
                 title: 'leaf 0-' + i + "-2",
                 expand:true,
                 children:[
-                	{
-                		title:"66"
-                	}
+                  {
+                    title:"66"
+                  }
                 ]
               }
-						]
-					})
-				}
-				return true;
-			}
-			async function addTree (){
-				const a = await makeTree();
-				if(a){
-					v.$set(v.treeData[0],'children',Arr);
-				
-				}
-				
-				
-			}
-			addTree();
+            ]
+          })
+        }
+        return true;
+      }
+      async function addTree (){
+        const a = await makeTree();
+        if(a){
+          v.$set(v.treeData[0],'children',Arr);
+
+        }
 
 
-		}
+      }
+      addTree();
 
-	}
+
+    }
+
+  }
 </script>

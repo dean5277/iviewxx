@@ -20,7 +20,7 @@
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']"></Icon>
             </slot>
         </div>
-        <transition name="slide-up">
+        <transition name="transition-drop">
             <Drop
                 v-show="visible"
                 :class="{ [prefixCls + '-transfer']: transfer }"
@@ -357,6 +357,7 @@
                     if (this.transfer) {
                         this.$refs.drop.update();
                     }
+                    this.broadcast('Drop', 'on-update-popper');
                 } else {
                     if (this.filterable) {
                         this.query = '';
@@ -365,6 +366,7 @@
                     if (this.transfer) {
                         this.$refs.drop.destroy();
                     }
+                    this.broadcast('Drop', 'on-destroy-popper');
                 }
                 this.$emit('on-visible-change', val);
             },
