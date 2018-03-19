@@ -37,7 +37,7 @@ Vue.use(iview)<br /><br />
 [dTable](http://iviewxx.deancheng.com/#/dTable)
 
 ###### Input 增加tags类型
-[dTable](http://iviewxx.deancheng.com/#/input)
+[Input Tag](http://iviewxx.deancheng.com/#/input)
 
 
 
