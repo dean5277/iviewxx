@@ -1,4 +1,3 @@
-
 <template>
     <div :class="wrapClasses" :style="styles">
         <div :class="classes">
@@ -9,7 +8,7 @@
                     :styleObject="tableStyle"
                     :columns="cloneColumns"
                     :obj-data="objData"
-                    :border = "this.border"           
+                    :border = "this.border"
                     :columns-width="columnsWidth"
                     @asyncColumns="asyncColumns"
                     :data="rebuildData"></table-head>
@@ -100,7 +99,7 @@
     const prefixCls = 'ivu-table';
     let rowKey = 1;
     let columnKey = 1;
-   
+
     export default {
         name: 'Table',
         mixins: [ Locale ],
@@ -165,7 +164,6 @@
             }
         },
         data () {
-          /*  const thisStore = new TableStore(this, {});*/
             return {
                /* thisStore,*/
                 ready: false,
@@ -173,8 +171,8 @@
                 columnsWidth: {},
                 prefixCls: prefixCls,
                 compiledUids: [],
-                objData: this.makeObjData(),     // checkbox or highlight-row
-                rebuildData: [],    // for sort or filter
+                objData: this.makeObjData(), // checkbox or highlight-row
+                rebuildData: [], // for sort or filter
                 cloneColumns: this.makeColumns(),
                 showSlotHeader: true,
                 showSlotFooter: true,
@@ -182,7 +180,7 @@
                 bodyRealHeight: 0,
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
-                cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
+                cloneData: deepCopy(this.data), // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
                 resizeProxyVisible: false,
                 resizeState: {
                   width: null,
@@ -256,8 +254,6 @@
                             width = this.tableWidth - this.scrollBarWidth;
                         }
                     }
-//                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
-                    /*style.width = `${width}px`;*/
                     style.width = '100%';
                 }
                 return style;
@@ -298,7 +294,6 @@
                     if (this.width && this.width < this.tableWidth){
                         height = this.bodyHeight;
                     }
-//                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
                     style.height = this.scrollBarWidth > 0 ? `${height}px` : `${height - 1}px`;
                 }
                 return style;
@@ -351,7 +346,6 @@
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
-
                         if (this.data.length) {
                             const $td = this.$refs.tbody.$el.querySelectorAll('tbody tr')[0].querySelectorAll('td');
                             for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
@@ -401,7 +395,7 @@
             },
             clickCurrentRow (_index,nodeIndex) {
                 this.highlightCurrentRow (_index);
-                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.rebuildData[_index])), _index);      
+                this.$emit('on-row-click', JSON.parse(JSON.stringify(this.rebuildData[_index])), _index);
             },
             dblclickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
@@ -440,14 +434,6 @@
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
             },
             selectAll (status) {
-                // this.rebuildData.forEach((data) => {
-                //     if(this.objData[data._index]._isDisabled){
-                //         this.objData[data._index]._isChecked = false;
-                //     }else{
-                //         this.objData[data._index]._isChecked = status;
-                //     }
-                    
-                // });
                 for(const data of this.rebuildData){
                     if(this.objData[data._index]._isDisabled){
                         continue;
@@ -558,7 +544,7 @@
             handleFilter (index) {
                 const column = this.cloneColumns[index];
                 let filterData = this.makeDataWithSort();
-          
+
                 // filter others first, after filter this column
                 filterData = this.filterOtherData(filterData, index);
                 this.rebuildData = this.filterData(filterData, column);
@@ -576,7 +562,7 @@
                 this.cloneColumns[index]._filterChecked = [];
 
                 let filterData = this.makeDataWithSort();
-       
+
                 filterData = this.filterOtherData(filterData, index);
                 this.rebuildData = filterData;
             },
@@ -608,13 +594,13 @@
                             }else{
                                 checkChildren(row.children,row._index, false, 1, i, row.children.length);
                             }
-                           
+
                         }
                         return row;
                     }
                 });
-                data.forEach(fn(data));       
-                function checkChildren(cd, pid, display, nodeIndex, grid, rcl){   
+                data.forEach(fn(data));
+                function checkChildren(cd, pid, display, nodeIndex, grid, rcl){
                     cd.forEach((n,i) => {
                         t++;
                         n._index = t;
@@ -624,14 +610,14 @@
                         n.grid = grid;
                         status[grid].splice(status[grid].length,0,[pid,n.stretch]); //插入数组
                         n.nodeIndex = nodeIndex + 1;
-                        if(n.children){
-                            n.hasChild = true;   
+                        if (n.children) {
+                            n.hasChild = true;
                             if(n.stretch){
-                                checkChildren(n.children,n._index, true,nodeIndex + 1,i); 
+                                checkChildren(n.children,n._index, true,nodeIndex + 1,i);
                             }else{
-                                checkChildren(n.children,n._index, false,nodeIndex + 1,i); 
+                                checkChildren(n.children,n._index, false,nodeIndex + 1,i);
                             }
-                           
+
                         }
                     })
                 }
@@ -681,11 +667,6 @@
                     } else {
                         newRow._isChecked = false;
                     }
-   /*                 if (newRow._highLight) {
-                        newRow._isHighlight = newRow._highLight;
-                    } else {
-                        newRow._isHighlight = false;
-                    }*/
                     data[index] = newRow;
                 });
                 return data;
@@ -705,11 +686,6 @@
                     } else {
                         newRow._isChecked = false;
                     }
-                  /*  if (newRow._highLight) {
-                        newRow._isHighlight = newRow._highLight;
-                    } else {
-                        newRow._isHighlight = false;
-                    }*/
                     data[index] = newRow;
                 });
                 return data;
@@ -718,14 +694,13 @@
                 if(!columns){
                     var columns = deepCopy(this.columns);
                 }
-               
                 let left = [];
                 let right = [];
                 let center = [];
                 columns.forEach((column, index) => {
                     column._index = index;
                     column._columnKey = columnKey++;
-                    column._width = column.width ? column.width : '';    // update in handleResize()
+                    column._width = column.width ? column.width : '';  // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
                     column._isFiltered = false;
@@ -745,7 +720,6 @@
                     if ('sortType' in column) {
                         column._sortType = column.sortType;
                     }
-
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {
@@ -764,7 +738,6 @@
                 } else {
                     params.filename = 'table.csv';
                 }
-
                 let columns = [];
                 let datas = [];
                 if (params.columns && params.data) {
@@ -775,14 +748,12 @@
                     if (!('original' in params)) params.original = true;
                     datas = params.original ? this.data : this.rebuildData;
                 }
-
                 let noHeader = false;
                 if ('noHeader' in params) noHeader = params.noHeader;
-
                 const data = Csv(columns, datas, ',', noHeader);
                 ExportCsv.download(params.filename, data);
             },
-            toggleExpand (_index) { 
+            toggleExpand (_index) {
                 let data = {};
 
                 for (let i in this.objData) {
@@ -801,7 +772,6 @@
                     this.cloneColumns = this.makeColumns(obj);
                     this.handleResize();
                 }
-                
             }
         },
         created () {
@@ -809,13 +779,11 @@
             this.showSlotHeader = this.$slots.header !== undefined;
             this.showSlotFooter = this.$slots.footer !== undefined;
             this.rebuildData = this.makeDataWithSortAndFilter();
-           // this.debouncedUpdateLayout = debounce(50, () => this.doLayout());
         },
         mounted () {
             this.handleResize();
             this.fixedHeader();
             this.$nextTick(() => this.ready = true);
-//            window.addEventListener('resize', this.handleResize, false);
             on(window, 'resize', this.handleResize);
             this.$on('on-visible-change', (val) => {
                 if (val) {
@@ -825,7 +793,6 @@
             });
         },
         beforeDestroy () {
-//            window.removeEventListener('resize', this.handleResize, false);
             off(window, 'resize', this.handleResize);
         },
         watch: {

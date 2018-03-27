@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-    import but from '../select/buttons.vue';
+    import but from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf, findComponentUpward } from '../../utils/assist';
 
