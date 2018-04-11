@@ -5,7 +5,7 @@
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-### [更新日志](https://blog.deancheng.com/2018/03/14/iviewxxlog/)
+### [更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
 
 
 ###  Feature Request
