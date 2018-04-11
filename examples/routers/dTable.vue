@@ -13,28 +13,26 @@
             return {
                 self: this,
                 data7: [],
-              
+
                 columns8:[
                     {
                         type: 'selection',
                         width: 70,
                         align: 'center'
-                       
+
                     },
                     {
                         type: 'switch',
                         title: '订单号',
                         key: 'orderNum',
                         width:250
-                        
-                        
                     },
                     {
                         title: '买家',
                         key: 'buyer',
                         combine:true,
                         render:(h,params)=>{
-                       
+
                             const obj = {
                               childrens:[["div",{class:"combiePackageCode"},321],['div',{class:"combineShipping"},'123 > 321'],['span',{class:"icon iconfont icon-dayin prinTime"},'']],
                               props: {
@@ -42,7 +40,7 @@
                             };
                             if (params.index === 1) {
                                  obj.props.colSpan = 3;
-                              
+
                             }
                            // console.log(obj)
                             return obj;
@@ -69,7 +67,7 @@
                               obj.props.colSpan = 4;
                             }*/
                             return obj;
-                         
+
                         }
                     },
                     {
@@ -112,8 +110,8 @@
                             country:"中国122",
                             pay:"支付宝",
                             status:"未处理",
-                            _heighLight:true,
-                     
+                            _isHighlight:true,
+
                             stretch:true,//是否显示子菜单
                             children:[
                                 {
@@ -133,7 +131,7 @@
                                             status:"未处理",
                                             indentSize:30,
                                             stretch:false,
-                                            
+
                                         }
                                     ]
                                 },
@@ -217,14 +215,14 @@
                                     status:"未处理",
                                     indentSize:15,
                                     stretch:false,
-                                    
+
                                 }
                             ]
                         }
                     ];
                      console.log(self.data7)
                 })
-                 
+
             },1000)
         }
     }

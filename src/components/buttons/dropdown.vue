@@ -1,11 +1,11 @@
 <template>
-    <div class="ivu-select-dropdown" :style="styles"><slot></slot></div>
+    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
 </template>
 <script>
     import Vue from 'vue';
     const isServer = Vue.prototype.$isServer;
     import { getStyle } from '../../utils/assist';
-    const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js');   // eslint-disable-line
+    const Popper = isServer ? function() {} : require('popper.js/dist/umd/popper.js');  // eslint-disable-line
 
     export default {
         name: 'Buttons',
@@ -13,12 +13,16 @@
             placement: {
                 type: String,
                 default: 'bottom-start'
+            },
+            className: {
+                type: String
             }
         },
         data () {
             return {
                 popper: null,
-                width: ''
+                width: '',
+                popperStatus: false
             };
         },
         computed: {
@@ -34,6 +38,7 @@
                 if (this.popper) {
                     this.$nextTick(() => {
                         this.popper.update();
+                        this.popperStatus = true;
                     });
                 } else {
                     this.$nextTick(() => {
@@ -41,7 +46,10 @@
                             placement: this.placement,
                             modifiers: {
                                 computeStyle:{
-                                    gpuAcceleration: false,
+                                    gpuAcceleration: false
+                                },
+                                preventOverflow :{
+                                    boundariesElement: 'body'
                                 }
                             },
                             onCreate:()=>{
@@ -62,10 +70,11 @@
             destroy () {
                 if (this.popper) {
                     setTimeout(() => {
-                        if (this.popper) {
+                        if (this.popper && !this.popperStatus) {
                             this.popper.destroy();
                             this.popper = null;
                         }
+                        this.popperStatus = false;
                     }, 300);
                 }
             },

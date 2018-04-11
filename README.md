@@ -1,5 +1,5 @@
 # iviewxx
-**已经兼容了 iview 2.12.0 Reigns， dTable支持拖动表头**  <br />
+**已经兼容了 2.12.0 Human Resource Machin， dTable支持拖动表头**   <br />
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
@@ -16,7 +16,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.6.6
+目前版本1.6.8
 
 ### Usage
 es6<br />

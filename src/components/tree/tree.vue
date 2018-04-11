@@ -7,7 +7,8 @@
             :data="item"
             visible
             :multiple="multiple"
-            :show-checkbox="showCheckbox">
+            :show-checkbox="showCheckbox"
+            :children-key="childrenKey">
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!stateTree.length">{{ localeEmptyText }}</div>
     </div>
@@ -41,6 +42,10 @@
             emptyText: {
                 type: String
             },
+            childrenKey: {
+                type: String,
+                default: 'children'
+            },
             loadData: {
                 type: Function
             },
@@ -60,7 +65,6 @@
                 deep: true,
                 handler () {
                     this.stateTree = this.data;
-                    //console.log(this.stateTree)
                     this.flatState = this.compileFlatState();
                     this.rebuildTree();
                 }
@@ -78,18 +82,19 @@
         methods: {
             compileFlatState () { // so we have always a relation parent/children of each node
                 let keyCounter = 0;
+                let childrenKey = this.childrenKey;
                 const flatTree = [];
                 function flattenChildren(node, parent) {
                     node.nodeKey = keyCounter++;
                     flatTree[node.nodeKey] = { node: node, nodeKey: node.nodeKey };
                     if (typeof parent != 'undefined') {
                         flatTree[node.nodeKey].parent = parent.nodeKey;
-                        flatTree[parent.nodeKey].children.push(node.nodeKey);
+                        flatTree[parent.nodeKey][childrenKey].push(node.nodeKey);
                     }
 
-                    if (node.children) {
-                        flatTree[node.nodeKey].children = [];
-                        node.children.forEach(child => flattenChildren(child, node));
+                    if (node[childrenKey]) {
+                        flatTree[node.nodeKey][childrenKey] = [];
+                        node[childrenKey].forEach(child => flattenChildren(child, node));
                     }
                 }
                 this.stateTree.forEach(rootNode => {
@@ -106,11 +111,11 @@
                 if (node.checked == parent.checked && node.indeterminate == parent.indeterminate) return; // no need to update upwards
 
                 if (node.checked == true) {
-                    this.$set(parent, 'checked', parent.children.every(node => node.checked));
+                    this.$set(parent, 'checked', parent[this.childrenKey].every(node => node.checked));
                     this.$set(parent, 'indeterminate', !parent.checked);
                 } else {
                     this.$set(parent, 'checked', false);
-                    this.$set(parent, 'indeterminate', parent.children.some(node => node.checked || node.indeterminate));
+                    this.$set(parent, 'indeterminate', parent[this.childrenKey].some(node => node.checked || node.indeterminate));
                 }
                 this.updateTreeUp(parentKey);
             },
@@ -141,8 +146,8 @@
                 for (let key in changes) {
                     this.$set(node, key, changes[key]);
                 }
-                if (node.children) {
-                    node.children.forEach(child => {
+                if (node[this.childrenKey]) {
+                    node[this.childrenKey].forEach(child => {
                         this.updateTreeDown(child, changes);
                     });
                 }
