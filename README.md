@@ -1,5 +1,5 @@
 # iviewxx
-**已经兼容了 2.13.0 Human Resource Machin， dTable支持拖动表头**   <br />
+**已经兼容了 2.13.0 King of Opera， dTable支持拖动表头**   <br />
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
