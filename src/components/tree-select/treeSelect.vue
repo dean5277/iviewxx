@@ -42,16 +42,16 @@
                 v-transfer-dom>
                 <ul v-if="filterable && cacheData.length > 0 && cacheData[0].hasOwnProperty('_hide')" v-show="cacheData[0]._hide" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <div :class="treeSelectContainer">
-                    <Tree 
-                        :data="cacheData" 
+                    <Tree
+                        :data="cacheData"
                         @on-select-change="treeSelectChange"
                         @on-check-change="treeSelectCheckChange"
-                        @on-toggle-expand="treeSelectToggleExpand"             
+                        @on-toggle-expand="treeSelectToggleExpand"
                         :show-checkbox="showCheckbox"
                     >
                     </Tree>
                 </div>
-               
+
             </Drop>
         </transition>
     </div>
@@ -182,9 +182,10 @@
                 slotChangeDuration: false,    // if slot change duration and in multiple, set true and after slot change, set false
                 model: this.value,
                 currentLabel: this.label,
-                cacheData:[]
-                
-                
+                cacheData:[],
+                resetStatus: false
+
+
             };
         },
         computed: {
@@ -289,7 +290,7 @@
             elementaryData (){
                 if(this.filterable){
                     return this.compileFlatState(this.treeData);
-                    
+
                 }
             }
         },
@@ -300,7 +301,7 @@
                     this.hideMenu();
                 } else {
                     if(this.showCheckbox){
-                        this.model = []; 
+                        this.model = [];
                         if(value.length > 0){
                             class valueQuery {
                                 constructor () {
@@ -309,7 +310,7 @@
                                     this.newArr = [];
                                     this.indexArr = [];
                                 }
-                                removeItem (index){      
+                                removeItem (index){
                                     if(this.newArr.indexOf(this.newItems[index]) >= 0) return false;
                                     this.newArr.push(this.newItems[index]);
                                 }
@@ -357,19 +358,19 @@
                             }
                             let vq = new valueQuery();
                             vq.nextInLeaf(vq.items);
-                            this.model = vq.newArr;                  
-                        }   
+                            this.model = vq.newArr;
+                        }
 
                     } else {
                         this.model = value;
                         if(value.length > 0){
-                            this.query = value[0].title; 
+                            this.query = value[0].title;
                         }else{
                             this.query = '';
                         }
-                        
+
                        /* if (this.filterable) {
-                           this.query = value[0].title;      
+                           this.query = value[0].title;
                         }*/
                     }
                 }
@@ -396,33 +397,33 @@
                 return flatTree;
             },
             searchTree () {
-                let v = this,
-                    value = this.query,
-                    l = value.length,
-                    Arr = [];
+                let v = this;
+                let value = this.query;
+                let l = value.length;
+                let Arr = [];
                 function findParentsNode (pid){
                     v.elementaryData.forEach((n,i)=>{
                         if(n.nodeKey === pid){
                             if(Arr.indexOf(n.nodeKey) < 0){
                                 Arr.push(n.nodeKey);
-                                if(n.parent || n.parent == 0){
+                                if(n.parent || n.parent === 0){
                                    findParentsNode(n.parent);
                                 }
                             }
                         }
                     })
                 }
-              
-                v.elementaryData.forEach((n,i)=>{
+
+                v.elementaryData.forEach((n, i) => {
                     if(n.node.title.substr(0,l) === value){
                         if(Arr.indexOf(n.nodeKey) < 0){
                             Arr.push(n.nodeKey);
-                            if(n.parent || n.parent == 0){
+                            if(n.parent || n.parent === 0){
                                findParentsNode(n.parent);
                             }
                         }
                     }
-                   
+
                 });
                 v.makeNewsNode(Arr);
             },
@@ -447,8 +448,8 @@
                 }else{
                     v.$set(v.cacheData[0],'_hide',false);
                 }
-                v.cacheData.forEach((n,i)=>{ 
-                    if(pidArr.indexOf(n.nodeKey) >= 0){ 
+                v.cacheData.forEach((n,i)=>{
+                    if(pidArr.indexOf(n.nodeKey) >= 0){
                         removeDiscard(n.nodeKey);
                     }
                 })
@@ -462,8 +463,8 @@
                     value = data[0].title;
                 }
                 //console.log('data:', data)
-                this.selectedSingle = data; 
-                this.treeSelectGetValue(data);       
+                this.selectedSingle = data;
+                this.treeSelectGetValue(data);
             },
             treeSelectCheckChange (value){
                 let v = this;
@@ -507,7 +508,7 @@
                     });
                 }
             },
-          
+
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
                 if (type === 'string' || type === 'number') {
@@ -517,7 +518,6 @@
                         this.query = '';
                     }
                 }
-                console.log('query', this.model)
                 this.toggleSingleSelected(this.model, init);
             },
             clearSingleSelect () {
@@ -542,8 +542,8 @@
                         value: model.title,
                         label: model.title
                     });
-                       
-                    
+
+
                 }
                 const selectedArray = [];
                 const selectedObject = {};
@@ -555,7 +555,7 @@
                     }
                 });
                 // #2066
-               
+
                 this.selectedMultiple = this.remote ? this.model.length ? selectedArray : [] : selected;
                 if (slot) {
                     let selectedModel = [];
@@ -572,7 +572,7 @@
                     this.model = selectedModel;
                 }
                 this.toggleMultipleSelected(this.model, init);
-                
+
             },
             updateMultipleSelected (init = false, slot = false) {
                 if ((this.multiple || this.showCheckbox) && Array.isArray(this.model)) {
@@ -635,7 +635,7 @@
             },
 
 
-            removeTag (index,nodeKey) {
+            removeTag (index, nodeKey) {
                 if (this.disabled) {
                     return false;
                 }
@@ -645,25 +645,25 @@
                 }
                 if(this.showCheckbox){
                     this.cancelCheckbox(nodeKey);
-                }             
+                }
                 this.model.splice(index, 1);
                 if (this.filterable && this.visible) {
                     this.$refs.input.focus();
                 }
-                this.broadcast('Drop', 'on-update-popper');      
+                this.broadcast('Drop', 'on-update-popper');
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
                 if (!this.multiple && !this.showCheckbox ) {
                     let label = '';
                     this.hideMenu();
-                    if (!init) {               
+                    if (!init) {
                         this.$emit('on-change', value[0]);
                        /* this.dispatch('FormItem', 'on-form-change', {
                             value: value,
                             label: label
                         });*/
-                       
+
                     }
                 }
             },
@@ -894,8 +894,24 @@
         },
         watch: {
             value (val) {
+                let v = this;
                 this.model = val;
-                if (val === '') this.query = '';
+
+                if (val === '') {
+                    this.query = '';
+                }
+                console.log(this.resetStatus)
+                if (val.length === 0 && !this.resetStatus) {
+                    this.resetStatus = true;
+
+                    this.$nextTick(function () {
+                        this.cancelCheckbox(0);
+                        setTimeout(function () {
+                            v.resetStatus = false;
+                        },1000)
+                    })
+                }
+
             },
             label (val) {
                 this.currentLabel = val;
@@ -957,7 +973,7 @@
                     this.broadcast('Drop', 'on-destroy-popper');
                 }
             },
-            query (val) {           
+            query (val) {
                 if (this.remote && this.remoteMethod) {
                     if (!this.selectToChangeQuery) {
                         this.$emit('on-query-change', val);
@@ -967,7 +983,8 @@
                     this.findChild(child => {
                         child.isFocus = false;
                     });
-                } 
+                }
+
                 this.selectToChangeQuery = false;
                 this.broadcast('Drop', 'on-update-popper');
             },

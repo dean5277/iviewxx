@@ -3,7 +3,6 @@
       <Row>
           <Col span="12" style="padding-right:10px">
             <treeSelect :treeData="treeData" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
-
           </Col>
           <Col span="12" style="padding-right:10px">
             <Select v-model="model11" filterable multiple>
@@ -11,6 +10,7 @@
             </Select>
           </Col>
       </Row>
+      <Button @click="reset">clear</Button>
   </div>
 </template>
 <script>
@@ -58,6 +58,9 @@
       getTreeData (value){
         console.log(this.data)
         console.log("getTreeValue:",value)
+      },
+      reset (){
+        this.data = [];
       }
     },
     created (){
