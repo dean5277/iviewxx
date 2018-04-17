@@ -24717,9 +24717,7 @@ exports.default = {
             }
             var pos = (0, _assign2.default)((0, _create2.default)(null), this.colPos);
             pos[dataIndex][colIndex].colSpan = colSpanNum;
-
             for (var i = 0; i < colSpanNum; i++) {
-
                 if (rowSpan && rowSpan != 0) {
                     var rowSpanNum = 0;
                     if (dataIndex + rowSpan <= this.data.length) {
@@ -24740,7 +24738,6 @@ exports.default = {
         makeRowSpan: function makeRowSpan(dataIndex, colIndex, rowSpan) {
             var pos = (0, _assign2.default)((0, _create2.default)(null), this.colPos);
             pos[dataIndex][colIndex].rowSpan = rowSpan;
-
             var rowSpanNum = 0;
             if (dataIndex + rowSpan <= this.data.length) {
                 rowSpanNum = rowSpan;
@@ -24825,13 +24822,8 @@ exports.default = {
         }
     },
     mounted: function mounted() {
-        var _this4 = this;
-
-        this.$nextTick(function () {
-            (0, _newArrowCheck3.default)(this, _this4);
-
-            this.compile();
-        }.bind(this));
+        this.compile();
+        this.iconPos = this.makeDisplayValue()[1];
     }
 };
 
@@ -26618,7 +26610,8 @@ var iview = (0, _extends3.default)({}, components, {
     iProgress: _progress2.default,
     iSelect: _select.Select,
     iSwitch: _switch2.default,
-    iTable: _table2.default
+    iTable: _table2.default,
+    iDTable: _dtable2.default
 });
 
 var install = function install(Vue) {
@@ -40537,8 +40530,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_body_vue__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_body_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_body_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_body_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_body_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6bae6d68_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__ = __webpack_require__(572);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6bae6d68_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6bae6d68_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_dc6c1e92_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__ = __webpack_require__(572);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_dc6c1e92_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_dc6c1e92_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -40556,8 +40549,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_table_body_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6bae6d68_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6bae6d68_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_dc6c1e92_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_dc6c1e92_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_table_body_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -40602,8 +40595,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_cell_vue__ = __webpack_require__(232);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_cell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_cell_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_cell_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_cell_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_657e391b_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__ = __webpack_require__(570);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_657e391b_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_657e391b_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_58d3f3f5_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__ = __webpack_require__(570);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_58d3f3f5_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_58d3f3f5_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 function injectStyle (context) {
   __webpack_require__(566)
@@ -40618,14 +40611,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-657e391b"
+var __vue_scopeId__ = "data-v-58d3f3f5"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_cell_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_657e391b_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_657e391b_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_58d3f3f5_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_58d3f3f5_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_cell_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -40647,7 +40640,7 @@ if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(569).default
-var update = add("22c506aa", content, true, {});
+var update = add("57c093f4", content, true, {});
 
 /***/ }),
 /* 567 */
@@ -40658,7 +40651,7 @@ exports = module.exports = __webpack_require__(568)(true);
 
 
 // module
-exports.push([module.i, "\n@font-face {font-family: \"iconfont\";\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197'); /* IE9*/\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.woff?t=1493796069197') format('woff'), /* chrome, firefox */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.ttf?t=1493796069197') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.svg?t=1493796069197#iconfont') format('svg'); /* iOS 4.1- */\n}\n.iconfont[data-v-657e391b] {\n  font-family:\"iconfont\" !important;\n  font-size:16px;\n  font-style:normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.icon-iconfontunie047[data-v-657e391b]:before { content: \"\\E60B\";\n}\n.icon-iconfontunie048[data-v-657e391b]:before { content: \"\\E60C\";\n}\n.iconfont[data-v-657e391b]{font-size: 12px; padding-right: 5px; position: relative; top:2px;-moz-user-select:none;/*火狐*/\n    -webkit-user-select:none;/*webkit浏览器*/\n    -ms-user-select:none;/*IE10*/\n    -khtml-user-select:none;/*早期浏览器*/\n      user-select:none;\n}\n.tableStretch[data-v-657e391b]{font-size: 14px; cursor: pointer;\n}\n", "", {"version":3,"sources":["D:/research/iview2.9/iview/src/components/dtable/cell.vue"],"names":[],"mappings":";AACA,YAAY,wBAAwB;EAClC,sEAAsE,CAAC,QAAQ;EAC/E;;;0FAGwF,CAAC,cAAc;CACxG;AACD;EACE,kCAAkC;EAClC,eAAe;EACf,kBAAkB;EAClB,oCAAoC;EACpC,mCAAmC;CACpC;AACD,gDAAgD,iBAAiB;CAChE;AACD,gDAAgD,iBAAiB;CAChE;AACD,2BAA2B,gBAAgB,CAAC,mBAAmB,CAAC,mBAAmB,CAAC,QAAQ,sBAAsB,MAAM;IACpH,yBAAyB,aAAa;IACtC,qBAAqB,QAAQ;IAC7B,wBAAwB,SAAS;MAC/B,iBAAiB;CACtB;AACD,+BAA+B,gBAAgB,CAAC,gBAAgB;CAC/D","file":"cell.vue","sourcesContent":["\n@font-face {font-family: \"iconfont\";\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197'); /* IE9*/\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.woff?t=1493796069197') format('woff'), /* chrome, firefox */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.ttf?t=1493796069197') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.svg?t=1493796069197#iconfont') format('svg'); /* iOS 4.1- */\n}\n.iconfont[data-v-657e391b] {\n  font-family:\"iconfont\" !important;\n  font-size:16px;\n  font-style:normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.icon-iconfontunie047[data-v-657e391b]:before { content: \"\\e60b\";\n}\n.icon-iconfontunie048[data-v-657e391b]:before { content: \"\\e60c\";\n}\n.iconfont[data-v-657e391b]{font-size: 12px; padding-right: 5px; position: relative; top:2px;-moz-user-select:none;/*火狐*/\n    -webkit-user-select:none;/*webkit浏览器*/\n    -ms-user-select:none;/*IE10*/\n    -khtml-user-select:none;/*早期浏览器*/\n      user-select:none;\n}\n.tableStretch[data-v-657e391b]{font-size: 14px; cursor: pointer;\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n@font-face {font-family: \"iconfont\";\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197'); /* IE9*/\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.woff?t=1493796069197') format('woff'), /* chrome, firefox */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.ttf?t=1493796069197') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.svg?t=1493796069197#iconfont') format('svg'); /* iOS 4.1- */\n}\n.iconfont[data-v-58d3f3f5] {\n  font-family:\"iconfont\" !important;\n  font-size:16px;\n  font-style:normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.icon-iconfontunie047[data-v-58d3f3f5]:before { content: \"\\E60B\";\n}\n.icon-iconfontunie048[data-v-58d3f3f5]:before { content: \"\\E60C\";\n}\n.iconfont[data-v-58d3f3f5]{font-size: 12px; padding-right: 5px; position: relative; top:2px;-moz-user-select:none;/*火狐*/\n    -webkit-user-select:none;/*webkit浏览器*/\n    -ms-user-select:none;/*IE10*/\n    -khtml-user-select:none;/*早期浏览器*/\n      user-select:none;\n}\n.tableStretch[data-v-58d3f3f5]{font-size: 14px; cursor: pointer;\n}\n", "", {"version":3,"sources":["D:/research/iview2.9/iview/src/components/dtable/cell.vue"],"names":[],"mappings":";AACA,YAAY,wBAAwB;EAClC,sEAAsE,CAAC,QAAQ;EAC/E;;;0FAGwF,CAAC,cAAc;CACxG;AACD;EACE,kCAAkC;EAClC,eAAe;EACf,kBAAkB;EAClB,oCAAoC;EACpC,mCAAmC;CACpC;AACD,gDAAgD,iBAAiB;CAChE;AACD,gDAAgD,iBAAiB;CAChE;AACD,2BAA2B,gBAAgB,CAAC,mBAAmB,CAAC,mBAAmB,CAAC,QAAQ,sBAAsB,MAAM;IACpH,yBAAyB,aAAa;IACtC,qBAAqB,QAAQ;IAC7B,wBAAwB,SAAS;MAC/B,iBAAiB;CACtB;AACD,+BAA+B,gBAAgB,CAAC,gBAAgB;CAC/D","file":"cell.vue","sourcesContent":["\n@font-face {font-family: \"iconfont\";\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197'); /* IE9*/\n  src: url('//at.alicdn.com/t/font_wpboh046qx5hfr.eot?t=1493796069197#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.woff?t=1493796069197') format('woff'), /* chrome, firefox */\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.ttf?t=1493796069197') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/\n  url('//at.alicdn.com/t/font_wpboh046qx5hfr.svg?t=1493796069197#iconfont') format('svg'); /* iOS 4.1- */\n}\n.iconfont[data-v-58d3f3f5] {\n  font-family:\"iconfont\" !important;\n  font-size:16px;\n  font-style:normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\n.icon-iconfontunie047[data-v-58d3f3f5]:before { content: \"\\e60b\";\n}\n.icon-iconfontunie048[data-v-58d3f3f5]:before { content: \"\\e60c\";\n}\n.iconfont[data-v-58d3f3f5]{font-size: 12px; padding-right: 5px; position: relative; top:2px;-moz-user-select:none;/*火狐*/\n    -webkit-user-select:none;/*webkit浏览器*/\n    -ms-user-select:none;/*IE10*/\n    -khtml-user-select:none;/*早期浏览器*/\n      user-select:none;\n}\n.tableStretch[data-v-58d3f3f5]{font-size: 14px; cursor: pointer;\n}\n"],"sourceRoot":""}]);
 
 // exports
 

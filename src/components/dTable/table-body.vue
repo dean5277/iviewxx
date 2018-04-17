@@ -6,7 +6,7 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template  v-for="(row, index) in data">
                 <template v-if="!row.pid && row.pid != 0">
-                     <tr 
+                     <tr
                         :key="row._index"
                         v-show="displayValue[row._index]"
                         :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
@@ -64,7 +64,7 @@
                                   >
                                 </Cell>
                             </td>
-                            <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >      
+                            <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >
                                 <Cell
                                     :fixed="fixed"
                                     :prefix-cls="prefixCls"
@@ -82,11 +82,11 @@
 
                        </template>
                     </tr>
-     
-               
+
+
                 </template>
                 <template v-else>
-                    <tr 
+                    <tr
                      :key="row._index"
                      :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index),row._isHighlight ? 'ivu-table-row-heighlight' : '']"
                      v-show="displayValue[row._index]"
@@ -146,7 +146,7 @@
                                 </Cell>
                             </td>
                             <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >
-                                     
+
                                 <Cell
                                    :fixed="fixed"
                                    :prefix-cls="prefixCls"
@@ -165,7 +165,7 @@
                        </template>
 
                     </tr>
-              
+
                 </template>
                 <tr v-if="rowExpanded(row._index)">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
@@ -173,7 +173,7 @@
                     </td>
                 </tr>
             </template>
-         
+
         </tbody>
     </table>
 </template>
@@ -221,13 +221,13 @@
                 }
                 return render;
             },
-           
+
         },
         watch:{
           data (n,o){
             if(n != o){
               this.status = store.state.status;
-              this.$nextTick(function(){
+              this.$nextTick(function () {
                   this.colPos = this.makeColPos();
                   this.displayValue = this.makeDisplayValue()[0];
                   this.compile();
@@ -257,8 +257,8 @@
                 return pos;
             },
             compile () {
-                this.columns.forEach((column,i) => {         
-                    if (column.render && column.combine == true) {     
+                this.columns.forEach((column,i) => {
+                    if (column.render && column.combine == true) {
                         this.data.forEach((item,n) =>{
                             var obj = {
                               row:item,
@@ -276,20 +276,18 @@
                             return template.childrens;
                         });
                     }
-                });   
+                });
             },
-            makeColSpan(dataIndex,colIndex,colSpan,rowSpan){//需要合并的tr,第几个td,输入的合并格数
-                let colSpanNum = 0;//实际合并多少格
+            makeColSpan(dataIndex, colIndex, colSpan, rowSpan){ // 需要合并的tr,第几个td,输入的合并格数
+                let colSpanNum = 0;// 实际合并多少格
                 if((colIndex + colSpan) <= this.columns.length){
                     colSpanNum = colSpan
                 }else{
                     colSpanNum = this.columns.length - colIndex;
                 }
-                let pos = Object.assign(Object.create(null),this.colPos);
+                let pos = Object.assign(Object.create(null), this.colPos);
                 pos[dataIndex][colIndex].colSpan = colSpanNum;
-             
                 for(let i = 0; i < colSpanNum; i++){
-                
                     if(rowSpan && rowSpan!=0){
                       let rowSpanNum = 0;
                       if((dataIndex + rowSpan) <= this.data.length){
@@ -306,28 +304,24 @@
                        pos[dataIndex][colIndex + i].hide = 1;
                     }
                 }
-                
+
              },
             makeRowSpan(dataIndex,colIndex,rowSpan){
                 let pos = Object.assign(Object.create(null),this.colPos);
-                 pos[dataIndex][colIndex].rowSpan = rowSpan;
-              
-               
+                pos[dataIndex][colIndex].rowSpan = rowSpan;
                 let rowSpanNum = 0;
-                if((dataIndex + rowSpan) <= this.data.length){
+                if ((dataIndex + rowSpan) <= this.data.length) {
                     rowSpanNum = rowSpan
-                }else{
+                } else {
                     rowSpanNum = this.data.length - dataIndex;
                 }
-                for(let i = 0; i < rowSpanNum; i++){
+                for (let i = 0; i < rowSpanNum; i++) {
                     pos[dataIndex + i][colIndex].hide = 1;
                 }
-               
-
             },
-            makeColAndRow (dataIndex,colIndex,rowSpan,colSpan){
-              this.makeRowSpan(dataIndex,colIndex,rowSpan);
-              this.makeColSpan(dataIndex,colIndex,colSpan,rowSpan);
+            makeColAndRow (dataIndex, colIndex, rowSpan, colSpan) {
+              this.makeRowSpan(dataIndex, colIndex, rowSpan);
+              this.makeColSpan(dataIndex, colIndex, colSpan, rowSpan);
             },
             makeDisplayValue (){
                 let pos = [],
@@ -349,10 +343,8 @@
                             if(t == n.length - 1){
                                 if(!m[1]) parnode = false;
                             }
-
-                             
                         }
-                       
+
                     })
                 })
                 return [pos,stretchPos];
@@ -388,7 +380,7 @@
             dblclickCurrentRow (_index,nodeIndex) {
                 this.$parent.dblclickCurrentRow(_index);
             },
-            showRelated (grid,sIndex) { //实际上是改变status..[grid,sIndex]组ID，节点索引
+            showRelated (grid, sIndex) { //实际上是改变status..[grid,sIndex]组ID，节点索引
                 let status = store.state.status;
                 if(status[grid][sIndex][1]){
                     status[grid][sIndex][1] = false;
@@ -401,9 +393,8 @@
             },
         },
         mounted (){
-            this.$nextTick(() => {
-                this.compile();
-            });
+          this.compile();
+          this.iconPos = this.makeDisplayValue()[1]
         }
     };
 </script>

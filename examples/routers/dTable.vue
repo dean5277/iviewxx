@@ -2,6 +2,7 @@
     <div>
         <div style="margin-top:10px">
             <dTable highlight-row border :context="self" :columns="columns8" :data="data7"></dTable>
+            <Page :total="total" :page-size="pageSize" :current="pageNo" size="small" show-total @on-change="changePage"></Page>
         </div>
     </div>
 </template>
@@ -12,8 +13,126 @@
         data () {
             return {
                 self: this,
-                data7: [],
+                pageSize: 1,
+                total: 3,
+                pageNo: 1,
+                data8: [
+                    {
+                        orderNum:"54465456456",
+                        buyer:"大王0xx",
+                        country:"中国122",
+                        pay:"支付宝",
+                        status:"未处理",
+                        _isHighlight:true,
+                        stretch:true,//是否显示子菜单
+                        children:[
+                            {
+                                orderNum:"324234",
+                                buyer:"大王00",
+                                country:"中国2",
+                                pay:"支付宝",
+                                status:"未处理",
+                                indentSize:15,//自定义的间距
+                                stretch:false,
+                                children:[
+                                    {
+                                        orderNum:"123123",
+                                        buyer:"大王000",
+                                        country:"中国3",
+                                        pay:"支付宝",
+                                        status:"未处理",
+                                        indentSize:30,
+                                        stretch:false,
 
+                                    }
+                                ]
+                            },
+                            {
+                                orderNum:"gggg666",
+                                buyer:"大王01",
+                                country:"中国4",
+                                pay:"支付宝",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            },
+                            {
+                                orderNum:"43",
+                                buyer:"大王02",
+                                country:"中国1",
+                                pay:"支付宝1",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            },
+                            {
+                                orderNum:"43",
+                                buyer:"大王03",
+                                country:"中国",
+                                pay:"支付宝",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            },
+                            {
+                                orderNum:"956599555",
+                                buyer:"大王04",
+                                country:"中国1",
+                                pay:"支付宝1",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            },
+                            {
+                                orderNum:"5656",
+                                buyer:"大王05",
+                                country:"中国",
+                                pay:"支付宝",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            },
+                            {
+                                orderNum:"656556",
+                                buyer:"大王06",
+                                country:"中国1",
+                                pay:"支付宝1",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false
+                            }
+                        ]
+                    },
+                    {
+                        orderNum:"x11",
+                        buyer:"大王1",
+                        country:"中国",
+                        pay:"支付宝",
+                        status:"未处理",
+                        stretch:false
+                    },
+                    {
+                        orderNum:"456456456",
+                        buyer:"大王2",
+                        country:"中国",
+                        pay:"支付宝",
+                        status:"未处理",
+                        stretch:false,
+                        children:[
+                            {
+                                orderNum:"222",
+                                buyer:"大王20",
+                                country:"中国",
+                                pay:"支付宝",
+                                status:"未处理",
+                                indentSize:15,
+                                stretch:false,
+
+                            }
+                        ]
+                    }
+                ],
+                data7: [],
                 columns8:[
                     {
                         type: 'selection',
@@ -60,7 +179,7 @@
                               obj.props.rowSpan = 2;
                             }
                             // These two are merged into above cell
-                            if (params.index === 8) {
+                            if (params.index === 7) {
                               obj.props.rowSpan = 2;
                             }
                            /* if (params.index === 7) {
@@ -95,135 +214,18 @@
             remove (index) {
                 this.data6.splice(index, 1);
             },
-            show:function (){
+            show () {
                 this.modal9 = true;
+            },
+            changePage (page) {
+                this.pageNo = page;
+                this.data7 = [this.data8[page - 1]];
+                console.log(this.total);
             }
         },
         mounted (){
             var self = this;
-            setTimeout(function(){
-                self.$nextTick(function(){
-                    this.data7 =  [
-                        {
-                            orderNum:"54465456456",
-                            buyer:"大王0",
-                            country:"中国122",
-                            pay:"支付宝",
-                            status:"未处理",
-                            _isHighlight:true,
-
-                            stretch:true,//是否显示子菜单
-                            children:[
-                                {
-                                    orderNum:"324234",
-                                    buyer:"大王00",
-                                    country:"中国2",
-                                    pay:"支付宝",
-                                    status:"未处理",
-                                    indentSize:15,//自定义的间距
-                                    stretch:false,
-                                    children:[
-                                        {
-                                            orderNum:"123123",
-                                            buyer:"大王000",
-                                            country:"中国3",
-                                            pay:"支付宝",
-                                            status:"未处理",
-                                            indentSize:30,
-                                            stretch:false,
-
-                                        }
-                                    ]
-                                },
-                                {
-                                    orderNum:"gggg666",
-                                    buyer:"大王01",
-                                    country:"中国4",
-                                    pay:"支付宝",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false
-                                },
-                                {
-                                    orderNum:"43",
-                                    buyer:"大王02",
-                                    country:"中国1",
-                                    pay:"支付宝1",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false
-                                },
-                                {
-                                    orderNum:"43",
-                                    buyer:"大王03",
-                                    country:"中国",
-                                    pay:"支付宝",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false
-                                },
-                                {
-                                    orderNum:"956599555",
-                                    buyer:"大王04",
-                                    country:"中国1",
-                                    pay:"支付宝1",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false
-                                },
-                                {
-                                    orderNum:"5656",
-                                    buyer:"大王05",
-                                    country:"中国",
-                                    pay:"支付宝",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false
-                                },
-                                {
-                                    orderNum:"656556",
-                                    buyer:"大王06",
-                                    country:"中国1",
-                                    pay:"支付宝1",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false
-                                }
-                            ]
-                        },
-                        {
-                            orderNum:"1156456",
-                            buyer:"大王1",
-                            country:"中国",
-                            pay:"支付宝",
-                            status:"未处理",
-                            stretch:false
-                        },
-                        {
-                            orderNum:"456456456",
-                            buyer:"大王2",
-                            country:"中国",
-                            pay:"支付宝",
-                            status:"未处理",
-                            stretch:false,
-                            children:[
-                                {
-                                    orderNum:"222",
-                                    buyer:"大王20",
-                                    country:"中国",
-                                    pay:"支付宝",
-                                    status:"未处理",
-                                    indentSize:15,
-                                    stretch:false,
-
-                                }
-                            ]
-                        }
-                    ];
-                     console.log(self.data7)
-                })
-
-            },1000)
+            this.data7 = [this.data8[0]];
         }
     }
 </script>
