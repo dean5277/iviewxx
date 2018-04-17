@@ -6,7 +6,9 @@
 如果有Bug，请提交一下issues <br />
 
 ### [更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
-
+# 最近:
+1. 增加dTable 非 template/render 模式下，需使用 d-Table
+2. 修改一些BUG
 
 ###  Feature Request
 1.dTable表格列拖动切换 <br />

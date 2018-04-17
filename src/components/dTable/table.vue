@@ -101,7 +101,7 @@
     let columnKey = 1;
 
     export default {
-        name: 'Table',
+        name: 'dTable',
         mixins: [ Locale ],
         components: { tableHead, tableBody },
         props: {

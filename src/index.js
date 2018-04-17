@@ -147,7 +147,7 @@ const iview = {
     iSelect: Select,
     iSwitch: Switch,
     iTable: Table,
-    iDTable: dTable
+    dTable: dTable
 };
 
 const install = function(Vue, opts = {}) {
