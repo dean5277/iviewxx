@@ -25287,12 +25287,11 @@ exports.default = {
         };
 
         if (ctx.props.render === undefined) {
-            console.log('h', h);
-            console.log(ctx);
             return;
         }
         if (ctx.props.column) params.column = ctx.props.column;
-        if (ctx.props.render(h, params).childrens) {
+        if (ctx.props.render(h, params) === undefined || ctx.props.render(h, params) === null) return;
+        if (ctx.props.render(h, params).hasOwnProperty('childrens') && ctx.props.render(h, params).childrens !== undefined) {
             var cp = ctx.props.render(h, params).childrens;
             if ((typeof cp === 'undefined' ? 'undefined' : (0, _typeof3.default)(cp)) === 'object') {
                 var pos = [];
@@ -25306,6 +25305,7 @@ exports.default = {
                 }
                 return pos;
             } else {
+                console.log('childrens:', ctx.props.render(h, params).childrens);
                 return ctx.props.render(h, params).childrens;
             }
         } else {
