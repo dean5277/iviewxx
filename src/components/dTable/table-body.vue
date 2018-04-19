@@ -1,4 +1,4 @@
-<template>
+ <template>
     <table cellspacing="0" cellpadding="0" border="0" :style="styleObject" class="ive-table-body">
         <colgroup>
             <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
@@ -178,6 +178,8 @@
     </table>
 </template>
 <script>
+    // todo :key="row"
+    import TableTr from './table-tr.vue';
     import Cell from './cell.vue';
     import Mixin from './mixin';
     import Expand from './expand.js';
@@ -185,7 +187,7 @@
     export default {
         name: 'TableBody',
         mixins: [ Mixin ],
-        components: { Cell,Expand },
+        components: { Cell, Expand, TableTr },
         data (){
             return {
                status:store.state.status,
@@ -364,6 +366,9 @@
             },
             rowDisabled(_index){
                 return this.objData[_index] && this.objData[_index]._isDisabled;
+            },
+	    rowExpanded(_index){
+                return this.objData[_index] && this.objData[_index]._isExpanded;
             },
             rowClsName (_index) {
                 return this.$parent.rowClassName(this.objData[_index], _index);

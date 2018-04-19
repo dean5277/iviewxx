@@ -30,12 +30,13 @@
 <template>
     <div :class="classes" ref="cell">
         <template v-if="renderType === 'childSection'"></template>
-        <template v-if="renderType === 'index'">{{naturalIndex + 1}}</template>
+        <template v-if="renderType === 'index'"><span>{{naturalIndex + 1}}</span></template>
         <template v-if="renderType === 'selection'">
             <template v-if="!row._display">
-                <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
+            <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
             </template>
         </template>
+    <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'switch'">
              <template v-if="row.hasChild">
                <i class="icon iconfont tableStretch" :class="[!iconStatus ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="row.sIndex" @click="showRelated(row.grid,row.sIndex)" :style="{paddingLeft:row.indentSize + 'px'}"></i> {{row[column.key]}}
@@ -61,15 +62,15 @@
             :render="column.render"></Cell>
         <template v-if="renderType === 'mixSelection'">
             <template v-if="cs == null && rs == null">
-                 <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
+                <Checkbox :value="checked" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
             </template>
             <template v-else>
-                  <Cell
+                <Cell
                     :row="row"
                     :column="column"
                     :index="index"
-                    :render="column.render"></Cell>
-
+                    :render="column.render">
+                </Cell>
             </template>
         </template>
     </div>
@@ -111,7 +112,7 @@
             return {
                 renderType: '',
                 uid: -1,
-                context: this.$parent.$parent.currentContext
+                context: this.$parent.$parent.$parent.currentContext
             };
         },
         computed: {
@@ -145,10 +146,13 @@
         methods: {
 
             toggleSelect () {
-                this.$parent.$parent.toggleSelect(this.index);
+                this.$parent.$parent.$parent.toggleSelect(this.index);
             },
             toggleExpand () {
                 this.$parent.$parent.$parent.toggleExpand(this.index);
+            },
+            handleClick () {
+                // 放置 Checkbox 冒泡
             },
             showRelated (grid,sIndex){
                 this.$parent.showRelated(grid,sIndex);
@@ -161,7 +165,9 @@
                 this.renderType = "mixSelection";
             } else if (this.column.type === 'selection' && !this.column.combine) {
                 this.renderType = 'selection';
-            }else if(this.column.type === 'switch'){
+            } else if (this.column.type === 'html') {
+                this.renderType = 'html';
+            } else if(this.column.type === 'switch'){
                 this.renderType = 'switch';
             } else if (this.column.type === 'expand') {
                 this.renderType = 'expand';

@@ -9,16 +9,17 @@
 #### 最近:
 1. 增加dTable 非 template/render 模式下，需使用 d-Table
 2. 修改一些BUG
+3. dTable 也拥有Table的功能啦，支持多级表头和最小宽度最大宽度
+
 
 ###  Feature Request
 1.dTable表格列拖动切换 <br />
-2.dTable多级表头 <br />
 都是抽空做，没有具体完成时间
 
 ### Install
 npm install iviewxx<br />
 
-目前版本1.6.12
+目前版本1.7.0
 
 ### Usage
 es6<br />

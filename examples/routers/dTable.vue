@@ -144,7 +144,7 @@
                         type: 'switch',
                         title: '订单号',
                         key: 'orderNum',
-                        width:250
+                        minWidth:400
                     },
                     {
                         title: '买家',
