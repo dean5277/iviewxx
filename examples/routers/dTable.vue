@@ -43,7 +43,17 @@
                                         status:"未处理",
                                         indentSize:30,
                                         stretch:false,
-
+                                        children: [
+                                            {
+                                                orderNum:"xxxaaa",
+                                                buyer:"大王03300",
+                                                country:"中国cdc3",
+                                                pay:"支付宝",
+                                                status:"未处理",
+                                                indentSize:40,
+                                                stretch:false
+                                            }
+                                        ]
                                     }
                                 ]
                             },

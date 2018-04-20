@@ -91,7 +91,7 @@
             <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
         <div :class="[prefixCls + '-column-resize-proxy']" ref="resizeProxy" v-show="resizeProxyVisible"></div>
-    <Spin fix size="large" v-if="loading">
+        <Spin fix size="large" v-if="loading">
             <slot name="loading"></slot>
         </Spin>
     </div>
@@ -200,7 +200,7 @@
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
                 cloneData: deepCopy(this.data), // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
-        showVerticalScrollBar:false,
+                showVerticalScrollBar:false,
                 showHorizontalScrollBar:false,
                 headerWidth:0,
                 headerHeight:0,
@@ -568,22 +568,22 @@
                 else{
                     let bodyContentEl = this.$refs.tbody.$el;
                     let bodyEl = bodyContentEl.parentElement;
-                    let bodyContentHeight = bodyContentEl.offsetHeight;
-                    let bodyHeight = bodyEl.offsetHeight;
-
-                    this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
-                    this.showVerticalScrollBar = this.bodyHeight? bodyHeight - (this.showHorizontalScrollBar?this.scrollBarWidth:0) < bodyContentHeight : false;
-
-                    if(this.showVerticalScrollBar){
-                        bodyEl.classList.add(this.prefixCls +'-overflowY');
-                    }else{
-                        bodyEl.classList.remove(this.prefixCls +'-overflowY');
-                    }
-                    if(this.showHorizontalScrollBar){
-                        bodyEl.classList.add(this.prefixCls +'-overflowX');
-                    }else{
-                        bodyEl.classList.remove(this.prefixCls +'-overflowX');
-                    }
+                    this.$nextTick(function (){
+                        let bodyContentHeight = bodyContentEl.offsetHeight;
+                        let bodyHeight = bodyEl.offsetHeight;
+                        this.showHorizontalScrollBar = bodyEl.offsetWidth < bodyContentEl.offsetWidth + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                        this.showVerticalScrollBar = this.bodyHeight ? bodyHeight - (this.showHorizontalScrollBar ? this.scrollBarWidth : 0) < bodyContentHeight : false;
+                        if(this.showVerticalScrollBar){
+                            bodyEl.classList.add(this.prefixCls +'-overflowY');
+                        }else{
+                            bodyEl.classList.remove(this.prefixCls +'-overflowY');
+                        }
+                        if(this.showHorizontalScrollBar){
+                            bodyEl.classList.add(this.prefixCls +'-overflowX');
+                        }else{
+                            bodyEl.classList.remove(this.prefixCls +'-overflowX');
+                        }
+                    });
                 }
             },
 

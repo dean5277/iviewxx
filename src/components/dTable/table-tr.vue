@@ -1,5 +1,9 @@
 <template>
-    <tr :class="rowClasses(row._index)"><slot></slot></tr>
+    <tr
+    :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
+    >
+        <slot></slot>
+    </tr>
 </template>
 <script>
     export default {

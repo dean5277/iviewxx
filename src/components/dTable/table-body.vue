@@ -1,15 +1,16 @@
  <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="styleObject" class="ive-table-body">
+    <table cellspacing="0" cellpadding="0" border="0" :style="styleObject" class="ive-table-body" ref="body">
         <colgroup>
             <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
             <template  v-for="(row, index) in data">
                 <template v-if="!row.pid && row.pid != 0">
-                     <tr
+                     <table-tr
                         :key="row._index"
+                        :row="row"
+                        :prefix-cls="prefixCls"
                         v-show="displayValue[row._index]"
-                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
                         @mouseenter.stop="handleMouseIn(row._index)"
                         @mouseleave.stop="handleMouseOut(row._index)"
                         @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
@@ -81,7 +82,7 @@
                             </td>
 
                        </template>
-                    </tr>
+                    </table-tr>
 
 
                 </template>
@@ -367,7 +368,7 @@
             rowDisabled(_index){
                 return this.objData[_index] && this.objData[_index]._isDisabled;
             },
-	    rowExpanded(_index){
+            rowExpanded(_index){
                 return this.objData[_index] && this.objData[_index]._isExpanded;
             },
             rowClsName (_index) {

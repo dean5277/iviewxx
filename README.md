@@ -10,6 +10,7 @@
 1. 增加dTable 非 template/render 模式下，需使用 d-Table
 2. 修改一些BUG
 3. dTable 也拥有Table的功能啦，支持多级表头和最小宽度最大宽度
+4. 20180420修改了dTable 合并代码后的一些BUG。
 
 
 ###  Feature Request
@@ -19,7 +20,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.7.1
+目前版本1.7.2
 
 ### Usage
 es6<br />

@@ -39,7 +39,14 @@
     <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'switch'">
              <template v-if="row.hasChild">
-               <i class="icon iconfont tableStretch" :class="[!iconStatus ? 'icon-iconfontunie047' : 'icon-iconfontunie048']" :v="row.sIndex" @click="showRelated(row.grid,row.sIndex)" :style="{paddingLeft:row.indentSize + 'px'}"></i> {{row[column.key]}}
+               <i
+                class="icon iconfont tableStretch"
+                :class="[!iconStatus ? 'icon-iconfontunie047' : 'icon-iconfontunie048']"
+                :v="row.sIndex"
+                @click="showRelated(row.grid, row.sIndex)"
+                :style="{paddingLeft:row.indentSize + 'px'}"
+                >
+                </i> {{row[column.key]}}
              </template>
              <template v-else-if="(!!row.pid && !row.hasChild) || (row.pid == 0 && !row.hasChild)">
                 <span :style="{paddingLeft:row.indentSize + 'px'}"></span>{{row[column.key]}}
@@ -80,7 +87,6 @@
     import Icon from '../icon/icon.vue';
     import Checkbox from '../checkbox/checkbox.vue';
     import { findComponentUpward } from '../../utils/assist';
-
     export default {
         name: 'TableCell',
         components: {Icon, Checkbox ,Cell},
@@ -155,7 +161,11 @@
                 // 放置 Checkbox 冒泡
             },
             showRelated (grid,sIndex){
-                this.$parent.showRelated(grid,sIndex);
+                if (this.$parent.$refs.hasOwnProperty('body')) {
+                    this.$parent.showRelated(grid, sIndex);
+                } else {
+                    this.$parent.$parent.showRelated(grid, sIndex);
+                }
             }
         },
         created () {
