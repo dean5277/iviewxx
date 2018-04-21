@@ -11,6 +11,7 @@
           </Col>
       </Row>
       <Button @click="reset">clear</Button>
+      <Button @click="edit">edit</Button>
   </div>
 </template>
 <script>
@@ -26,32 +27,32 @@
           }
         ],
         cityList: [
-                    {
-                        value: '122',
-                        label: '1'
-                    },
-                    {
-                        value: '12',
-                        label: '1'
-                    },
-                    {
-                        value: '13',
-                        label: '1'
-                    },
-                    {
-                        value: '144',
-                        label: '1'
-                    },
-                    {
-                        value: 'Paris',
-                        label: '1'
-                    },
-                    {
-                        value: 'Canberra',
-                        label: '1'
-                    }
-                ],
-                model11: []
+            {
+                value: '122',
+                label: '1'
+            },
+            {
+                value: '12',
+                label: '1'
+            },
+            {
+                value: '13',
+                label: '1'
+            },
+            {
+                value: '144',
+                label: '1'
+            },
+            {
+                value: 'Paris',
+                label: '1'
+            },
+            {
+                value: 'Canberra',
+                label: '1'
+            }
+        ],
+        model11: []
       }
     },
     methods:{
@@ -59,8 +60,16 @@
         console.log(this.data)
         console.log("getTreeValue:",value)
       },
-      reset (){
+      reset () {
         this.data = [];
+      },
+      edit () {
+        let v = this;
+        let arr = v.treeData[0].children;
+        let a = arr[1];
+        a.title = 666;
+        arr.splice(1, 1 , a);
+        v.$set(v.treeData[0],'children',arr);
       }
     },
     created (){

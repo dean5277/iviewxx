@@ -11,6 +11,8 @@
 2. 修改一些BUG
 3. dTable 也拥有Table的功能啦，支持多级表头和最小宽度最大宽度
 4. 20180420修改了dTable 合并代码后的一些BUG。
+5. 修改了下拉树，修改单个节点不生效的BUG
+6. 修改了上次合并代码导致下拉树搜索无效的BUG
 
 
 ###  Feature Request
@@ -20,7 +22,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.7.2
+目前版本1.7.3
 
 ### Usage
 es6<br />

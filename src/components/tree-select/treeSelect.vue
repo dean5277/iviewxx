@@ -462,7 +462,6 @@
                 if(data.length >  0){
                     value = data[0].title;
                 }
-                //console.log('data:', data)
                 this.selectedSingle = data;
                 this.treeSelectGetValue(data);
             },
@@ -900,7 +899,6 @@
                 if (val === '') {
                     this.query = '';
                 }
-                console.log(this.resetStatus)
                 if (val.length === 0 && !this.resetStatus) {
                     this.resetStatus = true;
 
@@ -989,8 +987,8 @@
                 this.broadcast('Drop', 'on-update-popper');
             },
             'elementaryData':{
-                handler (n,o){
-                    if(n.length != o.length){
+                handler (n, o){
+                    if((n.length !== o.length) || n !== o) {
                         this.cacheData = deepCopy(this.treeData);
                     }
                 },
