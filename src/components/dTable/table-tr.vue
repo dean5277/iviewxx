@@ -3,6 +3,8 @@
     :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
     @mouseenter.stop="handleMouseIn(row._index)"
     @mouseleave.stop="handleMouseOut(row._index)"
+    @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
+    @dblclick.stop="dblclickCurrentRow(row._index, row.nodeIndex)"
     >
         <slot></slot>
     </tr>
@@ -37,6 +39,12 @@
             },
             handleMouseOut (_index) {
                 this.$parent.$parent.handleMouseOut(_index);
+            },
+            clickCurrentRow (_index, nodeIndex) {
+                this.$parent.$parent.clickCurrentRow(_index);
+            },
+            dblclickCurrentRow (_index, nodeIndex) {
+                this.$parent.$parent.dblclickCurrentRow(_index);
             },
         }
     };

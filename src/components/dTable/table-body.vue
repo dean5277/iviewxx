@@ -11,8 +11,7 @@
                         :row="row"
                         :prefix-cls="prefixCls"
                         v-show="displayValue[row._index]"
-                        @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
-                        @dblclick.stop="dblclickCurrentRow(row._index, row.nodeIndex)">
+                        >
                            <template v-for="(column,n) in colPos[index]">
                                 <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                     <Cell
