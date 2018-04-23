@@ -13,6 +13,7 @@
 4. 20180420修改了dTable 合并代码后的一些BUG。
 5. 修改了下拉树，修改单个节点不生效的BUG
 6. 修改了上次合并代码导致下拉树搜索无效的BUG
+7. 修复dTable选中问题
 
 
 ###  Feature Request
@@ -22,7 +23,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.7.3
+目前版本1.7.4
 
 ### Usage
 es6<br />

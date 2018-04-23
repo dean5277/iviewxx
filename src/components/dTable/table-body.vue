@@ -6,82 +6,81 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template  v-for="(row, index) in data">
                 <template v-if="!row.pid && row.pid != 0">
-                     <table-tr
+                    <table-tr
                         :key="row._index"
                         :row="row"
                         :prefix-cls="prefixCls"
                         v-show="displayValue[row._index]"
-                        @mouseenter.stop="handleMouseIn(row._index)"
-                        @mouseleave.stop="handleMouseOut(row._index)"
                         @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
                         @dblclick.stop="dblclickCurrentRow(row._index, row.nodeIndex)">
-                       <template v-for="(column,n) in colPos[index]"  >
-                            <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
-                                <Cell
-                                    :fixed="fixed"
-                                    :prefix-cls="prefixCls"
-                                    :row="row"
-                                    :column="column"
-                                    :natural-index="index"
-                                    :index="row._index"
-                                    :checked="rowChecked(row._index)"
-                                    :disabled="rowDisabled(row._index)"
-                                    :iconStatus="iconPos[row._index]"
-                                    :expanded="rowExpanded(row._index)"
-                                    :rs="column.rowSpan"
-                                  >
-                                </Cell>
-                            </td>
-                            <td :class="alignCls(column, row)" v-if="column.rowSpan && column.colSpan" :rowSpan="column.rowSpan"  :colSpan="column.colSpan"  >
-                                <Cell
-                                    :fixed="fixed"
-                                    :prefix-cls="prefixCls"
-                                    :row="row"
-                                    :column="column"
-                                    :natural-index="index"
-                                    :index="row._index"
-                                    :checked="rowChecked(row._index)"
-                                    :disabled="rowDisabled(row._index)"
-                                    :iconStatus="iconPos[row._index]"
-                                    :expanded="rowExpanded(row._index)"
-                                    :rs="column.rowSpan"
-                                    :cs="column.colSpan"
-                                  >
-                                </Cell>
-                            </td>
-                            <td :class="alignCls(column, row)" v-if="!column.rowSpan && column.colSpan" :colSpan="column.colSpan"   >
-                                <Cell
-                                    :fixed="fixed"
-                                    :prefix-cls="prefixCls"
-                                    :row="row"
-                                    :column="column"
-                                    :natural-index="index"
-                                    :index="row._index"
-                                    :checked="rowChecked(row._index)"
-                                    :disabled="rowDisabled(row._index)"
-                                    :iconStatus="iconPos[row._index]"
-                                    :expanded="rowExpanded(row._index)"
-                                    :cs="column.colSpan"
-                                  >
-                                </Cell>
-                            </td>
-                            <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >
-                                <Cell
-                                    :fixed="fixed"
-                                    :prefix-cls="prefixCls"
-                                    :row="row"
-                                    :column="column"
-                                    :natural-index="index"
-                                    :index="row._index"
-                                    :checked="rowChecked(row._index)"
-                                    :disabled="rowDisabled(row._index)"
-                                    :iconStatus="iconPos[row._index]"
-                                    :expanded="rowExpanded(row._index)"
-                                   >
-                                 </Cell>
-                            </td>
+                           <template v-for="(column,n) in colPos[index]">
+                                <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
+                                    <Cell
+                                        :fixed="fixed"
+                                        :prefix-cls="prefixCls"
+                                        :row="row"
+                                        :column="column"
+                                        :key="column._columnKey"
+                                        :natural-index="index"
+                                        :index="row._index"
+                                        :checked="rowChecked(row._index)"
+                                        :disabled="rowDisabled(row._index)"
+                                        :iconStatus="iconPos[row._index]"
+                                        :expanded="rowExpanded(row._index)"
+                                        :rs="column.rowSpan"
+                                      >
+                                    </Cell>
+                                </td>
+                                <td :class="alignCls(column, row)" v-if="column.rowSpan && column.colSpan" :rowSpan="column.rowSpan"  :colSpan="column.colSpan"  >
+                                    <Cell
+                                        :fixed="fixed"
+                                        :prefix-cls="prefixCls"
+                                        :row="row"
+                                        :column="column"
+                                        :natural-index="index"
+                                        :index="row._index"
+                                        :checked="rowChecked(row._index)"
+                                        :disabled="rowDisabled(row._index)"
+                                        :iconStatus="iconPos[row._index]"
+                                        :expanded="rowExpanded(row._index)"
+                                        :rs="column.rowSpan"
+                                        :cs="column.colSpan"
+                                      >
+                                    </Cell>
+                                </td>
+                                <td :class="alignCls(column, row)" v-if="!column.rowSpan && column.colSpan" :colSpan="column.colSpan"   >
+                                    <Cell
+                                        :fixed="fixed"
+                                        :prefix-cls="prefixCls"
+                                        :row="row"
+                                        :column="column"
+                                        :natural-index="index"
+                                        :index="row._index"
+                                        :checked="rowChecked(row._index)"
+                                        :disabled="rowDisabled(row._index)"
+                                        :iconStatus="iconPos[row._index]"
+                                        :expanded="rowExpanded(row._index)"
+                                        :cs="column.colSpan"
+                                      >
+                                    </Cell>
+                                </td>
+                                <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >
+                                    <Cell
+                                        :fixed="fixed"
+                                        :prefix-cls="prefixCls"
+                                        :row="row"
+                                        :column="column"
+                                        :natural-index="index"
+                                        :index="row._index"
+                                        :checked="rowChecked(row._index)"
+                                        :disabled="rowDisabled(row._index)"
+                                        :iconStatus="iconPos[row._index]"
+                                        :expanded="rowExpanded(row._index)"
+                                       >
+                                     </Cell>
+                                </td>
 
-                       </template>
+                           </template>
                     </table-tr>
 
 
@@ -380,10 +379,10 @@
             handleMouseOut (_index) {
                 this.$parent.handleMouseOut(_index);
             },
-            clickCurrentRow (_index,nodeIndex) {
+            clickCurrentRow (_index, nodeIndex) {
                 this.$parent.clickCurrentRow(_index);
             },
-            dblclickCurrentRow (_index,nodeIndex) {
+            dblclickCurrentRow (_index, nodeIndex) {
                 this.$parent.dblclickCurrentRow(_index);
             },
             showRelated (grid, sIndex) { //实际上是改变status..[grid,sIndex]组ID，节点索引

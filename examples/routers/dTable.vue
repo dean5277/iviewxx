@@ -23,7 +23,7 @@
                         country:"中国122",
                         pay:"支付宝",
                         status:"未处理",
-                        _isHighlight:true,
+
                         stretch:true,//是否显示子菜单
                         children:[
                             {
