@@ -118,7 +118,7 @@
             return {
                 renderType: '',
                 uid: -1,
-                context: this.$parent.$parent.$parent.currentContext
+                context: this.$parent.$parent.currentContext
             };
         },
         computed: {
@@ -152,10 +152,10 @@
         methods: {
 
             toggleSelect () {
-                this.$parent.$parent.$parent.toggleSelect(this.index);
+                this.$parent.$parent.toggleSelect(this.index);
             },
             toggleExpand () {
-                this.$parent.$parent.$parent.toggleExpand(this.index);
+                this.$parent.$parent.toggleExpand(this.index);
             },
             handleClick () {
                 // 放置 Checkbox 冒泡

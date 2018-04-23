@@ -1,13 +1,12 @@
 <template>
     <tr
-    :key="row._index"
-    v-show="displayValue[row._index]"
-    :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
-    @mouseenter.stop="handleMouseIn(row._index)"
-    @mouseleave.stop="handleMouseOut(row._index)"
-    @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
-    >
-        <slot></slot>
+        :key="row._index"
+        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
+        @mouseenter.stop="handleMouseIn(row._index)"
+        @mouseleave.stop="handleMouseOut(row._index)"
+        @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
+        >
+            <slot></slot>
     </tr>
 </template>
 <script>

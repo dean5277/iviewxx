@@ -6,12 +6,14 @@
         <tbody :class="[prefixCls + '-tbody']">
             <template  v-for="(row, index) in data">
                 <template v-if="!row.pid && row.pid != 0">
-                    <table-tr
+                   <tr
                         :key="row._index"
-                        :row="row"
-                        :prefix-cls="prefixCls"
                         v-show="displayValue[row._index]"
-                        >
+                        :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
+                        @mouseenter.stop="handleMouseIn(row._index)"
+                        @mouseleave.stop="handleMouseOut(row._index)"
+                        @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
+                        @dblclick.stop="dblclickCurrentRow(row._index, row.nodeIndex)">
                            <template v-for="(column,n) in colPos[index]">
                                 <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                     <Cell
@@ -80,7 +82,7 @@
                                 </td>
 
                            </template>
-                    </table-tr>
+                    </tr>
                 </template>
                 <template v-else>
                     <tr
