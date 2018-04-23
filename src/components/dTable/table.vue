@@ -486,7 +486,6 @@
                 this.handleCurrentRow('highlight', _index);
             },
             highlightCurrentRow (_index) {
-                console.log("_index:", _index);
                 if (!this.highlightRow || this.objData[_index]._isHighlight) return;
                 this.handleCurrentRow('highlight', _index);
             },

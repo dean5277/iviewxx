@@ -39,7 +39,6 @@ export default {
                 }
                 return pos;
             } else {
-                console.log('childrens:', ctx.props.render(h, params).childrens);
                 return ctx.props.render(h, params).childrens;
             }
         }else{

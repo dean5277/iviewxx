@@ -13,7 +13,7 @@
         data () {
             return {
                 self: this,
-                pageSize: 1,
+                pageSize: 3,
                 total: 3,
                 pageNo: 1,
                 data8: [
@@ -235,7 +235,7 @@
         },
         mounted (){
             var self = this;
-            this.data7 = [this.data8[0]];
+            this.data7 = this.data8;
         }
     }
 </script>

@@ -81,8 +81,6 @@
 
                            </template>
                     </table-tr>
-
-
                 </template>
                 <template v-else>
                     <tr
