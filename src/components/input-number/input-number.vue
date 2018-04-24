@@ -26,10 +26,12 @@
                 @blur="blur"
                 @keydown.stop="keyDown"
                 @input="change"
+                @mouseup="preventDefault"
                 @change="change"
                 :readonly="readonly || !editable"
                 :name="name"
-                :value="formatterValue">
+                :value="formatterValue"
+                :placeholder="placeholder">
         </div>
     </div>
 </template>
@@ -119,7 +121,11 @@
             },
             parser: {
                 type: Function
-            }
+            },
+            placeholder: {
+                type: String,
+                default: ''
+            },
         },
         data () {
             return {
@@ -250,9 +256,9 @@
                     this.dispatch('FormItem', 'on-form-change', val);
                 });
             },
-            focus () {
+            focus (event) {
                 this.focused = true;
-                this.$emit('on-focus');
+                this.$emit('on-focus', event);
             },
             blur () {
                 this.focused = false;

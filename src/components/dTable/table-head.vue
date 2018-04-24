@@ -7,7 +7,7 @@
         <thead>
             <tr v-for="(cols, rowIndex) in headRows">
                 <th
-                    v-for="(column, index) in columns"
+                    v-for="(column, index) in cols"
                     :colspan="column.colSpan"
                     :rowspan="column.rowSpan"
                     :class="alignCls(column)"

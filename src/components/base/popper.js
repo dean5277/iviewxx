@@ -34,7 +34,7 @@ export default {
                             gpuAcceleration: false,
                         },
                         preventOverflow :{
-                            boundariesElement: 'body'
+                            boundariesElement: 'viewport'
                         }
                     }
                 };
@@ -109,6 +109,10 @@ export default {
             this.popperJS.destroy();
             this.popperJS = null;
         }
+    },
+    updated (){
+        this.$nextTick(()=>this.updatePopper());
+        
     },
     beforeDestroy() {
         if (isServer) return;

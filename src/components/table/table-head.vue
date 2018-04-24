@@ -34,6 +34,7 @@
                                 <span :class="[prefixCls + '-filter']">
                                     <i class="ivu-icon ivu-icon-funnel" :class="{on: getColumn(rowIndex, index)._isFiltered}"></i>
                                 </span>
+
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-if="getColumn(rowIndex, index)._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">
                                         <checkbox-group v-model="getColumn(rowIndex, index)._filterChecked">
@@ -133,8 +134,8 @@
             },
             scrollBarCellClass(){
                 let hasRightFixed = false;
-                for(var i in this.headRows){
-                    for(var j in this.headRows[i]){
+                for(let i in this.headRows){
+                    for(let j in this.headRows[i]){
                         if(this.headRows[i][j].fixed === 'right') {
                             hasRightFixed=true;
                             break;
@@ -202,10 +203,16 @@
             handleFilterHide (index) {
                 this.$parent.handleFilterHide(index);
             },
-            // ÒòÎª±íÍ·Ç¶Ì×²»ÊÇÉî¿½±´£¬ËùÒÔÃ»ÓÐ _ ¿ªÍ·µÄ·½·¨£¬ÔÚ isGroup ÏÂÓÃ´ËÁÐ
+            // å› ä¸ºè¡¨å¤´åµŒå¥—ä¸æ˜¯æ·±æ‹·è´ï¼Œæ‰€ä»¥æ²¡æœ‰ _ å¼€å¤´çš„æ–¹æ³•ï¼Œåœ¨ isGroup ä¸‹ç”¨æ­¤åˆ—
             getColumn (rowIndex, index) {
                 const isGroup = this.columnRows.length > 1;
-                return isGroup ? this.columns[rowIndex] : this.headRows[rowIndex][index];
+
+                if (isGroup) {
+                    const id = this.headRows[rowIndex][index].__id;
+                    return this.columns.filter(item => item.__id === id)[0];
+                } else {
+                    return this.headRows[rowIndex][index];
+                }
             }
         }
     };

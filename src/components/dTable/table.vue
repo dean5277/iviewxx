@@ -381,7 +381,7 @@
 
 
                 let unUsableWidth = hasWidthColumns.map(cell => cell.width).reduce((a, b) => a + b, 0);
-                let usableWidth = tableWidth - unUsableWidth - sumMinWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                let usableWidth = tableWidth - unUsableWidth - sumMinWidth - (this.showVerticalScrollBar?this.scrollBarWidth:0) - 1;
                 let usableLength = noWidthColumns.length;
                 let columnWidth = 0;
                 if(usableWidth > 0 && usableLength > 0){
@@ -453,8 +453,8 @@
 
                     }
                 }
-
-                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0);
+                
+                this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();
             },
@@ -894,10 +894,9 @@
                     return item;
                 });
             },
-            makeColumns (columns) {
-                if(!columns){
-                    var columns = deepCopy(this.columns);
-                }
+            makeColumns (cols) {
+                // 在 data 时，this.allColumns 暂时为 undefined
+                let columns = deepCopy(getAllColumns(cols));
                 let left = [];
                 let right = [];
                 let center = [];
