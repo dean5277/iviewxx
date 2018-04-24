@@ -55,13 +55,8 @@
                 </Sider>
                 <Layout class-name="test-class">
                     <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
-                    <Content :style="{background:'#FFCF9E'}">
-                        <!-- <Table border  :columns="columns1" height="500" :data="data1"></Table> -->
-                        <!-- <br> -->
-                        <!-- <Table border :columns="columns5" :data="data5"></Table> -->
-                        <Table border :columns="columns8"  height="240" :data="data7"></Table>
-                    </Content>
-                    <Footer>sdfsdsdfsdfs</Footer>
+                    <dTable border height="150" :columns="columns8" :data="data7"></dTable>
+
                 </Layout>
             </Layout>
         </div>
@@ -451,6 +446,72 @@
                         date: '2016-10-02'
                     },
                     {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        date: '2016-10-02'
+                    },
+                    {
                         name: 'Jon Snow',
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park',
@@ -477,12 +538,92 @@
                         key: 'name',
                         minWidth:100,
                         maxWidth:200,
+                        fixed: 'right',
+                        render: (h, params) => {
+                            return h('Select',
+                            {
+                                props: {
+                                     transfer: true
+                                }
+                            },
+                                [
+                                    h('Option', {
+                                        props:{
+                                            value: 1,
+                                            key:"1"
+                                        }
+                                    }, 1),
+                                    h('Option', {
+                                        props:{
+                                            value: 2,
+                                            key:"2"
+                                        }
+                                    }, 2),
+                                    h('Option', {
+                                        props:{
+                                            value: 3,
+                                            key:"3"
+                                        }
+                                    }, 3)
+                                ]
+                            )
+                        }
                     },
                     {
                         title: 'Age',
                         key: 'age',
-                        minWidth:60,
-                        maxWidth:100,
+                        minWidth:160,
+                        maxWidth:170,
+                        fixed: 'right',
+                        render: (h, params) => {
+                            return h('Buttons',
+                                {
+                                  props: {
+                                    trigger: 'click',
+                                    transfer: true
+                                  },
+                                  on: {
+                                    'on-click': value => {
+                                       this.$Message.success(value);
+                                    }
+                                  }
+                                },
+                                [
+                                    h('Button',
+                                        {
+                                          type: 'default',
+                                          on: {
+                                            click: () => {
+                                              this.$Message.success('button');
+                                            }
+                                          }
+                                        }, 'control'
+
+                                    ),
+                                    h('Buttons-menu',
+                                        {
+                                          slot: 'list'
+                                        },
+                                        [
+                                          h('Buttons-item',
+                                            {
+                                              props: {
+                                                name: '1'
+                                              }
+                                            }, 'abc'
+                                          ),
+                                          h('Buttons-item',
+                                            {
+                                              props: {
+                                                name: '2'
+                                              }
+                                            }, 'ddd'
+                                          )
+                                        ]
+                                      )
+                                ]
+                            )
+                        }
                     },
                 ],
             }

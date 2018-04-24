@@ -10,10 +10,10 @@
                         :key="row._index"
                         v-show="displayValue[row._index]"
                         :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index), row._display ? 'tableGrayBg' : '', row._isHighlight ? 'ivu-table-row-highlight' : '']"
-                        @mouseenter.stop="handleMouseIn(row._index)"
-                        @mouseleave.stop="handleMouseOut(row._index)"
-                        @click.stop="clickCurrentRow(row._index, row.nodeIndex)"
-                        @dblclick.stop="dblclickCurrentRow(row._index, row.nodeIndex)">
+                        @mouseenter.native.stop="handleMouseIn(row._index)"
+                        @mouseleave.native.stop="handleMouseOut(row._index)"
+                        @click.native="clickCurrentRow(row._index, row.nodeIndex)"
+                        @dblclick.native="dblclickCurrentRow(row._index, row.nodeIndex)">
                            <template v-for="(column,n) in colPos[index]">
                                 <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                     <Cell
@@ -89,10 +89,10 @@
                      :key="row._index"
                      :class="['ivu-table-row-' + row.nodeIndex , rowClasses(row._index),row._isHighlight ? 'ivu-table-row-heighlight' : '']"
                      v-show="displayValue[row._index]"
-                     @mouseenter.stop="handleMouseIn(row._index)"
-                     @mouseleave.stop="handleMouseOut(row._index)"
-                     @click.stop="clickCurrentRow(row._index,row.nodeIndex)"
-                     @dblclick.stop="dblclickCurrentRow(row._index,row.nodeIndex)">
+                     @mouseenter.native.stop="handleMouseIn(row._index)"
+                     @mouseleave.native.stop="handleMouseOut(row._index)"
+                     @click.native="clickCurrentRow(row._index,row.nodeIndex)"
+                     @dblclick.native="dblclickCurrentRow(row._index,row.nodeIndex)">
                         <template v-for="(column,n) in colPos[index]"  >
                              <!--   {{row}} -->
                             <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan"   >

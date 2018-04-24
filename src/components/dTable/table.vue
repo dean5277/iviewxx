@@ -113,7 +113,7 @@
     let columnKey = 1;
 
     export default {
-        name: 'Table',
+        name: 'dTable',
         mixins: [ Locale ],
         components: { tableHead, tableBody, Spin },
         props: {
@@ -453,7 +453,7 @@
 
                     }
                 }
-                
+
                 this.tableWidth = this.cloneColumns.map(cell => cell._width).reduce((a, b) => a + b, 0) + (this.showVerticalScrollBar?this.scrollBarWidth:0) + 1;
                 this.columnsWidth = columnsWidth;
                 this.fixedHeader();

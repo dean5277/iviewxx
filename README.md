@@ -1,19 +1,16 @@
 # iviewxx
-**已经兼容了 2.13.0 King of Opera， dTable支持拖动表头**   <br />
+**已经兼容了 2.13.1 ， dTable支持拖动表头**   <br />
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-### [更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
+### [详细更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
 #### 最近:
-1. 增加dTable 非 template/render 模式下，需使用 d-Table
-2. 修改一些BUG
-3. dTable 也拥有Table的功能啦，支持多级表头和最小宽度最大宽度
-4. 20180420修改了dTable 合并代码后的一些BUG。
-5. 修改了下拉树，修改单个节点不生效的BUG
-6. 修改了上次合并代码导致下拉树搜索无效的BUG
-7. 修复dTable选中问题
+1. Buttons 支持transfer
+2. 修复dTable dbClick无效的BUG
+3. 兼容iviw 2.13.1
+
 
 
 ###  Feature Request
@@ -23,7 +20,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.7.9
+目前版本1.7.11
 
 ### Usage
 es6<br />

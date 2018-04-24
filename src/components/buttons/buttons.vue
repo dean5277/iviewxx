@@ -7,8 +7,14 @@
             <slot></slot>
             <div  @click="handleClick" :class="buttonsArrows" class="ivu-btns"><Icon type="arrow-down-b" class="arrowDown"></Icon></div>
         </div>
-        <transition :name="transition">
-            <but v-show="currentVisible" :placement="placement" ref="but"><slot name="list"></slot></but>
+        <transition name="transition-drop">
+            <but
+                v-show="currentVisible"
+                :data-transfer="transfer"
+                :placement="placement"
+                ref="but"
+                v-transfer-dom
+            ><slot name="list"></slot></but>
         </transition>
     </div>
 </template>
@@ -16,13 +22,13 @@
     import but from './dropdown.vue';
     import clickoutside from '../../directives/clickoutside';
     import { oneOf, findComponentUpward } from '../../utils/assist';
-
+    import TransferDom from '../../directives/transfer-dom';
     const prefixCls = 'ivu-dropdown',
           buttonsCls = 'ivu-btns';
 
     export default {
         name: 'Buttons',
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         components: { but },
         props: {
             trigger: {
@@ -46,6 +52,10 @@
                     return oneOf(value, ['primary', 'ghost', 'dashed', 'text', 'info', 'success', 'warning', 'error', 'default']);
                 },
                 default:"default"
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
