@@ -9,7 +9,7 @@
 #### 最近:
 1. Buttons 支持transfer
 2. 修复dTable dbClick无效的BUG
-3. 兼容iviw 2.13.1
+3. 兼容iview 2.13.1
 
 
 
