@@ -36,7 +36,7 @@
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
             </template>
         </template>
-    <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
+        <template v-if="renderType === 'html'"><span v-html="row[column.key]"></span></template>
         <template v-if="renderType === 'switch'">
              <template v-if="row.hasChild">
                <i
@@ -150,7 +150,6 @@
             }
         },
         methods: {
-
             toggleSelect () {
                 this.$parent.$parent.toggleSelect(this.index);
             },
@@ -185,7 +184,7 @@
                 this.renderType = 'childSection';
             }  else if (this.column.render || this.column.combine) {
                 this.renderType = 'render';
-            } else{
+            } else {
                 this.renderType = 'normal';
             }
         }

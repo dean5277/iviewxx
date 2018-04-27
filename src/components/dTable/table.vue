@@ -991,6 +991,7 @@
         },
         mounted () {
             this.handleResize();
+            console.log('originColumns', this.columns);
             this.$nextTick(() => this.ready = true);
             on(window, 'resize', this.handleResize);
             this.observer = elementResizeDetectorMaker();
@@ -1029,7 +1030,6 @@
                     const colsWithId = this.makeColumnsId(this.columns);
                     this.allColumns = getAllColumns(colsWithId);
                     this.cloneColumns = this.makeColumns(colsWithId);
-
                     this.columnRows = this.makeColumnRows(false, colsWithId);
                     this.leftFixedColumnRows = this.makeColumnRows('left', colsWithId);
                     this.rightFixedColumnRows = this.makeColumnRows('right', colsWithId);

@@ -4,6 +4,9 @@
             <dTable highlight-row border :context="self" :columns="columns8" :data="data7"></dTable>
             <Page :total="total" :page-size="pageSize" :current="pageNo" size="small" show-total @on-change="changePage"></Page>
         </div>
+        <div style="margin-top:10px">
+            <Button @click="addColumn">增加一列</Button>
+        </div>
     </div>
 </template>
 <script>
@@ -23,7 +26,7 @@
                         country:"中国122",
                         pay:"支付宝",
                         status:"未处理",
-
+                        sex: 'male',
                         stretch:true,//是否显示子菜单
                         children:[
                             {
@@ -34,6 +37,7 @@
                                 status:"未处理",
                                 indentSize:15,//自定义的间距
                                 stretch:false,
+                                sex: 'male',
                                 children:[
                                     {
                                         orderNum:"123123",
@@ -43,6 +47,7 @@
                                         status:"未处理",
                                         indentSize:30,
                                         stretch:false,
+                                        sex: 'male',
                                         children: [
                                             {
                                                 orderNum:"xxxaaa",
@@ -51,6 +56,7 @@
                                                 pay:"支付宝",
                                                 status:"未处理",
                                                 indentSize:40,
+                                                sex: 'male',
                                                 stretch:false
                                             }
                                         ]
@@ -64,6 +70,7 @@
                                 pay:"支付宝",
                                 status:"未处理",
                                 indentSize:15,
+                                sex: 'male',
                                 stretch:false
                             },
                             {
@@ -72,6 +79,7 @@
                                 country:"中国1",
                                 pay:"支付宝1",
                                 status:"未处理",
+                                sex: 'male',
                                 indentSize:15,
                                 stretch:false
                             },
@@ -81,6 +89,7 @@
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
+                                sex: 'male',
                                 indentSize:15,
                                 stretch:false
                             },
@@ -90,6 +99,7 @@
                                 country:"中国1",
                                 pay:"支付宝1",
                                 status:"未处理",
+                                sex: 'male',
                                 indentSize:15,
                                 stretch:false
                             },
@@ -99,6 +109,7 @@
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
+                                sex: 'male',
                                 indentSize:15,
                                 stretch:false
                             },
@@ -108,6 +119,7 @@
                                 country:"中国1",
                                 pay:"支付宝1",
                                 status:"未处理",
+                                sex: 'male',
                                 indentSize:15,
                                 stretch:false
                             }
@@ -119,6 +131,7 @@
                         country:"中国",
                         pay:"支付宝",
                         status:"未处理",
+                        sex: 'male',
                         stretch:false
                     },
                     {
@@ -127,6 +140,7 @@
                         country:"中国",
                         pay:"支付宝",
                         status:"未处理",
+                        sex: 'male',
                         stretch:false,
                         children:[
                             {
@@ -135,6 +149,7 @@
                                 country:"中国",
                                 pay:"支付宝",
                                 status:"未处理",
+                                sex: 'male',
                                 indentSize:15,
                                 stretch:false,
 
@@ -171,7 +186,6 @@
                                  obj.props.colSpan = 3;
 
                             }
-                           // console.log(obj)
                             return obj;
                         }
                     },
@@ -230,7 +244,14 @@
             changePage (page) {
                 this.pageNo = page;
                 this.data7 = [this.data8[page - 1]];
-                console.log(this.total);
+            },
+            addColumn () {
+                let col = {
+                    key: 'sex',
+                    title: '性别',
+                    width: 100
+                }
+                this.columns8.splice(4, 0, col);
             }
         },
         mounted (){

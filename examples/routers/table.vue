@@ -55,8 +55,10 @@
                 </Sider>
                 <Layout class-name="test-class">
                     <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
-                    <dTable border height="150" :columns="columns8" :data="data7"></dTable>
-
+                    <Table border height="450" :columns="columns8" :data="data7"></Table>
+                    <div style="margin-top:10px">
+                        <Button @click="addColumn">增加一列</Button>
+                    </div>
                 </Layout>
             </Layout>
         </div>
@@ -431,90 +433,105 @@
                         name: 'John Brown',
                         age: 18,
                         address: 'New York No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-03'
                     },
                     {
                         name: 'Jim Green',
                         age: 24,
                         address: 'London No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-01'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Joe Black',
                         age: 30,
                         address: 'Sydney No. 1 Lake Park Sydney No. 1 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-02'
                     },
                     {
                         name: 'Jon Snow',
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park Ottawa No. 2 Lake Park',
+                        sex: 'mail',
                         date: '2016-10-04'
                     }
                 ],
@@ -654,6 +671,14 @@
             },
             changed (res) {
                 console.log(res)
+            },
+            addColumn () {
+                let col = {
+                    key: 'sex',
+                    title: '性别',
+                    width: 100
+                }
+                this.columns8.splice(1, 0, col);
             }
         },
         watch: {

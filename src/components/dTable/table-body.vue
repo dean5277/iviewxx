@@ -5,7 +5,7 @@
         </colgroup>
         <tbody :class="[prefixCls + '-tbody']">
             <template  v-for="(row, index) in data">
-                <template v-if="!row.pid && row.pid != 0">
+                <template v-if="!row.pid && row.pid !== 0">
                    <tr
                         :key="row._index"
                         v-show="displayValue[row._index]"
@@ -14,7 +14,7 @@
                         @mouseleave.stop="handleMouseOut(row._index)"
                         @click="clickCurrentRow(row._index, row.nodeIndex)"
                         @dblclick.native="dblclickCurrentRow(row._index, row.nodeIndex)">
-                           <template v-for="(column,n) in colPos[index]">
+                           <template v-for="(column, n) in colPos[index]">
                                 <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                     <Cell
                                         :fixed="fixed"
@@ -189,11 +189,11 @@
         components: { Cell, Expand, TableTr },
         data (){
             return {
-               status:store.state.status,
+               status: store.state.status,
                iconPos: [],
-               colPos:this.makeColPos(),
-               dataIndexPos:[],
-               displayValue:this.makeDisplayValue()[0]
+               colPos: this.makeColPos(),
+               dataIndexPos: [],
+               displayValue: this.makeDisplayValue()[0]
             }
         },
         props: {
@@ -221,7 +221,7 @@
                     }
                 }
                 return render;
-            },
+            }
 
         },
         watch:{
@@ -233,6 +233,17 @@
                   this.displayValue = this.makeDisplayValue()[0];
                   this.compile();
                   this.iconPos = this.makeDisplayValue()[1];
+              })
+            }
+          },
+          columns (n, o) {
+            if (n !== o) {
+              this.colPos = [];
+              this.$nextTick(function () {
+                this.colPos = this.makeColPos();
+                this.displayValue = this.makeDisplayValue()[0];
+                this.compile();
+                this.iconPos = this.makeDisplayValue()[1];
               })
             }
           }
@@ -252,34 +263,34 @@
             makeNewColumn (columns){
                 let pos = [];
                 columns.forEach((n,i) =>{
-                    let m =  Object.assign(Object.create(null),n);
+                    let m =  Object.assign(Object.create(null), n);
                     pos.push(m);
                 })
                 return pos;
             },
             compile () {
-                this.columns.forEach((column,i) => {
+                this.columns.forEach((column, i) => {
                     if (column.render && column.combine == true) {
-                        this.data.forEach((item,n) =>{
+                        this.data.forEach((item, n) => {
                             var obj = {
-                              row:item,
-                              column:this.columns,
-                              index:n
+                              row: item,
+                              column: this.columns,
+                              index: n
                             }
                             const template = column.render(Expand.render, obj);
                             if(typeof template === "object" && template.props.colSpan && !template.props.rowSpan){
-                                this.makeColSpan(n,i,template.props.colSpan);
+                                this.makeColSpan(n, i, template.props.colSpan);
                             }else if(typeof template === "object" && template.props.rowSpan && !template.props.colSpan){
-                                this.makeRowSpan(n,i,template.props.rowSpan);
+                                this.makeRowSpan(n, i, template.props.rowSpan);
                             }else if(typeof template === "object" && template.props.rowSpan && template.props.colSpan){
-                                this.makeColAndRow(n,i,template.props.rowSpan,template.props.colSpan);
+                                this.makeColAndRow(n, i, template.props.rowSpan, template.props.colSpan);
                             }
                             return template.childrens;
                         });
                     }
                 });
             },
-            makeColSpan(dataIndex, colIndex, colSpan, rowSpan){ // 需要合并的tr,第几个td,输入的合并格数
+            makeColSpan(dataIndex, colIndex, colSpan, rowSpan) { // 需要合并的tr,第几个td,输入的合并格数
                 let colSpanNum = 0;// 实际合并多少格
                 if((colIndex + colSpan) <= this.columns.length){
                     colSpanNum = colSpan

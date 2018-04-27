@@ -10,6 +10,7 @@
 1. Buttons 支持transfer
 2. 修复dTable dbClick无效的BUG
 3. 兼容iview 2.13.1
+4. 修复dTable 增加列时渲染错误的BUG
 
 
 
@@ -20,7 +21,7 @@
 ### Install
 npm install iviewxx<br />
 
-目前版本1.7.13
+目前版本1.7.15
 
 ### Usage
 es6<br />
