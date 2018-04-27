@@ -79,6 +79,7 @@
                 }
             },
             resetTransformOrigin() {
+                if (this.popper === null) return false;
                 let x_placement = this.popper.popper.getAttribute('x-placement');
                 let placementStart = x_placement.split('-')[0];
                 let placementEnd = x_placement.split('-')[1];
