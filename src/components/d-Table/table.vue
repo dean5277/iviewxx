@@ -853,7 +853,7 @@
                     } else {
                         newRow._isChecked = false;
                     }
-            if (newRow._expanded) {
+                    if (newRow._expanded) {
                         newRow._isExpanded = newRow._expanded;
                     } else {
                         newRow._isExpanded = false;
@@ -991,7 +991,6 @@
         },
         mounted () {
             this.handleResize();
-            console.log('originColumns', this.columns);
             this.$nextTick(() => this.ready = true);
             on(window, 'resize', this.handleResize);
             this.observer = elementResizeDetectorMaker();

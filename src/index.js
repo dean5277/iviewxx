@@ -51,7 +51,7 @@ import Tree from './components/tree';
 import Upload from './components/upload';
 import {Row, Col} from './components/grid';
 import {Select, Option, OptionGroup} from './components/select';
-import dTable from './components/dtable';
+import dTable from './components/d-Table';
 import locale from './locale/index';
 import treeSelect from './components/tree-select'
 
@@ -146,8 +146,7 @@ const iview = {
     iProgress: Progress,
     iSelect: Select,
     iSwitch: Switch,
-    iTable: Table,
-    dTable: dTable
+    iTable: Table
 };
 
 const install = function(Vue, opts = {}) {

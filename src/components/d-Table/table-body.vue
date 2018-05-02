@@ -225,8 +225,8 @@
 
         },
         watch:{
-          data (n,o){
-            if(n != o){
+          data (n, o){
+            if(n !== o){
               this.status = store.state.status;
               this.$nextTick(function () {
                   this.colPos = this.makeColPos();
