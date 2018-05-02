@@ -11,6 +11,8 @@
 2. 修复dTable dbClick无效的BUG
 3. 兼容iview 2.13.1
 4. 修复dTable 增加列时渲染错误的BUG
+5. 修复popper.js 无法加载的BUG
+6. 修复按需加载dTable 无法加载的BUG
 
 
 
@@ -19,9 +21,9 @@
 都是抽空做，没有具体完成时间
 
 ### Install
-npm install iviewxx<br />
+npm install iviewxx --save<br />
 
-目前版本1.7.15
+目前版本1.7.19
 
 ### Usage
 es6<br />
