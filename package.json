@@ -1,6 +1,6 @@
 {
   "name": "iviewxx",
-  "version": "1.7.14",
+  "version": "1.7.21",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -48,10 +48,11 @@
     "lodash.throttle": "^4.1.1",
     "popper.js": "^1.14.1",
     "tinycolor2": "^1.4.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "v-click-outside-x": "^2.4.0"
   },
   "peerDependencies": {
-    "vue": "2.5.13"
+    "vue": "^2.5.2"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -100,14 +101,15 @@
     "sinon": "^4.4.2",
     "sinon-chai": "^3.0.0",
     "style-loader": "^0.20.2",
+    "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
-    "vue": "2.5.13",
+    "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^14.2.1",
     "vue-router": "^3.0.1",
     "vue-style-loader": "^4.0.2",
-    "vue-template-compiler": "2.5.13",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^3.0.0"

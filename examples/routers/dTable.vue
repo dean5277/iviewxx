@@ -258,5 +258,5 @@
             var self = this;
             this.data7 = this.data8;
         }
-    }
+    };
 </script>

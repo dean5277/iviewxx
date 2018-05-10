@@ -16,9 +16,6 @@ export default {
             index: ctx.props.index
         };
 
-        if (ctx.props.render === undefined) {
-            return;
-        }
         if (ctx.props.column) params.column = ctx.props.column;
         if (ctx.props.render(h, params) === undefined || ctx.props.render(h, params) === null) return;
         if (ctx.props.render(h, params).hasOwnProperty('childrens') && ctx.props.render(h, params).childrens !== undefined) {
@@ -41,7 +38,9 @@ export default {
             } else {
                 return ctx.props.render(h, params).childrens;
             }
-        }else{
+        } else if (typeof ctx.props.render(h, params) !== 'object') {
+            return h('span', ctx.props.render(h, params));
+        } else {
             return ctx.props.render(h, params);
         }
 
