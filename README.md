@@ -6,13 +6,8 @@
 如果有Bug，请提交一下issues <br />
 
 ### [详细更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
-#### 最近:
-1. Buttons 支持transfer
-2. 修复dTable dbClick无效的BUG
-3. 兼容iview 2.13.1
-4. 修复dTable 增加列时渲染错误的BUG
-5. 修复popper.js 无法加载的BUG
-6. 修复按需加载dTable 无法加载的BUG
+#### 最近（0510）:
+1. dTable render时兼容无标签回调（vue 2.5.13 后, render 默认需要一层标签）
 
 
 
