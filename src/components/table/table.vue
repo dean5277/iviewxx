@@ -905,7 +905,6 @@
         mounted () {
             this.handleResize();
             this.$nextTick(() => this.ready = true);
-
             on(window, 'resize', this.handleResize);
             this.observer = elementResizeDetectorMaker();
             this.observer.listenTo(this.$el, this.handleResize);

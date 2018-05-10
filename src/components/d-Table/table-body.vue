@@ -160,11 +160,8 @@
                                    >
                                  </Cell>
                             </td>
-
                        </template>
-
                     </tr>
-
                 </template>
                 <tr v-if="rowExpanded(row._index)">
                     <td :colspan="columns.length" :class="prefixCls + '-expanded-cell'">
@@ -172,7 +169,6 @@
                     </td>
                 </tr>
             </template>
-
         </tbody>
     </table>
 </template>
@@ -225,7 +221,7 @@
 
         },
         watch:{
-          data (n, o){
+          data (n, o) {
             if(n !== o){
               this.status = store.state.status;
               this.$nextTick(function () {
@@ -397,9 +393,9 @@
             },
             showRelated (grid, sIndex) { //实际上是改变status..[grid,sIndex]组ID，节点索引
                 let status = store.state.status;
-                if(status[grid][sIndex][1]){
+                if (status[grid][sIndex][1]) {
                     status[grid][sIndex][1] = false;
-                }else{
+                } else {
                     status[grid][sIndex][1] = true;
                 }
                 store.commit('status',status);

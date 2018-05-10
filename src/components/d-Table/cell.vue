@@ -6,7 +6,6 @@
       url('//at.alicdn.com/t/font_wpboh046qx5hfr.ttf?t=1493796069197') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
       url('//at.alicdn.com/t/font_wpboh046qx5hfr.svg?t=1493796069197#iconfont') format('svg'); /* iOS 4.1- */
     }
-
     .iconfont {
       font-family:"iconfont" !important;
       font-size:16px;
@@ -14,8 +13,6 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
-
     .icon-iconfontunie047:before { content: "\e60b"; }
 
     .icon-iconfontunie048:before { content: "\e60c"; }
