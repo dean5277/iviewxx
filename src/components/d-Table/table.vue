@@ -602,7 +602,7 @@
             },
             handleBodyScroll (event) {
                 const target = event.target;
-                const maxWidth = target.scrollWidth - target.offsetWidth;
+                const maxWidth = target.scrollWidth - target.offsetWidth - 1;
                 if (target.scrollLeft === 0 && !this.dependOnLeft) {
                     this.dependOnLeft = true;
                     this.dependOnRight = false;
@@ -610,7 +610,7 @@
                     this.dependOnLeft = false;
                     this.dependOnRight = false;
                 }
-                if (target.scrollLeft === maxWidth && !this.dependOnRight) {
+                if (target.scrollLeft >= maxWidth && !this.dependOnRight) {
                     this.dependOnRight = true;
                 } else if (target.scrollLeft < maxWidth && this.dependOnRight) {
                     this.dependOnRight = false;
