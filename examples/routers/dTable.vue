@@ -7,6 +7,10 @@
         <div style="margin-top:10px">
             <Button @click="addColumn">增加一列</Button>
         </div>
+        <div style="margin-top:10px; width:600px">
+            <dTable border height="450" :columns="columns9" :data="data4"></dTable>
+        </div>
+
     </div>
 </template>
 <script>
@@ -231,7 +235,185 @@
                            },"编辑")
                         }
                     }
-                ]
+                ],
+                data4: [
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        province: 'America',
+                        city: 'New York',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'Washington, D.C. No. 1 Lake Park',
+                        province: 'America',
+                        city: 'Washington, D.C.',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        province: 'Australian',
+                        city: 'Sydney',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        province: 'Canada',
+                        city: 'Ottawa',
+                        zip: 100000
+                    },
+                    {
+                        name: 'John Brown',
+                        age: 18,
+                        address: 'New York No. 1 Lake Park',
+                        province: 'America',
+                        city: 'New York',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jim Green',
+                        age: 24,
+                        address: 'Washington, D.C. No. 1 Lake Park',
+                        province: 'America',
+                        city: 'Washington, D.C.',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Joe Black',
+                        age: 30,
+                        address: 'Sydney No. 1 Lake Park',
+                        province: 'Australian',
+                        city: 'Sydney',
+                        zip: 100000
+                    },
+                    {
+                        name: 'Jon Snow',
+                        age: 26,
+                        address: 'Ottawa No. 2 Lake Park',
+                        province: 'Canada',
+                        city: 'Ottawa',
+                        zip: 100000
+                    }
+                ],
+                columns9: [
+                    {
+                        title: 'Address',
+                        key: 'address',
+                        fixed: 'left',
+                        minWidth:200,
+                        //maxWidth:300,
+                    },
+                    {
+                        title: 'Date',
+                        key: 'date',
+                        sortable: true,
+                        minWidth:100,
+                        maxWidth:150,
+                    },
+                    {
+                        title: 'province',
+                        key: 'province',
+                        width: 200
+                    },
+                    {
+                        title: 'Name',
+                        key: 'name',
+                        minWidth:100,
+                        maxWidth:200,
+                        render: (h, params) => {
+                            return h('Select',
+                            {
+                                props: {
+                                     transfer: true
+                                }
+                            },
+                                [
+                                    h('Option', {
+                                        props:{
+                                            value: 1,
+                                            key:"1"
+                                        }
+                                    }, 1),
+                                    h('Option', {
+                                        props:{
+                                            value: 2,
+                                            key:"2"
+                                        }
+                                    }, 2),
+                                    h('Option', {
+                                        props:{
+                                            value: 3,
+                                            key:"3"
+                                        }
+                                    }, 3)
+                                ]
+                            )
+                        }
+                    },
+                    {
+                        title: 'Age',
+                        key: 'age',
+                        minWidth:160,
+                        maxWidth:170,
+                        fixed: 'right',
+                        render: (h, params) => {
+                            return h('Buttons',
+                                {
+                                  props: {
+                                    trigger: 'click',
+                                    transfer: true
+                                  },
+                                  on: {
+                                    'on-click': value => {
+                                       this.$Message.success(value);
+                                    }
+                                  }
+                                },
+                                [
+                                    h('Button',
+                                        {
+                                          type: 'default',
+                                          on: {
+                                            click: () => {
+                                              this.$Message.success('button');
+                                            }
+                                          }
+                                        }, 'control'
+
+                                    ),
+                                    h('Buttons-menu',
+                                        {
+                                          slot: 'list'
+                                        },
+                                        [
+                                          h('Buttons-item',
+                                            {
+                                              props: {
+                                                name: '1'
+                                              }
+                                            }, 'abc'
+                                          ),
+                                          h('Buttons-item',
+                                            {
+                                              props: {
+                                                name: '2'
+                                              }
+                                            }, 'ddd'
+                                          )
+                                        ]
+                                      )
+                                ]
+                            )
+                        }
+                    },
+                ],
             }
         },
         methods: {

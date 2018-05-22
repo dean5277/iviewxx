@@ -39,7 +39,7 @@
                     </tbody>
                 </table>
             </div>
-            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
+            <div :class="[prefixCls + '-fixed', dependOnLeft ? 'noneBoxShadow' : '']" :style="fixedTableStyle" v-if="isLeftFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                         fixed="left"
@@ -63,7 +63,7 @@
                         :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
+            <div :class="[prefixCls + '-fixed-right', dependOnRight? 'noneBoxShadow' : '']" :style="fixedRightTableStyle" v-if="isRightFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                         fixed="right"
@@ -200,15 +200,17 @@
                 scrollBarWidth: getScrollBarSize(),
                 currentContext: this.context,
                 cloneData: deepCopy(this.data), // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
-                showVerticalScrollBar:false,
-                showHorizontalScrollBar:false,
-                headerWidth:0,
-                headerHeight:0,
+                showVerticalScrollBar: false,
+                showHorizontalScrollBar: false,
+                headerWidth: 0,
+                headerHeight: 0,
                 resizeProxyVisible: false,
                 resizeState: {
                   width: null,
                   height: null
-                }
+                },
+                dependOnLeft: true,
+                dependOnRight: false
             };
         },
         computed: {
@@ -599,6 +601,20 @@
                 this.cloneColumns.forEach((col) => col._filterVisible = false);
             },
             handleBodyScroll (event) {
+                const target = event.target;
+                const maxWidth = target.scrollWidth - target.offsetWidth;
+                if (target.scrollLeft === 0 && !this.dependOnLeft) {
+                    this.dependOnLeft = true;
+                    this.dependOnRight = false;
+                } else if (target.scrollLeft > 0 && this.dependOnLeft) {
+                    this.dependOnLeft = false;
+                    this.dependOnRight = false;
+                }
+                if (target.scrollLeft === maxWidth && !this.dependOnRight) {
+                    this.dependOnRight = true;
+                } else if (target.scrollLeft < maxWidth && this.dependOnRight) {
+                    this.dependOnRight = false;
+                }
                 if (this.showHeader) this.$refs.header.scrollLeft = event.target.scrollLeft;
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = event.target.scrollTop;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = event.target.scrollTop;

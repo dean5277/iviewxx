@@ -6,8 +6,8 @@
 如果有Bug，请提交一下issues <br />
 
 ### [详细更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
-#### 最近（0510）:
-1. dTable render时兼容无标签回调（vue 2.5.13 后, render 默认需要一层标签）
+#### 最近（0522）:
+1. dTable 仿照ant table, fixed 靠左时，不显示左分割线，靠右时不显示右分割线（也就是阴影没有了与中间融为一体）。
 
 
 
@@ -18,7 +18,7 @@
 ### Install
 npm install iviewxx --save<br />
 
-目前版本1.7.21
+目前版本1.7.22
 
 ### Usage
 es6<br />

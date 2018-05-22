@@ -1,69 +1,44 @@
 <template>
     <div>
-        <Menu ref="menu" active-name="1-2" :open-names="openNames" theme="dark" accordion @on-open-change="handleOpenChange">
-            <Submenu name="1">
+        <Menu mode="horizontal" :theme="theme1" active-name="3">
+            <Submenu name="3">
                 <template slot="title">
-                    <Icon type="ios-analytics"></Icon>
-                    Navigation One
+                    <Icon type="stats-bars"></Icon>
+                    统计分析
                 </template>
-                <MenuGroup title="Item 1">
-                    <MenuItem name="1-1">Option 1</MenuItem>
-                    <MenuItem name="1-2">Option 2</MenuItem>
+                <MenuGroup title="使用">
+                    <MenuItem name="3-1">新增和启动</MenuItem>
+                    <MenuItem name="3-2">活跃分析</MenuItem>
+                    <MenuItem name="3-3">时段分析</MenuItem>
                 </MenuGroup>
-                <MenuGroup title="Item 2">
-                    <MenuItem name="1-3">Option 3</MenuItem>
-                    <MenuItem name="1-4">Option 4</MenuItem>
+                <MenuGroup title="留存">
+                    <MenuItem name="3-4">用户留存</MenuItem>
+                    <MenuItem name="3-5">流失用户</MenuItem>
                 </MenuGroup>
+                <MenuItem name="3-6">流失用33户</MenuItem>
+                <MenuItem name="3-7">流失用33户</MenuItem>
+                <MenuItem name="3-8">流失用33户</MenuItem>
+                <MenuItem name="3-9">流失用33户</MenuItem>
+                <MenuItem name="3-10">流失用33户</MenuItem>
+
             </Submenu>
-            <Submenu name="2">
-                <template slot="title">
-                    <Icon type="ios-filing"></Icon>
-                    Navigation Two
-                </template>
-                <MenuItem name="2-1">Option 5</MenuItem>
-                <MenuItem name="2-2">Option 6</MenuItem>
-                <Submenu name="3">
-                    <template slot="title">Submenu</template>
-                    <MenuItem name="3-1">Option 7</MenuItem>
-                    <MenuItem name="3-2">Option 8</MenuItem>
-                </Submenu>
-                <Submenu name="4">
-                    <template slot="title">Submenu</template>
-                    <MenuItem name="4-1">Option 7</MenuItem>
-                    <MenuItem name="4-2">Option 8</MenuItem>
-                </Submenu>
-            </Submenu>
-            <Submenu name="5">
-                <template slot="title">
-                    <Icon type="ios-gear"></Icon>
-                    Navigation Three
-                </template>
-                <MenuItem name="5-1">Option 9</MenuItem>
-                <MenuItem name="5-2">Option 10</MenuItem>
-                <MenuItem name="5-3">Option 11</MenuItem>
-                <MenuItem name="5-4">Option 12</MenuItem>
-            </Submenu>
+
         </Menu>
-        <Button @click="setOpenNames">修改展开数组</Button>
+        <br>
+        <p>Change theme</p>
+        <RadioGroup v-model="theme1">
+            <Radio label="light"></Radio>
+            <Radio label="dark"></Radio>
+            <Radio label="primary"></Radio>
+        </RadioGroup>
     </div>
 </template>
 <script>
     export default {
         data () {
             return {
-                openNames: ['1']
-            };
-        },
-        methods: {
-            handleOpenChange (name) {
-                console.log(name)
-            },
-            setOpenNames () {
-                this.openNames = ['2', '3'];
-                this.$nextTick(() => {
-                    this.$refs.menu.updateOpened();
-                })
+                theme1: 'light'
             }
         }
-    }
+    };
 </script>
