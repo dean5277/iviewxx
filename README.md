@@ -1,5 +1,5 @@
 # iviewxx
-**已经兼容了 2.13.1 ， dTable支持拖动表头**   <br />
+###已经兼容了 2.4.0
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
@@ -8,17 +8,13 @@
 ### [详细更新日志](https://blog.deancheng.com/2018/04/11/iviewxx20180411/)
 #### 最近（0522）:
 1. dTable 仿照ant table, fixed 靠左时，不显示左分割线，靠右时不显示右分割线（也就是阴影没有了与中间融为一体）。
+2. tree 增加disableSelected 属性，阻止选中（如果有checkbox 仍然可以选择，之前的disabled生效的话，selecte和checkbox都会被禁止）
 
-
-
-###  Feature Request
-1.dTable表格列拖动切换 <br />
-都是抽空做，没有具体完成时间
 
 ### Install
 npm install iviewxx --save<br />
 
-目前版本1.8.0
+目前版本1.8.1
 
 ### Usage
 es6<br />
