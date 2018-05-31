@@ -671,7 +671,7 @@
 
 <template>
     <div>
-        <Select v-model="model1" size="small" style="width:200px;">
+        <Select v-model="model1" size="small" @on-open-change="abc" @on-change="changeSelect" style="width:200px;">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
         <Select v-model="model10" size="small" multiple style="width:260px">
@@ -680,42 +680,42 @@
 
         <br><br>
 
-        <Select v-model="model1" size="large" style="width:200px">
+        <Select v-model="model1" size="large" @on-change="changeSelect" style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="model10" size="large" multiple style="width:260px">
+        <Select v-model="model10" size="large" @on-change="changeSelect" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
         <br><br>
 
-        <Select v-model="model1" style="width:200px">
+        <Select v-model="model1" @on-change="changeSelect" style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="model11" multiple style="width:260px">
+        <Select v-model="model11" @on-change="changeSelect" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
+        <Select v-model="model10" @on-change="changeSelect" multiple style="width:260px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+
+        <br><br>
+
+        <br><br>
+
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
         <Select v-model="model10" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        
         <br><br>
-        
+
         <br><br>
-        
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <br><br>
-        <Select v-model="model10" multiple style="width:260px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-        <br><br>
-        
-        <br><br>
-        
+
         <br><br>
         <br><br>
         <br><br>
@@ -757,9 +757,17 @@
                         label: 'Canberra'
                     }
                 ],
-                model1: '',
+                model1: 'New York',
                 model10: [],
                 model11: []
+            }
+        },
+        methods: {
+            changeSelect () {
+                console.log('........')
+            },
+            abc (val) {
+                console.log(val)
             }
         }
     }
