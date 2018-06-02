@@ -1,5 +1,5 @@
 # iviewxx
-### 已经兼容了 2.14.0
+### 已经兼容了 2.14.1
 
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
@@ -14,7 +14,7 @@
 ### Install
 npm install iviewxx --save<br />
 
-目前版本1.8.1
+目前版本1.8.3
 
 ### Usage
 es6<br />
