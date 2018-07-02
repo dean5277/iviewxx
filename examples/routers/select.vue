@@ -695,7 +695,7 @@
         <Select v-model="model11" @on-change="changeSelect" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="model10" @on-change="changeSelect" multiple style="width:260px">
+        <Select ref='modelRef' v-model="model10" @on-change="changeSelect" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
@@ -769,6 +769,11 @@
             abc (val) {
                 console.log(val)
             }
+        },
+        mounted () {
+            let v = this;
+            v.$refs['']
+            console.log(v.$refs['modelRef'])
         }
     }
 </script>

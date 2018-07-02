@@ -48,6 +48,7 @@
                         @on-check-change="treeSelectCheckChange"
                         @on-toggle-expand="treeSelectToggleExpand"
                         :show-checkbox="showCheckbox"
+                        ref="treeSelectRef"
                     >
                     </Tree>
                 </div>
@@ -472,6 +473,9 @@
             treeSelectToggleExpand (){
 
             },
+            getCheckedNodes () {
+                return this.$refs['treeSelectRef'].getCheckedNodes();
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;
@@ -541,12 +545,9 @@
                         value: model.title,
                         label: model.title
                     });
-
-
                 }
                 const selectedArray = [];
                 const selectedObject = {};
-
                 selected.forEach(item => {
                     if (!selectedObject[item.value]) {
                         selectedArray.push(item);
@@ -887,6 +888,7 @@
             this.$on('append', this.debouncedAppendRemove());
             this.$on('remove', this.debouncedAppendRemove());
             this.cacheData = deepCopy(this.treeData);
+
         },
         beforeDestroy () {
             document.removeEventListener('keydown', this.handleKeydown);
@@ -989,7 +991,12 @@
             'elementaryData':{
                 handler (n, o){
                     if((n.length !== o.length) || n !== o) {
+                        let v = this;
                         this.cacheData = deepCopy(this.treeData);
+                        this.$nextTick(function () {
+                            let selectNodes = this.$refs['treeSelectRef'].getCheckedNodes();
+                            this.treeSelectGetValue(selectNodes);
+                        })
                     }
                 },
                 deep:true

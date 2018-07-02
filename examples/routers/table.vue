@@ -55,7 +55,7 @@
                 </Sider>
                 <Layout class-name="test-class">
                     <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
-                    <Table border height="450" :columns="columns8" :data="data7"></Table>
+                    <Table ref="tableRef" border height="450" :columns="columns8" :data="data7"></Table>
                     <div style="margin-top:10px">
                         <Button @click="addColumn">增加一列</Button>
                     </div>
@@ -67,6 +67,7 @@
 <script>
     export default {
         data () {
+            var self = this;
             return {
                 isCollapsed: false,
                 columns1: [
@@ -593,53 +594,24 @@
                         maxWidth:170,
                         fixed: 'right',
                         render: (h, params) => {
-                            return h('Buttons',
+                            let se =  h('Select',
                                 {
-                                  props: {
-                                    trigger: 'click',
-                                    transfer: true
-                                  },
-                                  on: {
-                                    'on-click': value => {
-                                       this.$Message.success(value);
-                                    }
-                                  }
+                                    props: {
+
+                                        filterable: true,
+                                        transfer: true
+                                    },
+                                    ref: 'abc' + params.index,
                                 },
                                 [
-                                    h('Button',
-                                        {
-                                          type: 'default',
-                                          on: {
-                                            click: () => {
-                                              this.$Message.success('button');
-                                            }
-                                          }
-                                        }, 'control'
-
-                                    ),
-                                    h('Buttons-menu',
-                                        {
-                                          slot: 'list'
-                                        },
-                                        [
-                                          h('Buttons-item',
-                                            {
-                                              props: {
-                                                name: '1'
-                                              }
-                                            }, 'abc'
-                                          ),
-                                          h('Buttons-item',
-                                            {
-                                              props: {
-                                                name: '2'
-                                              }
-                                            }, 'ddd'
-                                          )
-                                        ]
-                                      )
+                                 h('Option', {
+                                    props: {
+                                        value: 1
+                                    }
+                                 }, 1)
                                 ]
                             )
+                            return se;
                         }
                     },
                 ],
@@ -680,6 +652,13 @@
                 }
                 this.columns8.splice(1, 0, col);
             }
+        },
+        mounted () {
+            let v = this;
+            console.log(v.$refs['abc0'])
+            // setTimeout(function () {
+            //     console.log(v.$refs['abc0'])
+            // },10000)
         },
         watch: {
             isCollapsed (val) {

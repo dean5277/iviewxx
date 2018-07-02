@@ -27932,6 +27932,9 @@ exports.default = {
             this.treeSelectGetValue(value);
         },
         treeSelectToggleExpand: function treeSelectToggleExpand() {},
+        getCheckedNodes: function getCheckedNodes() {
+            return this.$refs['treeSelectRef'].getCheckedNodes();
+        },
         toggleMenu: function toggleMenu() {
             if (this.disabled || this.autoComplete) {
                 return false;
@@ -28024,7 +28027,6 @@ exports.default = {
             }
             var selectedArray = [];
             var selectedObject = {};
-
             selected.forEach(function (item) {
                 (0, _newArrowCheck3.default)(this, _this13);
 
@@ -28516,7 +28518,12 @@ exports.default = {
         'elementaryData': {
             handler: function handler(n, o) {
                 if (n.length !== o.length || n !== o) {
+                    var v = this;
                     this.cacheData = (0, _assist.deepCopy)(this.treeData);
+                    this.$nextTick(function () {
+                        var selectNodes = this.$refs['treeSelectRef'].getCheckedNodes();
+                        this.treeSelectGetValue(selectNodes);
+                    });
                 }
             },
 
@@ -44320,8 +44327,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_treeSelect_vue__ = __webpack_require__(244);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_treeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_treeSelect_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_treeSelect_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_treeSelect_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_44b54c2e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__ = __webpack_require__(597);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_44b54c2e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_44b54c2e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0aff5261_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__ = __webpack_require__(597);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0aff5261_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0aff5261_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(0);
 /* script */
 
@@ -44339,8 +44346,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_treeSelect_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_44b54c2e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_44b54c2e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0aff5261_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_0aff5261_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_treeSelect_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -44505,7 +44512,7 @@ var render = function render() {
         }_vm.query = $event.target.value;
       } } }) : _vm._e(), _vm._v(" "), _c('Icon', { directives: [{ name: "show", rawName: "v-show", value: _vm.showCloseIcon, expression: "showCloseIcon" }], class: [_vm.prefixCls + '-arrow'], attrs: { "type": "ios-close" }, nativeOn: { "click": function click($event) {
         $event.stopPropagation();return _vm.clearSingleSelect($event);
-      } } }), _vm._v(" "), !_vm.remote ? _c('Icon', { class: [_vm.prefixCls + '-arrow'], attrs: { "type": "arrow-down-b" } }) : _vm._e()])], 2), _vm._v(" "), _c('transition', { attrs: { "name": _vm.transitionName } }, [_c('Drop', { directives: [{ name: "show", rawName: "v-show", value: _vm.dropVisible, expression: "dropVisible" }, { name: "transfer-dom", rawName: "v-transfer-dom" }], ref: "dropdown", class: _vm.dropdownCls, attrs: { "placement": _vm.placement, "data-transfer": _vm.transfer } }, [_vm.filterable && _vm.cacheData.length > 0 && _vm.cacheData[0].hasOwnProperty('_hide') ? _c('ul', { directives: [{ name: "show", rawName: "v-show", value: _vm.cacheData[0]._hide, expression: "cacheData[0]._hide" }], class: [_vm.prefixCls + '-not-found'] }, [_c('li', [_vm._v(_vm._s(_vm.localeNotFoundText))])]) : _vm._e(), _vm._v(" "), _c('div', { class: _vm.treeSelectContainer }, [_c('Tree', { attrs: { "data": _vm.cacheData, "show-checkbox": _vm.showCheckbox }, on: { "on-select-change": _vm.treeSelectChange, "on-check-change": _vm.treeSelectCheckChange, "on-toggle-expand": _vm.treeSelectToggleExpand } })], 1)])], 1)], 1);
+      } } }), _vm._v(" "), !_vm.remote ? _c('Icon', { class: [_vm.prefixCls + '-arrow'], attrs: { "type": "arrow-down-b" } }) : _vm._e()])], 2), _vm._v(" "), _c('transition', { attrs: { "name": _vm.transitionName } }, [_c('Drop', { directives: [{ name: "show", rawName: "v-show", value: _vm.dropVisible, expression: "dropVisible" }, { name: "transfer-dom", rawName: "v-transfer-dom" }], ref: "dropdown", class: _vm.dropdownCls, attrs: { "placement": _vm.placement, "data-transfer": _vm.transfer } }, [_vm.filterable && _vm.cacheData.length > 0 && _vm.cacheData[0].hasOwnProperty('_hide') ? _c('ul', { directives: [{ name: "show", rawName: "v-show", value: _vm.cacheData[0]._hide, expression: "cacheData[0]._hide" }], class: [_vm.prefixCls + '-not-found'] }, [_c('li', [_vm._v(_vm._s(_vm.localeNotFoundText))])]) : _vm._e(), _vm._v(" "), _c('div', { class: _vm.treeSelectContainer }, [_c('Tree', { ref: "treeSelectRef", attrs: { "data": _vm.cacheData, "show-checkbox": _vm.showCheckbox }, on: { "on-select-change": _vm.treeSelectChange, "on-check-change": _vm.treeSelectCheckChange, "on-toggle-expand": _vm.treeSelectToggleExpand } })], 1)])], 1)], 1);
 };
 var staticRenderFns = [];
 exports.render = render;
