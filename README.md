@@ -4,14 +4,15 @@
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-#### 最近（0522）:
+#### 最近（iviewxx 1.9.4）:
 1. 兼容iview2.14.3（抱歉，最近身体抱恙，没有及时更新）
+2. Select 搜索模式时，增加on-enter事件，回调一个event
 
 
 ### Install
 npm install iviewxx --save<br />
 
-目前版本1.9.3
+目前版本1.9.4
 
 ### Usage
 es6<br />

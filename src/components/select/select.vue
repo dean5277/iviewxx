@@ -413,6 +413,9 @@
                 this.hideMenu();
                 if (this.clearable) this.reset();
             },
+            enterInput (event) { // on-enter event
+                this.$emit('on-enter', event);
+            },
             getOptionData(value){
                 const option = this.flatOptions.find(({componentOptions}) => componentOptions.propsData.value === value);
                 if (!option) return null;

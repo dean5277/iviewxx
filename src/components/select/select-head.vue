@@ -23,6 +23,7 @@
             @keydown.delete="handleInputDelete"
             @focus="onInputFocus"
             @blur="onInputFocus"
+            @keyup.enter="resetInput"
 
             ref="input">
         <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
@@ -155,6 +156,9 @@
             },
             resetInputState () {
                 this.inputLength = this.$refs.input.value.length * 12 + 20;
+            },
+            resetInput (event) {
+                this.$parent.enterInput(event);
             },
             handleInputDelete () {
                 if (this.multiple && this.selectedMultiple.length && this.query === '') {

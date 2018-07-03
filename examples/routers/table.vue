@@ -55,7 +55,7 @@
                 </Sider>
                 <Layout class-name="test-class">
                     <Header :style="{background: '#eee'}"><Button @click="toggleCollapse">菜单</Button></Header>
-                    <Table ref="tableRef" border height="450" :columns="columns8" :data="data7"></Table>
+                    <dTable ref="tableRef" border height="450" :columns="columns8" :data="data7"></dTable>
                     <div style="margin-top:10px">
                         <Button @click="clear">clearSearchWord</Button>
                     </div>
@@ -601,13 +601,28 @@
                                         'element-id': 'abc' + params.index,
                                     },
                                     ref: 'abc' + params.index,
+                                    on: {
+                                        'on-enter': (event) => {
+                                            event.target.value = '';
+                                        }
+                                    }
                                 },
                                 [
                                  h('Option', {
                                     props: {
                                         value: 1
                                     }
-                                 }, 1)
+                                 }, 1),
+                                 h('Option', {
+                                    props: {
+                                        value: 2
+                                    }
+                                 }, 2),
+                                 h('Option', {
+                                    props: {
+                                        value: 3
+                                    }
+                                 }, 3)
                                 ]
                             )
                         }
@@ -653,10 +668,11 @@
             clear () {
                 let v = this;
                 v.$nextTick(function () {
-                    console.log(v.$refs['tableRef'])
                     v.$refs['tableRef'].$refs['tbody'].$refs['cellItem'].forEach((n, i) => {
                         if (n.$refs.hasOwnProperty('abc1')) {
                            n.$refs['abc1'].setQuery(null);
+                           console.log( document.getElementById('abc1'))
+                           document.getElementById('abc1').value = null;
                         }
                     })
                 })

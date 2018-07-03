@@ -15,7 +15,6 @@ export default {
             row: ctx.props.row,
             index: ctx.props.index
         };
-
         if (ctx.props.column) params.column = ctx.props.column;
         if (ctx.props.render(h, params) === undefined || ctx.props.render(h, params) === null) return;
         if (ctx.props.render(h, params).hasOwnProperty('childrens') && ctx.props.render(h, params).childrens !== undefined) {
