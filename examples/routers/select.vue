@@ -695,12 +695,12 @@
         <Select v-model="model11" @on-change="changeSelect" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select ref='modelRef' v-model="model10" @on-change="changeSelect" multiple style="width:260px">
+        <Select ref='modelRef' filterable v-model="model10" @on-change="changeSelect" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
         <br><br>
-
+        <Button @click="clear">清空</Button>
         <br><br>
 
         <br><br>
@@ -768,11 +768,15 @@
             },
             abc (val) {
                 console.log(val)
+            },
+            clear () {
+                let v = this;
+                v.$refs['modelRef'].setQuery(null)
             }
         },
         mounted () {
             let v = this;
-            v.$refs['']
+            v.$refs['modelRef'].setQuery('666')
             console.log(v.$refs['modelRef'])
         }
     }

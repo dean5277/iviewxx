@@ -29,6 +29,7 @@
                                         :iconStatus="iconPos[row._index]"
                                         :expanded="rowExpanded(row._index)"
                                         :rs="column.rowSpan"
+                                        ref="cellItem"
                                       >
                                     </Cell>
                                 </td>
@@ -46,6 +47,7 @@
                                         :expanded="rowExpanded(row._index)"
                                         :rs="column.rowSpan"
                                         :cs="column.colSpan"
+                                        ref="cellItem"
                                       >
                                     </Cell>
                                 </td>
@@ -62,6 +64,7 @@
                                         :iconStatus="iconPos[row._index]"
                                         :expanded="rowExpanded(row._index)"
                                         :cs="column.colSpan"
+                                        ref="cellItem"
                                       >
                                     </Cell>
                                 </td>
@@ -77,6 +80,7 @@
                                         :disabled="rowDisabled(row._index)"
                                         :iconStatus="iconPos[row._index]"
                                         :expanded="rowExpanded(row._index)"
+                                        ref="cellItem"
                                        >
                                      </Cell>
                                 </td>
@@ -128,7 +132,7 @@
                                   >
                                 </Cell>
                             </td>
-                            <td :class="alignCls(column, row)" v-if="!column.rowSpan && column.colSpan" :colSpan="column.colSpan"   >
+                            <td :class="alignCls(column, row)" v-if="!column.rowSpan && column.colSpan" :colSpan="column.colSpan">
                                 <Cell
                                   :fixed="fixed"
                                   :prefix-cls="prefixCls"
@@ -144,7 +148,7 @@
                                   >
                                 </Cell>
                             </td>
-                            <td :class="alignCls(column, row)" :v="column.hide" v-if=" column.hide != 1"  >
+                            <td :class="alignCls(column, row)" :v="column.hide" v-if="column.hide != 1"  >
 
                                 <Cell
                                    :fixed="fixed"

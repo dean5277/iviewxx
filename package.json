@@ -1,6 +1,6 @@
 {
   "name": "iviewxx",
-  "version": "1.8.3",
+  "version": "1.9.3",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -103,13 +103,13 @@
     "style-loader": "^0.20.2",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "url-loader": "^1.0.1",
-    "vue": "^2.5.16",
+    "vue": "2.5.17-beta.0",
     "vue-hot-reload-api": "^2.3.0",
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^14.2.1",
     "vue-router": "^3.0.1",
     "vue-style-loader": "^4.0.2",
-    "vue-template-compiler": "^2.5.16",
+    "vue-template-compiler": "2.5.17-beta.0",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^3.0.0"
