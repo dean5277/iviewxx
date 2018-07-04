@@ -994,7 +994,13 @@
                         let v = this;
                         this.cacheData = deepCopy(this.treeData);
                         this.$nextTick(function () {
-                            let selectNodes = this.$refs['treeSelectRef'].getCheckedNodes();
+                            let selectNodes;
+                            if (this.showCheckbox) {
+                                selectNodes = this.$refs['treeSelectRef'].getCheckedNodes();
+                            } else {
+                                selectNodes = this.$refs['treeSelectRef'].getSelectedNodes();
+                            }
+
                             this.treeSelectGetValue(selectNodes);
                         })
                     }

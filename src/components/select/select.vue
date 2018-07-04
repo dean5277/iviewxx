@@ -644,16 +644,35 @@
                 if (this.getInitialValue().length > 0 && this.selectOptions.length === 0) {
                     this.hasExpectedValue = true;
                 }
+            },
+            checkSameItem (arr) { // 排除重复选项
+                let resultArr = [];
+                let flag;
+                for (let i in arr){
+                  flag = true;
+                  for (let j in resultArr) {
+                    if (resultArr[j].id == arr[i].id) {
+                      flag = false;
+                      break;
+                    }
+                  }
+                  if (flag) {
+                    resultArr.push(arr[i]);
+                  }
+                }
+                return resultArr;
             }
         },
         watch: {
             value(value){
                 const {getInitialValue, getOptionData, publicValue} = this;
-
+                if (typeof value === 'object' && this.multiple && this.filterable) {
+                    value = this.checkSameItem(value);
+                }
                 this.checkUpdateStatus();
 
                 if (value === '') this.values = [];
-                else if (JSON.stringify(value) !== JSON.stringify(publicValue)) {
+                else  {
                     this.$nextTick(() => this.values = getInitialValue().map(getOptionData).filter(Boolean));
                 }
             },
@@ -734,6 +753,7 @@
                     if (this.values.length === 0) {
                         this.values = this.getInitialValue();
                     }
+
                     this.values = this.values.map(this.getOptionData).filter(Boolean);
                     this.hasExpectedValue = false;
                 }

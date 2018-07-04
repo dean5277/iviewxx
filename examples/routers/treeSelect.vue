@@ -2,7 +2,7 @@
   <div>
       <Row>
           <Col span="12" style="padding-right:10px">
-            <treeSelect :treeData="treeData" ref="treeDataRef" v-model="data" filterable @on-change="getTreeData" showCheckbox></treeSelect>
+            <treeSelect :treeData="treeData" ref="treeDataRef" v-model="data" filterable @on-change="getTreeData"></treeSelect>
           </Col>
           <Col span="12" style="padding-right:10px">
             <Select v-model="model11" filterable multiple>
@@ -84,7 +84,7 @@
           Arr.push({
             title: 'parent 0-' + i,
             expand : true,
-            checked: true,
+            selected: i === 1 ? true : false,
             children:[
               {
                  title: 'leaf 0-' + i + "-1"

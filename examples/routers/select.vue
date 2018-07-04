@@ -674,7 +674,7 @@
         <Select v-model="model1" size="small" @on-open-change="abc" @on-change="changeSelect" style="width:200px;">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
-        <Select v-model="model10" size="small" multiple style="width:260px">
+        <Select v-model="arrModel" @on-enter="insertWord" filterable size="small" multiple style="width:260px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
         </Select>
 
@@ -759,7 +759,8 @@
                 ],
                 model1: 'New York',
                 model10: [],
-                model11: []
+                model11: [],
+                arrModel: []
             }
         },
         methods: {
@@ -772,6 +773,18 @@
             clear () {
                 let v = this;
                 v.$refs['modelRef'].setQuery(null)
+            },
+            insertWord (event) {
+                let v = this;
+                let value = event.target.value;
+                v.cityList.push({
+                    value: value,
+                    label: value
+                })
+                v.$nextTick(function () {
+                    v.arrModel.push(value);
+                })
+
             }
         },
         mounted () {
