@@ -409,7 +409,7 @@
         },
         mounted (){
           this.compile();
-          this.iconPos = this.makeDisplayValue()[1]
+          this.iconPos = this.makeDisplayValue()[1];
         }
     };
 </script>

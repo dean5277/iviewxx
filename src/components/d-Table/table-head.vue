@@ -127,7 +127,7 @@
 
                 return isSelectAll;
             },
-         headRows () {
+            headRows () {
                 const isGroup = this.columnRows.length > 1;
                 if (isGroup) {
                     return this.fixed ? this.fixedColumnRows : this.columnRows;

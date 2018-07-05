@@ -1025,6 +1025,7 @@
         watch: {
             data: {
                 handler () {
+                    if (this.data.length === 0) return false;
                     const oldDataLen = this.rebuildData.length;
                     this.objData = this.makeObjData();
                     this.rebuildData = this.makeDataWithSortAndFilter();

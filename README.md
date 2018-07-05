@@ -4,17 +4,18 @@
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-#### 最近（iviewxx 1.9.5）:
+#### 最近（iviewxx 1.9.6）:
 1. 兼容iview2.14.3（抱歉，最近身体抱恙，没有及时更新）
 2. Select 搜索模式时，增加on-enter事件，回调一个event
 3. Select 组件 multiple 和 filterable 的时候使用on-enter事件，过滤重复value
 4. treeSelect 单选时，默认值没有加载的BUG
+5. dTable 同时调用时，一组件数据为空可能引起其他dTable组件数据为空的BUG
 
 
 ### Install
 npm install iviewxx --save<br />
 
-目前版本1.9.5
+目前版本1.9.6
 
 ### Usage
 es6<br />
