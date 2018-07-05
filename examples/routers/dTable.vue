@@ -6,6 +6,7 @@
         </div>
         <div style="margin-top:10px">
             <Button @click="addColumn">增加一列</Button>
+            <Button @click="clear">清空data</Button>
         </div>
         <div style="margin-top:10px; width:600px">
             <dTable border height="450" :columns="columns9" :data="data4"></dTable>
@@ -434,6 +435,10 @@
                     width: 100
                 }
                 this.columns8.splice(4, 0, col);
+            },
+            clear () {
+                this.data7 = [];
+                this.data4 = [];
             }
         },
         mounted (){
