@@ -554,6 +554,7 @@
                     // enter
                     if (e.key === 'Enter') {
                         if (this.focusIndex === -1) return this.hideMenu();
+                        if (this.flatOptions.length === 0)  return this.hideMenu();
                         const optionComponent = this.flatOptions[this.focusIndex];
                         const option = this.getOptionData(optionComponent.componentOptions.propsData.value);
                         this.onOptionClick(option);
