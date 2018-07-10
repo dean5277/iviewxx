@@ -1,5 +1,9 @@
 ### 更新日志
 
+#### 最近（iviewxx 2.0.1）:
+1. 删除dTable的vuex, 减轻框架重量
+2. 修复dTable 子节点展开不正确的BUG
+
 #### 最近（iviewxx 1.9.8）:
 1. 兼容iview2.14.3（抱歉，最近身体抱恙，没有及时更新）
 2. Select 搜索模式时，增加on-enter事件，回调一个event
@@ -10,6 +14,7 @@
 
 #### iviewxx 1.7.22 更新
 1. dTable 仿照ant table, fixed left 靠左时，不显示左分割线，靠右时不显示右分割线
+
 
 #### iviewxx 1.7.21 更新
 1. dTable render时兼容无标签回调（vue 2.5.13 后, render 默认需要一层标签）
