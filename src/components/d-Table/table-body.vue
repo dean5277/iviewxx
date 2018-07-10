@@ -14,7 +14,7 @@
                         @mouseleave.stop="handleMouseOut(row._index)"
                         @click="clickCurrentRow(row._index, row.nodeIndex)"
                         @dblclick.native="dblclickCurrentRow(row._index, row.nodeIndex)">
-                           <template v-for="(column, n) in colPos[index]">
+                            <template v-for="(column, n) in colPos[index]">
                                 <td :class="alignCls(column, row)" v-if="column.rowSpan && !column.colSpan" :rowSpan="column.rowSpan">
                                     <Cell
                                         :fixed="fixed"
@@ -29,7 +29,6 @@
                                         :iconStatus="iconPos[row._index]"
                                         :expanded="rowExpanded(row._index)"
                                         :rs="column.rowSpan"
-                                        ref="cellItem"
                                       >
                                     </Cell>
                                 </td>
@@ -47,7 +46,6 @@
                                         :expanded="rowExpanded(row._index)"
                                         :rs="column.rowSpan"
                                         :cs="column.colSpan"
-                                        ref="cellItem"
                                       >
                                     </Cell>
                                 </td>
@@ -64,7 +62,6 @@
                                         :iconStatus="iconPos[row._index]"
                                         :expanded="rowExpanded(row._index)"
                                         :cs="column.colSpan"
-                                        ref="cellItem"
                                       >
                                     </Cell>
                                 </td>
@@ -80,7 +77,6 @@
                                         :disabled="rowDisabled(row._index)"
                                         :iconStatus="iconPos[row._index]"
                                         :expanded="rowExpanded(row._index)"
-                                        ref="cellItem"
                                        >
                                      </Cell>
                                 </td>
@@ -115,7 +111,7 @@
                                   >
                                 </Cell>
                             </td>
-                            <td :class="alignCls(column, row)" v-if="column.rowSpan && column.colSpan" :rowSpan="column.rowSpan"  :colSpan="column.colSpan"  >
+                            <td :class="alignCls(column, row)" v-if="column.rowSpan && column.colSpan" :rowSpan="column.rowSpan"  :colSpan="column.colSpan">
                                 <Cell
                                   :fixed="fixed"
                                   :prefix-cls="prefixCls"
@@ -148,8 +144,7 @@
                                   >
                                 </Cell>
                             </td>
-                            <td :class="alignCls(column, row)" :v="column.hide" v-if="column.hide != 1"  >
-
+                            <td :class="alignCls(column, row)" :v="column.hide" v-if="column.hide != 1">
                                 <Cell
                                    :fixed="fixed"
                                    :prefix-cls="prefixCls"
@@ -182,14 +177,13 @@
     import Cell from './cell.vue';
     import Mixin from './mixin';
     import Expand from './expand.js';
-    import store from './store';
     export default {
         name: 'TableBody',
         mixins: [ Mixin ],
         components: { Cell, Expand, TableTr },
         data (){
             return {
-               status: store.state.status,
+               status: [],
                iconPos: [],
                colPos: this.makeColPos(),
                dataIndexPos: [],
@@ -207,7 +201,11 @@
                 type: [Boolean, String],
                 default: false
             },
-            iconStatus:Boolean
+            iconStatus:Boolean,
+            statusArr: {
+              type: Array,
+              default: []
+            }
         },
         computed: {
             expandRender () {
@@ -227,7 +225,8 @@
         watch:{
           data (n, o) {
             if(n !== o){
-              this.status = store.state.status;
+
+              this.status = this.statusArr;
               this.$nextTick(function () {
                   this.colPos = this.makeColPos();
                   this.displayValue = this.makeDisplayValue()[0];
@@ -336,30 +335,32 @@
               this.makeColSpan(dataIndex, colIndex, colSpan, rowSpan);
             },
             makeDisplayValue (){
-                let pos = [],
-                    stretchPos = [];//树原始状态集
-                store.state.status.forEach((n,i) =>{
+                let pos = [];
+                let stretchPos = [];// 树原始状态集
+                this.statusArr.forEach((n, i) => {
                     let parnode = true;
-                    n.forEach((m,t)=>{
-                        if(m[0] == -1){
+                    n.forEach((m, t) => {
+                        if (m[0] === -1) { // 如果是根节点
                             stretchPos.push(m[1]);
                             pos.push(true);
                             if(!m[1]) parnode = false;
-                        }else{
-                            stretchPos.push(m[1]);
-                            if(parnode && stretchPos[m[0]]){
+                        } else {
+
+                            if(parnode && stretchPos[m[0]]){  //
+                                stretchPos.push(m[1]);// 收集展开关闭状态
                                 pos.push(true);
-                            }else{
+                            } else {
+                                stretchPos.push(false);// 收集展开关闭状态
                                 pos.push(false);
                             }
-                            if(t == n.length - 1){
+                            if(t === n.length - 1){
                                 if(!m[1]) parnode = false;
                             }
                         }
 
                     })
                 })
-                return [pos,stretchPos];
+                return [pos, stretchPos];
             },
             rowClasses (_index) {
                 return [
@@ -396,15 +397,15 @@
                 this.$parent.dblclickCurrentRow(_index);
             },
             showRelated (grid, sIndex) { //实际上是改变status..[grid,sIndex]组ID，节点索引
-                let status = store.state.status;
-                if (status[grid][sIndex][1]) {
-                    status[grid][sIndex][1] = false;
+                if (this.statusArr[grid][sIndex][1]) {
+                    this.statusArr[grid][sIndex][1] = false;
                 } else {
-                    status[grid][sIndex][1] = true;
+                    this.statusArr[grid][sIndex][1] = true;
                 }
-                store.commit('status',status);
-                this.displayValue = this.makeDisplayValue()[0];
-                this.iconPos = this.makeDisplayValue()[1]
+                this.$nextTick(function () {
+                  this.displayValue = this.makeDisplayValue()[0];
+                  this.iconPos = this.makeDisplayValue()[1];
+                })
             },
         },
         mounted (){

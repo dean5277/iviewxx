@@ -197,26 +197,7 @@
                     {
                         title: '国家',
                         key: 'country',
-                        combine:true,
-                        width: 200,
-                        render : (h,params) =>{
-                            const obj = {
-                              childrens:  params.row.country,
-                              props: {},
-                            };
-                            if (params.index === 3) {
-                              obj.props.rowSpan = 2;
-                            }
-                            // These two are merged into above cell
-                            if (params.index === 7) {
-                              obj.props.rowSpan = 2;
-                            }
-                           /* if (params.index === 7) {
-                              obj.props.colSpan = 4;
-                            }*/
-                            return obj;
-
-                        }
+                        width: 200
                     },
                     {
                         title: '付款',

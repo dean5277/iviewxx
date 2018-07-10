@@ -1,6 +1,6 @@
 {
   "name": "iviewxx",
-  "version": "1.9.8",
+  "version": "2.0.0",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "homepage": "http://www.iviewui.com",
@@ -48,7 +48,6 @@
     "lodash.throttle": "^4.1.1",
     "popper.js": "^1.14.1",
     "tinycolor2": "^1.4.1",
-    "vuex": "^3.0.1",
     "v-click-outside-x": "^3.0.0"
   },
   "peerDependencies": {

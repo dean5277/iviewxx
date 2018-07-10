@@ -23,6 +23,7 @@
                     :columns="cloneColumns"
                     :data="rebuildData"
                     :columns-width="columnsWidth"
+                    :statusArr="statusArr"
                     :obj-data="objData"></table-body>
             </div>
             <div
@@ -60,6 +61,7 @@
                         :columns="leftFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
+                        :statusArr="statusArr"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -84,6 +86,7 @@
                         :columns="rightFixedColumns"
                         :data="rebuildData"
                         :columns-width="columnsWidth"
+                        :statusArr="statusArr"
                         :obj-data="objData"></table-body>
                 </div>
             </div>
@@ -107,7 +110,6 @@
     import Locale from '../../mixins/locale';
     import elementResizeDetectorMaker from 'element-resize-detector';
     import { getAllColumns, convertToRows, convertColumnOrder, getRandomStr } from './util';
-    import store from './store';
     const prefixCls = 'ivu-table';
     let rowKey = 1;
     let columnKey = 1;
@@ -210,7 +212,8 @@
                   height: null
                 },
                 dependOnLeft: true,
-                dependOnRight: false
+                dependOnRight: false,
+                statusArr: [] // 状态控制器
             };
         },
         computed: {
@@ -775,26 +778,26 @@
                     that = this,
                     t = -1,//索引
                     status = [];
-                let fn = ((data) =>{
-                    return function(row, i){
+                let fn = ((data) => {
+                    return function (row, i) {
                         t++;
                         status[i] = []; //创建每个grid组的数组
                         row.nodeIndex = 1; //层级
-                        status[i][0] = [-1,row.stretch]; //组元素赋值，第一个参数是上级在组中的索引
+                        status[i][0] = [-1, row.stretch]; //组元素赋值，第一个参数是上级在组中的索引
                         row.sIndex = 0; //组中索引
                         row.grid = i;
                         row._rowKey = rowKey++;
-                        if(!row.children){
+                        if (!row.children) {
                            row._index = t; //索引
                            dataArr.push(row);
-                        }else{
+                        } else {
                             row._index = t;
                             row.hasChild = true;
                             dataArr.push(row);
                             if(row.stretch){
-                                checkChildren(row.children,row._index, true, 1, i, row.children.length);
+                                checkChildren(row.children, row._index, true, 1, i, row.children.length);
                             }else{
-                                checkChildren(row.children,row._index, false, 1, i, row.children.length);
+                                checkChildren(row.children, row._index, false, 1, i, row.children.length);
                             }
 
                         }
@@ -825,7 +828,7 @@
                 }
                 this.objData = this.makeChildObjData(dataArr);
                 this.cloneData = deepCopy(dataArr);
-                store.commit('status', status);
+                this.statusArr = status;
                 return dataArr;
             },
             makeDataWithSort () {
