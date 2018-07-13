@@ -464,6 +464,9 @@
                     value = data[0].title;
                 }
                 this.selectedSingle = data;
+                if (!this.showCheckbox && !this.multiple) {
+                    this.updateSingleSelected();
+                }
                 this.treeSelectGetValue(data);
             },
             treeSelectCheckChange (value){
@@ -511,7 +514,6 @@
                     });
                 }
             },
-
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
                 if (type === 'string' || type === 'number') {
@@ -654,10 +656,11 @@
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
-                if (!this.multiple && !this.showCheckbox ) {
+                if (!this.multiple && !this.showCheckbox) {
                     let label = '';
                     this.hideMenu();
                     if (!init) {
+
                         this.$emit('on-change', value[0]);
                        /* this.dispatch('FormItem', 'on-form-change', {
                             value: value,
@@ -917,7 +920,7 @@
                 this.currentLabel = val;
                 this.updateLabel();
             },
-            model () {
+            model (n, o) {
                 this.$emit('input', this.model);
                 this.modelToQuery();
                 if (this.multiple && !this.showCheckbox) {
@@ -932,8 +935,6 @@
                     } else {
                         this.updateCheckboxSelected();
                     }
-                } else {
-                    this.updateSingleSelected();
                 }
                 // #957
                 if (!this.visible && this.filterable) {

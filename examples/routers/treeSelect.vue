@@ -57,7 +57,7 @@
     },
     methods:{
       getTreeData (value){
-        console.log(this.data)
+        console.log('-----------------')
         console.log("getTreeValue:",value)
       },
       reset () {

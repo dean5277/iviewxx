@@ -40,7 +40,7 @@
 1. 增加dTable 非 template/render 模式下，需使用 d-Table
 2. 修改一些BUG
 
-### iviewxx 1.6.9 更新
+#### iviewxx 1.6.9 更新
 1. 兼容 iview 2.12.0
 2. dTable 暂时不支持多级表头，稍后再合并iview2.12更新的多级表头，如果要使用多级表头的请使用<Table></Table> Table组件是iview的原生组件，并没有任何修改。
 
