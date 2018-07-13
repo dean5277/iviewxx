@@ -464,10 +464,12 @@
                     value = data[0].title;
                 }
                 this.selectedSingle = data;
-                if (!this.showCheckbox && !this.multiple) {
-                    this.updateSingleSelected();
-                }
                 this.treeSelectGetValue(data);
+                this.$nextTick(function (){
+                    if (!this.showCheckbox && !this.multiple) {
+                        this.updateSingleSelected();
+                    }
+                })
             },
             treeSelectCheckChange (value){
                 let v = this;
@@ -660,13 +662,7 @@
                     let label = '';
                     this.hideMenu();
                     if (!init) {
-
                         this.$emit('on-change', value[0]);
-                       /* this.dispatch('FormItem', 'on-form-change', {
-                            value: value,
-                            label: label
-                        });*/
-
                     }
                 }
             },

@@ -4,7 +4,7 @@
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-#### 最近（iviewxx 2.0.2）:
+#### 最近（iviewxx 2.0.3）:
 1. 删除dTable的vuex, 减轻框架重量
 2. 修复dTable 子节点展开不正确的BUG
 3. 修改treeSelect on-change触发逻辑
