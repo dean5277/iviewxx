@@ -182,7 +182,15 @@
             precisionValue () {
                 // can not display 1.0
                 if(!this.currentValue) return this.currentValue;
-                return this.precision ? this.currentValue.toFixed(this.precision) : this.currentValue;
+                if (this.precision) {
+                   if (this.currentValue.toString().indexOf('.') >= 0) {
+                        return this.currentValue.toFixed(this.precision);
+                   } else {
+                        return this.currentValue;
+                   }
+                } else {
+                    return this.currentValue;
+                }
             },
             formatterValue () {
                 if (this.formatter && this.precisionValue !== null) {
