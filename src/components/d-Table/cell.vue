@@ -91,8 +91,8 @@
             prefixCls: String,
             row: Object,
             column: Object,
-            naturalIndex: Number,    // index of rebuildData
-            index: Number,           // _index of data
+            naturalIndex: Number, // index of rebuildData
+            index: Number, // _index of data
             checked: Boolean,
             disabled: Boolean,
             expanded: Boolean,
