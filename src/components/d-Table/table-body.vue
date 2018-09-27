@@ -411,6 +411,7 @@
         mounted (){
           this.compile();
           this.iconPos = this.makeDisplayValue()[1];
+          console.log(this.objData)
         }
     };
 </script>

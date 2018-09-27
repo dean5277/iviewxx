@@ -43,6 +43,7 @@
         },
         mounted () {
             this.updateModel(true);
+            console.log('currentValue:', this.value)
         },
         methods: {
             updateModel (update) {
@@ -61,6 +62,7 @@
             },
             change (data) {
                 this.currentValue = data;
+                console.log('data:', data);
                 this.$emit('input', data);
                 this.$emit('on-change', data);
                 this.dispatch('FormItem', 'on-form-change', data);

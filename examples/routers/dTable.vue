@@ -75,6 +75,7 @@
                                 pay:"支付宝",
                                 status:"未处理",
                                 indentSize:15,
+                                _highlight: true,
                                 sex: 'male',
                                 stretch:false
                             },
@@ -225,6 +226,7 @@
                         address: 'New York No. 1 Lake Park',
                         province: 'America',
                         city: 'New York',
+                        _isHighlight: true,
                         zip: 100000
                     },
                     {
@@ -233,6 +235,7 @@
                         address: 'Washington, D.C. No. 1 Lake Park',
                         province: 'America',
                         city: 'Washington, D.C.',
+                        _isHighlight: true,
                         zip: 100000
                     },
                     {

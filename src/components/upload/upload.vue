@@ -205,6 +205,7 @@
                 }
             },
             post (file) {
+                console.log('------------')
                 // check format
                 if (this.format.length) {
                     const _file_format = file.name.split('.').pop().toLocaleLowerCase();
@@ -226,18 +227,20 @@
                 this.handleStart(file);
                 let formData = new FormData();
                 formData.append(this.name, file);
-
+                console.log('file:', file)
                 ajax({
                     headers: this.headers,
                     withCredentials: this.withCredentials,
                     file: file,
                     data: this.data,
                     filename: this.name,
-                    action: this.action,
+                    action: 'http://10.0.7.86:3000/ueditor/ue?action=uploadimage',
                     onProgress: e => {
+                        console.log('333')
                         this.handleProgress(e, file);
                     },
                     onSuccess: res => {
+                        console.log('5555')
                         this.handleSuccess(res, file);
                     },
                     onError: (err, response) => {

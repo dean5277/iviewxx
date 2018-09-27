@@ -157,6 +157,7 @@
         },
         watch: {
             value (val) {
+                console.log('val:', val);
                 if (val === this.trueValue || val === this.falseValue) {
                     this.updateModel();
                 } else {
