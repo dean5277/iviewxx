@@ -1,5 +1,16 @@
 ### 更新日志
 
+#### 最近（iviewxx 3.0.0）:
+1. 合并iview3.1.2代码
+2. 修改input-number组件，如果设置浮点精度，只有失去焦点的时候，才会进行补位。
+3. 因为iview3.x 不完全兼容iview2.x，所以他们不兼容的我们也不兼容，如果要用Iview2.x的功能，请安装iviewxx 2.14.4。
+
+#### 最近（iviewxx 2.0.4）:
+1. 删除dTable的vuex, 减轻框架重量
+2. 修复dTable 子节点展开不正确的BUG
+3. 修改treeSelect on-change触发逻辑
+4. 优化inputNumber 精度值回调方式
+
 #### 最近（iviewxx 2.0.1）:
 1. 删除dTable的vuex, 减轻框架重量
 2. 修复dTable 子节点展开不正确的BUG
