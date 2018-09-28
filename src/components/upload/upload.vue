@@ -4,6 +4,7 @@
             :class="classes"
             @click="handleClick"
             @drop.prevent="onDrop"
+            @paste="handlePaste"
             @dragover.prevent="dragOver = true"
             @dragleave.prevent="dragOver = false">
             <input
@@ -132,6 +133,10 @@
                 default() {
                     return [];
                 }
+            },
+            paste: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -172,6 +177,11 @@
                 this.dragOver = false;
                 this.uploadFiles(e.dataTransfer.files);
             },
+            handlePaste (e) {
+                if (this.paste) {
+                    this.uploadFiles(e.clipboardData.files);
+                }
+            },
             uploadFiles (files) {
                 let postFiles = Array.prototype.slice.call(files);
                 if (!this.multiple) postFiles = postFiles.slice(0, 1);
@@ -205,7 +215,6 @@
                 }
             },
             post (file) {
-                console.log('------------')
                 // check format
                 if (this.format.length) {
                     const _file_format = file.name.split('.').pop().toLocaleLowerCase();
@@ -227,20 +236,18 @@
                 this.handleStart(file);
                 let formData = new FormData();
                 formData.append(this.name, file);
-                console.log('file:', file)
+
                 ajax({
                     headers: this.headers,
                     withCredentials: this.withCredentials,
                     file: file,
                     data: this.data,
                     filename: this.name,
-                    action: 'http://10.0.7.86:3000/ueditor/ue?action=uploadimage',
+                    action: this.action,
                     onProgress: e => {
-                        console.log('333')
                         this.handleProgress(e, file);
                     },
                     onSuccess: res => {
-                        console.log('5555')
                         this.handleSuccess(res, file);
                     },
                     onError: (err, response) => {

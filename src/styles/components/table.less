@@ -158,6 +158,16 @@
             text-overflow: ellipsis;
         }
 
+        &-tooltip{
+            width: 100%;
+            &-content{
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
         &-with-expand{
             height: 47px;
             line-height: 47px;
@@ -178,6 +188,13 @@
         &-sort{
             cursor: pointer;
             user-select: none;
+        }
+
+        // #3159
+        &-with-selection{
+            .@{checkbox-prefix-cls}-wrapper{
+                margin-right: 0;
+            }
         }
     }
     &-hidden{
@@ -354,7 +371,6 @@
                 }
                 label {
                     display: block;
-                    margin-bottom: 4px;
 
                     & > span{
                         margin-right: 4px;
@@ -376,15 +392,6 @@
             button:last-child{
                 float: right;
             }
-        }
-    }
-    .ivu-poptip-popper{
-        min-width: 0;
-        text-align: left;
-    }
-    thead .ivu-poptip-popper{
-        .ivu-poptip-body{
-            padding: 0;
         }
     }
 

@@ -211,6 +211,9 @@
         height: 28px;
         line-height: 26px;
         font-size: @font-size-base;
+        i{
+            top: 1px;
+        }
     }
 
     &-small&-multiple .@{css-prefix}tag{
@@ -219,12 +222,19 @@
         font-size: @font-size-small;
         padding: 0 6px;
         margin: 3px 4px 2px 0;
+        i{
+            top: 1px;
+        }
     }
 
     &-dropdown-list {
         //display: inline-block;
         min-width: 100%;
         list-style: none;
+    }
+
+    & &-dropdown{
+        width: auto;
     }
 }
 
@@ -249,11 +259,11 @@
         .ivu-icon();
         //float: right;
         font-size: 24px;
-        content: '\F3FD';
+        content: '\F171';
         color: @selected-color;
         position: absolute;
         top: 2px;
-        right: 16px;
+        right: 8px;
     }
 }
 

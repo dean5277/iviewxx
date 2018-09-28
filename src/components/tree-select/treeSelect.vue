@@ -8,7 +8,7 @@
                 <input type="hidden" :name="name" :value="model">
                 <div class="ivu-tag ivu-tag-checked" v-for="(item, index) in selectedMultiple">
                     <span class="ivu-tag-text">{{ item.label }}</span>
-                    <Icon type="ios-close-empty" @click.native.stop="removeTag(index,item.nodeKey)"></Icon>
+                    <Icon type="ios-close" @click.native.stop="removeTag(index,item.nodeKey)"></Icon>
                 </div>
                 <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
                 <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
@@ -29,7 +29,7 @@
                     @keydown.delete="handleInputDelete"
                     ref="input">
                 <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
-                <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
+                <Icon type="md-arrow-dropdown" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
             </slot>
         </div>
         <transition :name="transitionName">

@@ -3,7 +3,7 @@
       <Input v-model="value4" type="tags" placeholder="tags" @on-change="getValue"></Input>
       <div style="margin-top:10px">
         <h3>新增类型tags props</h3>
-        <Table :columns="columns" :data="data"></Table>  
+        <Table :columns="columns" :data="data"></Table>
       </div>
       <div style="margin-top:10px">
         event 跟Input原来的一样

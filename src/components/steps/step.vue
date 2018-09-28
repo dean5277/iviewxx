@@ -3,8 +3,8 @@
         <div :class="[prefixCls + '-tail']"><i></i></div>
         <div :class="[prefixCls + '-head']">
             <div :class="[prefixCls + '-head-inner']">
-                <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'" :title="tips">{{ stepNumber }}</span>
-                <span v-else :class="iconClasses" :title="tips"></span>
+                <span v-if="!icon && currentStatus != 'finish' && currentStatus != 'error'">{{ stepNumber }}</span>
+                <span v-else :class="iconClasses"></span>
             </div>
         </div>
         <div :class="[prefixCls + '-main']">
@@ -32,10 +32,6 @@
                 }
             },
             title: {
-                type: String,
-                default: ''
-            },
-            tips: {
                 type: String,
                 default: ''
             },
@@ -73,9 +69,9 @@
                     icon = this.icon;
                 } else {
                     if (this.currentStatus == 'finish') {
-                        icon = 'ios-checkmark-empty';
+                        icon = 'ios-checkmark';
                     } else if (this.currentStatus == 'error') {
-                        icon = 'ios-close-empty';
+                        icon = 'ios-close';
                     }
                 }
 

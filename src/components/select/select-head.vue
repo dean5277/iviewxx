@@ -2,7 +2,7 @@
     <div @click="onHeaderClick">
         <div class="ivu-tag ivu-tag-checked" v-for="item in selectedMultiple">
             <span class="ivu-tag-text">{{ item.label }}</span>
-            <Icon type="ios-close-empty" @click.native.stop="removeTag(item)"></Icon>
+            <Icon type="ios-close" @click.native.stop="removeTag(item)"></Icon>
         </div>
         <span
             :class="singleDisplayClasses"
@@ -26,8 +26,8 @@
             @keyup.enter="resetInput"
 
             ref="input">
-        <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
-        <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote && !disabled"></Icon>
+        <Icon type="ios-close-circle" :class="[prefixCls + '-arrow']" v-if="resetSelect" @click.native.stop="onClear"></Icon>
+        <Icon type="ios-arrow-down" :class="[prefixCls + '-arrow']" v-if="!resetSelect && !remote && !disabled"></Icon>
     </div>
 </template>
 <script>

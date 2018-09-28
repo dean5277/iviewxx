@@ -22,6 +22,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             }
         },
@@ -43,7 +46,6 @@
         },
         mounted () {
             this.updateModel(true);
-            console.log('currentValue:', this.value)
         },
         methods: {
             updateModel (update) {
@@ -62,7 +64,6 @@
             },
             change (data) {
                 this.currentValue = data;
-                console.log('data:', data);
                 this.$emit('input', data);
                 this.$emit('on-change', data);
                 this.dispatch('FormItem', 'on-form-change', data);

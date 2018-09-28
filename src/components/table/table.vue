@@ -130,6 +130,9 @@
             size: {
                 validator (value) {
                     return oneOf(value, ['small', 'large', 'default']);
+                },
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.size === '' ? 'default' : this.$IVIEW.size;
                 }
             },
             width: {
@@ -526,6 +529,10 @@
                 const status = !data._isExpanded;
                 this.objData[_index]._isExpanded = status;
                 this.$emit('on-expand', JSON.parse(JSON.stringify(this.cloneData[_index])), status);
+                
+                if(this.height){
+                    this.$nextTick(()=>this.fixedBody());
+                }
             },
             selectAll (status) {
                 // this.rebuildData.forEach((data) => {

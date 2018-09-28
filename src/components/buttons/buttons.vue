@@ -5,7 +5,7 @@
        >
         <div :class="[prefixCls + '-rel']" ref="reference">
             <slot></slot>
-            <div  @click="handleClick" :class="buttonsArrows" class="ivu-btns"><Icon type="arrow-down-b" class="arrowDown"></Icon></div>
+            <div  @click="handleClick" :class="buttonsArrows" class="ivu-btns"><Icon type="md-arrow-dropdown" class="arrowDown"></Icon></div>
         </div>
         <transition name="transition-drop">
             <but

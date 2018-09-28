@@ -1,35 +1,17 @@
 <template>
-    <div>
-        <Upload action="//jsonplaceholder.typicode.com/posts/">
-            <Button type="ghost" icon="ios-cloud-upload-outline">Upload files</Button>
-        </Upload>
-    </div>
+    <Upload
+            multiple
+            type="drag"
+            paste
+            action="//jsonplaceholder.typicode.com/posts/">
+        <div style="padding: 20px 0">
+            <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+            <p>Click or drag files here to upload</p>
+        </div>
+    </Upload>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                file: null,
-                loadingStatus: false
-            }
-        },
-        methods: {
-            handleUpload (file) {
-                this.file = file;
-                console.log('........')
-                return false;
-            },
-            upload () {
-                this.loadingStatus = true;
-                setTimeout(() => {
-                    this.file = null;
-                    this.loadingStatus = false;
-                    this.$Message.success('Success')
-                }, 1500);
-            },
-            getValue (file){
-                console.log(file)
-            }
-        }
+
     }
 </script>

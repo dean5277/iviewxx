@@ -2,29 +2,41 @@
 
 .@{btns-prefix-cls} {
 
-	position: absolute;
+    position: absolute;
     right: -12px;
     top: 0;
-    height: 32px;
+    height: 31px;
     width: 18px;
     border-radius: 0 4px 4px 0;
-	cursor: pointer;
-	&-default {
-		border-left: 1px solid #e6e5e5;
-    	background-color: #f6f6f6;
-    	border:1px solid #dddee1;
-	}
-	&-primary {
-		background-color: #2d8cf0;
-		border-left: 1px solid #3fa4f1;
-	}
-   
-    & .arrowDown{color:#fff; margin:10px 0 0 4px;font-size: 10px }
-    &-default .arrowDown{color:#666}
-    &:hover, &-hover{background-color: #dddee1}
-    &-default:hover{border:1px solid #dddee1}
-    &-primary:hover, &-primary &-hover{background-color:#57a3f3 !important}
-    
+    cursor: pointer;
+    &-default {
+        border-left: 1px solid #e6e5e5;
+        background-color: #f6f6f6;
+        border:1px solid #dddee1;
+    }
+    &-primary {
+        background-color: #2d8cf0;
+        border-left: 1px solid #3fa4f1;
+    }
+
+    & .arrowDown {
+        color:#fff;
+        margin:10px 0 0 2px;
+        font-size: 10px
+    }
+    &-default .arrowDown {
+        color:#666
+    }
+    &:hover, &-hover {
+        background-color: #dddee1
+    }
+    &-default:hover {
+        border:1px solid #dddee1
+    }
+    &-primary:hover, &-primary &-hover {
+        background-color:#57a3f3 !important
+    }
+
 }
 .select-item(@dropdown-prefix-cls, @dropdown-item-prefix-cls);
 
