@@ -6,7 +6,7 @@
        >
         <div :class="[prefixCls + '-rel']" ref="reference">
             <slot></slot>
-            <div  @click="handleClick" :class="buttonsArrows" class="ivu-btns"><Icon type="md-arrow-dropdown" class="arrowDown"></Icon></div>
+            <div @click="handleClick" :class="buttonsArrows" class="ivu-btns"><Icon type="md-arrow-dropdown" class="arrowDown"></Icon></div>
         </div>
         <transition name="transition-drop">
             <but
@@ -57,6 +57,10 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
@@ -64,9 +68,11 @@
                 return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
             },
             buttonsArrows (){
+                console.log(!!this.type && !this.disabled)
                 return `${buttonsCls}`,
                     {
-                     [`${buttonsCls}-${this.type}`]: !!this.type
+                     [`${buttonsCls}-${this.type}`]: (!!this.type && !this.disabled),
+                     [`${buttonsCls}-disabled`]: this.disabled
                     }
             }
         },

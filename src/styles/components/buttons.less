@@ -14,6 +14,11 @@
         background-color: #f6f6f6;
         border:1px solid #dddee1;
     }
+    &-disabled {
+        border-left: 1px solid #e6e5e5;
+        background-color: #f6f6f6;
+        border:1px solid #dddee1;
+    }
     &-primary {
         background-color: #2d8cf0;
         border-left: 1px solid #3fa4f1;
@@ -24,13 +29,13 @@
         margin:10px 0 0 2px;
         font-size: 10px
     }
-    &-default .arrowDown {
+    &-default .arrowDown, &-disabled .arrowDown {
         color:#666
     }
     &:hover, &-hover {
         background-color: #dddee1
     }
-    &-default:hover {
+    &-default:hover, &-disabled:hover {
         border:1px solid #dddee1
     }
     &-primary:hover, &-primary &-hover {
