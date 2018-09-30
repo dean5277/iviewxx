@@ -1,10 +1,10 @@
-# iviewxx 3.0.0
+# iviewxx 3.0.2
 ### 兼容Iview 3.1.2
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-#### 最近（iviewxx 3.0.0）:
+#### 最近（iviewxx 3.0.2）:
 1. 合并iview3.1.2代码
 2. 修改input-number组件，如果设置浮点精度，只有失去焦点的时候，才会进行补位。
 3. 因为iview3.x 不完全兼容iview2.x，所以他们不兼容的我们也不兼容，如果要用Iview2.x的功能，请安装iviewxx 2.14.4

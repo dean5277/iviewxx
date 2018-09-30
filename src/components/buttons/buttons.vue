@@ -1,6 +1,7 @@
 <template>
     <div
         :class="[prefixCls]"
+        style="padding-right: 12px"
         v-clickoutside="handleClose"
        >
         <div :class="[prefixCls + '-rel']" ref="reference">
