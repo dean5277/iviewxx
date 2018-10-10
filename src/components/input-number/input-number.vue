@@ -294,14 +294,17 @@
                 this.$emit('on-focus', event);
             },
             blur () {
-                this.focused = false;
-                this.blueStatus = true;
-                this.$emit('on-blur');
-                if (this.min !== -Infinity && (this.formatterValue === '' || !this.formatterValue)) { // 如果失去焦点为空，则取最小值
-                    this.currentValue = this.min;
+                let v = this;
+                v.focused = false;
+                v.blueStatus = true;
+                v.$emit('on-blur');
+                if (v.min !== -Infinity && (v.formatterValue === '' || !v.formatterValue)) { // 如果失去焦点为空，则取最小值
+                    v.$nextTick(function () {
+                        v.currentValue = v.min;
+                    })
                 }
-                if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
-                    this.dispatch('FormItem', 'on-form-blur', this.currentValue);
+                if (!findComponentUpward(v, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
+                    v.dispatch('FormItem', 'on-form-blur', v.currentValue);
                 }
             },
             keyDown (e) {
