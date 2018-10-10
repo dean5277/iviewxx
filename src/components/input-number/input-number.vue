@@ -297,6 +297,9 @@
                 this.focused = false;
                 this.blueStatus = true;
                 this.$emit('on-blur');
+                if (this.min !== -Infinity && (this.formatterValue === '' || !this.formatterValue)) { // 如果失去焦点为空，则取最小值
+                    this.currentValue = this.min;
+                }
                 if (!findComponentUpward(this, ['DatePicker', 'TimePicker', 'Cascader', 'Search'])) {
                     this.dispatch('FormItem', 'on-form-blur', this.currentValue);
                 }
