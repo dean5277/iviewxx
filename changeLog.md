@@ -1,5 +1,8 @@
 ### 更新日志
 
+#### 最近（iviewxx 3.0.6）:
+1. dropdown控件，如果下拉选项disabled掉的话，on-click不能获取其name值
+
 #### 最近（iviewxx 3.0.5）:
 1. InputNumber控件，如果设置了最小值,失去焦点且内容为空时，则取最小值
 

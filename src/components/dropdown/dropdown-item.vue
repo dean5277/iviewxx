@@ -51,7 +51,9 @@
                         $parent.$emit('on-hover-click');
                     }
                 }
-                $parent.$emit('on-click', this.name);
+                if (!this.disabled) {
+                    $parent.$emit('on-click', this.name);
+                }
             }
         }
     };

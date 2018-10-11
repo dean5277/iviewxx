@@ -13,15 +13,15 @@
                 <DropdownItem divided>北京烤鸭</DropdownItem>
             </DropdownMenu>
         </Dropdown>
-        <Dropdown trigger="click">
+        <Dropdown trigger="click" @on-click="getName">
             <a href="javascript:void(0)">
                 下拉菜单
                 <Icon type="ios-arrow-down"></Icon>
             </a>
             <DropdownMenu slot="list">
                 <DropdownItem>驴打滚</DropdownItem>
-                <DropdownItem selected>炸酱面</DropdownItem>
-                <DropdownItem disabled>豆汁儿</DropdownItem>
+                <DropdownItem selected name="22">炸酱面</DropdownItem>
+                <DropdownItem disabled name="11">豆汁儿</DropdownItem>
                 <DropdownItem>冰糖葫芦</DropdownItem>
                 <DropdownItem divided>北京烤鸭</DropdownItem>
             </DropdownMenu>
@@ -43,6 +43,10 @@
 </template>
 <script>
     export default {
-
+        methods: {
+            getName (name) {
+                console.log(name);
+            }
+        }
     }
 </script>
