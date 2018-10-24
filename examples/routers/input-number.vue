@@ -57,8 +57,9 @@
         <InputNumber v-model="valueNull" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
         <InputNumber v-model="valueNull" style="width: 200px" ></InputNumber>
         <div style="margin:10px 0px">
-            <InputNumber :activeChange="false" v-model="valueNull" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
-            <InputNumber :activeChange="false" v-model="valueNull" style="width: 200px" ></InputNumber>
+            <InputNumber  v-model="tg.a" style="width: 200px" :min='1' :max='10000'  :precision='2' ></InputNumber>
+            -
+            <InputNumber  v-model="tg.b" :min="tg.a" style="width: 200px" ></InputNumber>
         </div>
         <div style="margin:10px 0px">
             <InputNumber
@@ -82,6 +83,10 @@
                 value2: 55,
                 value3: 100,
                 valueNull:null,
+                tg: {
+                    a: null,
+                    b: null
+                },
                 formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 parser: (value) => value.replace(/\$\s?|(,*)/g, ''),
                 formatter2: (value) => `${value}%`,

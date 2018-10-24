@@ -1,5 +1,11 @@
 ### 更新日志
 
+#### 最近（iviewxx 3.0.8）:
+1. 修复steps 控件 props tips 上次大版本修改后漏掉的BUG
+
+#### 最近（iviewxx 3.0.7）:
+1. InputNumber控件，设置最小值，实时取值
+
 #### 最近（iviewxx 3.0.6）:
 1. dropdown控件，如果下拉选项disabled掉的话，on-click不能获取其name值
 

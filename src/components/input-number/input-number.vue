@@ -274,7 +274,7 @@
                 if (val && !isNaN(this.precision)) val = Number(Number(val).toFixed(this.precision));
 
                 const {min, max} = this;
-                if (val!==null) {
+                if (val !== null) {
                     if (val > max) {
                         val = max;
                     } else if (val < min) {
@@ -317,7 +317,6 @@
                 }
             },
             change (event) {
-
                 if (event.type == 'input' && !this.activeChange) return;
                 let val = event.target.value.trim();
                 if (this.parser) {
@@ -344,7 +343,6 @@
                 val = Number(val);
                 if (!isNaN(val)) {
                     const step = this.step;
-
                     this.upDisabled = val + step > this.max;
                     this.downDisabled = val - step < this.min;
                 } else {
@@ -363,7 +361,10 @@
             currentValue (val) {
                 this.changeVal(val);
             },
-            min () {
+            min (n, o) {
+                if (n) {
+                    this.currentValue = n;
+                }
                 this.changeVal(this.currentValue);
             },
             max () {
