@@ -33,6 +33,8 @@ Vue.use(iview)<br /><br />
 ###### Input 增加tags类型
 [Input Tag](https://iviewxx.deancheng.com/#/input)
 
+###### Menu 子菜单横向菜单
+[Input Tag](https://iviewxx.deancheng.com/#/menu)
 
 ### table children
 ![demo](http://jpg.deancheng.com/123.png)
