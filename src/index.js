@@ -112,6 +112,7 @@ const components = {
     Menu,
     MenuGroup: Menu.Group,
     MenuItem: Menu.Item,
+    MenuAround: Menu.Around,
     Message,
     Modal,
     Notice,

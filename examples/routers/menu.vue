@@ -18,10 +18,26 @@
                 <MenuItem name="3-2">活跃分析</MenuItem>
                 <MenuItem name="3-3">时段分析</MenuItem>
             </MenuGroup>
-            <MenuGroup title="留存">
-                <MenuItem name="3-4">用户留存</MenuItem>
-                <MenuItem name="3-5">流失用户</MenuItem>
-            </MenuGroup>
+            <MenuAround name="3-4">
+               <template slot="subTitle">菜单名1</template>
+               <template slot="around-menu">
+                    <MenuGroup title="使用">
+                        <MenuItem name="3-4-1">1</MenuItem>
+                        <MenuItem name="3-4-2">2</MenuItem>
+                        <MenuItem name="3-4-3">3</MenuItem>
+                    </MenuGroup>
+               </template>
+            </MenuAround>
+            <MenuAround name="4-4">
+               <template slot="subTitle">哈利波特</template>
+               <template slot="around-menu">
+                    <MenuGroup title="使22用">
+                        <MenuItem name="4-4-1">331</MenuItem>
+                        <MenuItem name="4-4-2">22</MenuItem>
+                        <MenuItem name="4-4-3">23</MenuItem>
+                    </MenuGroup>
+               </template>
+            </MenuAround>
         </Submenu>
         <MenuItem name="4">
             <Icon type="ios-construct" />

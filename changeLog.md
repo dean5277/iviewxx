@@ -1,5 +1,8 @@
 ### 更新日志
 
+#### 最近（iviewxx 3.1.0）:
+1. Menu 支持横向子菜单，最多支持3级[Menu](https://iviewxx.deancheng.com/#/menu)
+
 #### 最近（iviewxx 3.0.8）:
 1. 修复steps 控件 props tips 上次大版本修改后漏掉的BUG
 
