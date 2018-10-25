@@ -34,7 +34,7 @@ Vue.use(iview)<br /><br />
 [Input Tag](https://iviewxx.deancheng.com/#/input)
 
 ###### Menu 子菜单横向菜单
-[Input Tag](https://iviewxx.deancheng.com/#/menu)
+[Menu](https://iviewxx.deancheng.com/#/menu)
 
 ### table children
 ![demo](http://jpg.deancheng.com/123.png)
