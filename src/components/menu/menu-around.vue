@@ -7,9 +7,7 @@
       </div>
       <transition name="fade">
         <div :class="[prefixCls + '-around-menu-group']" ref="popper" :style="styles">
-          <slot name="around-menu">
-
-          </slot>
+          <slot name="around-menu"></slot>
         </div>
       </transition>
     </li>

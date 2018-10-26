@@ -36,6 +36,19 @@ Vue.use(iview)<br /><br />
 ###### Menu 子菜单横向菜单
 [Menu](https://iviewxx.deancheng.com/#/menu)
 
+```
+<MenuAround name="3-4">
+   <template slot="subTitle">菜单名1</template>
+   <template slot="around-menu">
+        <MenuGroup title="使用">
+            <MenuItem name="3-4-1">1</MenuItem>
+            <MenuItem name="3-4-2">2</MenuItem>
+            <MenuItem name="3-4-3">3</MenuItem>
+        </MenuGroup>
+   </template>
+</MenuAround>
+```
+
 ### table children
 ![demo](http://jpg.deancheng.com/123.png)
 <br /><br />

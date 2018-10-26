@@ -1,7 +1,9 @@
 <template>
     <li :class="[prefixCls + '-item-group']">
         <div :class="[prefixCls + '-item-group-title']" :style="groupStyle">{{ title }}</div>
-        <ul><slot></slot></ul>
+        <ul>
+            <slot></slot>
+        </ul>
     </li>
 </template>
 <script>
