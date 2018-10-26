@@ -24,14 +24,31 @@ Vue.use(iview)<br /><br />
 ###### 下拉树
 [treeSelect](https://iviewxx.deancheng.com/#/treeSelect)
 
+```
+<treeSelect :treeData="treeData" ref="treeDataRef" v-model="data" filterable @on-change="getTreeData" show-checkbox></treeSelect>
+具体用法请看examples/routers/treeSelect.vue
+```
+
 ###### 按钮组
 [Buttons](https://iviewxx.deancheng.com/#/buttons)
+
+```
+具体用法请看examples/routers/buttons.vue
+```
 
 ###### 表格（拖动表头大小，合并单元格，多级展开
 [dTable](https://iviewxx.deancheng.com/#/dTable)
 
+```
+具体用法请看examples/routers/dTable.vue
+```
+
 ###### Input 增加tags类型
 [Input Tag](https://iviewxx.deancheng.com/#/input)
+
+```
+<Input v-model="value4" type="tags" placeholder="tags" @on-change="getValue"></Input>
+```
 
 ###### Menu 子菜单横向菜单
 [Menu](https://iviewxx.deancheng.com/#/menu)
