@@ -1,5 +1,10 @@
 ### 更新日志
 
+#### 最近（iviewxx 3.1.3）:
+1. 优化menu触发方式[Menu](https://iviewxx.deancheng.com/#/menu)
+2. 水平菜单下拉文字不换行，如果要换行用样式覆盖。
+3. 修正MenuAround subTitle的slot代码
+
 #### 最近（iviewxx 3.1.0）:
 1. Menu 支持横向子菜单，最多支持3级[Menu](https://iviewxx.deancheng.com/#/menu)
 

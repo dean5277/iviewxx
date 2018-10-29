@@ -18,19 +18,23 @@
                 <MenuItem name="3-2">活跃分析</MenuItem>
                 <MenuItem name="3-3">时段分析</MenuItem>
             </MenuGroup>
-            <MenuAround name="3-4" placement="right-end">
-               <template slot="subTitle">菜单名1</template>
-               <template slot="around-menu">
+            <MenuAround placement="right-end">
+                <template slot="subTitle">
+                    <MenuItem name="3-4-1">时段分析时段分析</MenuItem>
+                </template>
+                <template slot="around-menu">
                     <MenuGroup title="使用">
                         <MenuItem name="3-4-1">1</MenuItem>
                         <MenuItem name="3-4-2">2</MenuItem>
                         <MenuItem name="3-4-3">3</MenuItem>
                     </MenuGroup>
-               </template>
+                </template>
             </MenuAround>
-            <MenuAround name="4-4" placement="right">
-               <template slot="subTitle">哈利波特</template>
-               <template slot="around-menu">
+            <MenuAround placement="right">
+                <template slot="subTitle">
+                    <MenuItem name="3-4-1">ds3</MenuItem>
+                </template>
+                <template slot="around-menu">
                     <MenuGroup title="使22用">
                         <MenuItem name="4-4-1">331</MenuItem>
                         <MenuItem name="4-4-2">22</MenuItem>
@@ -38,7 +42,7 @@
                     </MenuGroup>
                     <MenuItem name="4-4-4">23</MenuItem>
                     <MenuItem name="4-4-5">23</MenuItem>
-               </template>
+                </template>
             </MenuAround>
         </Submenu>
         <MenuItem name="4">

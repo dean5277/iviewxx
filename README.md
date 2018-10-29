@@ -1,12 +1,13 @@
-# iviewxx 3.1.2
+# iviewxx 3.1.3
 ### 兼容Iview 3.1.2
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-#### 最近（iviewxx 3.1.2）:
+#### 最近（iviewxx 3.1.3）:
 1. 优化menu触发方式[Menu](https://iviewxx.deancheng.com/#/menu)
 2. 水平菜单下拉文字不换行，如果要换行用样式覆盖。
+3. 修正MenuAround subTitle的slot代码
 
 [完成日志请查看URL](https://github.com/dean5277/iviewxx/blob/master/changeLog.md)
 
@@ -55,15 +56,18 @@ Vue.use(iview)<br /><br />
 [Menu](https://iviewxx.deancheng.com/#/menu)
 
 ```
-<MenuAround name="3-4">
-   <template slot="subTitle">菜单名1</template>
-   <template slot="around-menu">
+<MenuAround placement="right-end">
+    <template slot="subTitle">
+         <!-- 此处以组件嵌入，更方便控制 -->
+        <MenuItem name="3-4-1">时段分析时段分析</MenuItem>
+    </template>
+    <template slot="around-menu">
         <MenuGroup title="使用">
             <MenuItem name="3-4-1">1</MenuItem>
             <MenuItem name="3-4-2">2</MenuItem>
             <MenuItem name="3-4-3">3</MenuItem>
         </MenuGroup>
-   </template>
+    </template>
 </MenuAround>
 ```
 

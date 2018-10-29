@@ -19,9 +19,10 @@
 <script>
   import Popper from '../base/popper';
   import { oneOf } from '../../utils/assist';
+  import mixin from './mixin';
   const prefixCls = 'ivu-menu';
   export default {
-    mixins: [ Popper ],
+    mixins: [ Popper, mixin ],
     name: 'MenuAround',
     props: {
       trigger: {
@@ -71,7 +72,33 @@
       },
       handleMouseleave () {
         this.aroundOpened = false;
+      },
+      handleClick () {
+        if (this.disabled) return;
+        if (this.mode === 'horizontal') return;
+        const opened = this.opened;
+        if (this.accordion) {
+          this.$parent.$children.forEach(item => {
+              if (item.$options.name === 'Submenu') item.opened = false;
+          });
+        }
+        this.opened = !opened;
+        this.menu.updateOpenKeys(this.name);
       }
+    },
+    mounted () {
+      this.$on('on-menu-item-select', (name) => {
+        if (this.mode === 'horizontal') this.opened = false;
+        this.dispatch('Menu', 'on-menu-item-select', name);
+        return true;
+      });
+      this.$on('on-update-active-name', (status) => {
+        if (findComponentUpward(this, 'Submenu')) this.dispatch('Submenu', 'on-update-active-name', status);
+        if (findComponentsDownward(this, 'Submenu')) findComponentsDownward(this, 'Submenu').forEach(item => {
+            item.active = false;
+        });
+        this.active = status;
+      });
     }
   };
 </script>
