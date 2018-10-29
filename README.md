@@ -1,11 +1,12 @@
-# iviewxx 3.1.1
+# iviewxx 3.1.2
 ### 兼容Iview 3.1.2
 
 基于完成功能为目的，如果有天iview更新相关功能，请以iview为准。 <br />
 如果有Bug，请提交一下issues <br />
 
-#### 最近（iviewxx 3.1.1）:
-1. Menu 支持横向子菜单，最多支持3级[Menu](https://iviewxx.deancheng.com/#/menu)
+#### 最近（iviewxx 3.1.2）:
+1. 优化menu触发方式[Menu](https://iviewxx.deancheng.com/#/menu)
+2. 水平菜单下拉文字不换行，如果要换行用样式覆盖。
 
 [完成日志请查看URL](https://github.com/dean5277/iviewxx/blob/master/changeLog.md)
 

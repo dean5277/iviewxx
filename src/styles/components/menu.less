@@ -88,6 +88,7 @@
         cursor: pointer;
         z-index: 3;
         transition: all @transition-time @ease-in-out;
+        white-space: nowrap !important;
     }
 
     &-light&-horizontal &-item, &-light&-horizontal &-submenu{
@@ -289,25 +290,27 @@
         &-opened &-submenu-title-icon {
             transform: rotate(180deg);
         }
-        &-right-start &-menu-group {
-            margin-left: 5px;
-            margin-right: 5px;
-        }
+        // &-right-start &-menu-group, &-right &-menu-group, &-right-end &-menu-group {
+        //     margin-left: 5px;
+        //     margin-right: 5px;
+        // }
         &-opened &-submenu-title {
             color: @primary-color !important;
         }
         &-menu-group {
             display: none;
-            position: absolute;
-            top: 0;
-            margin: 5px 0;
-            padding: 5px 0;
-            background-color: #fff;
-            box-sizing: border-box;
-            border-radius: 4px;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-            min-width: 120px;
+            padding: 0 10px;
             z-index: 9999;
+            &-wrap {
+                margin: 5px 0;
+                padding: 5px 0;
+                background-color: #fff;
+                box-sizing: border-box;
+                border-radius: 4px;
+                box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+                min-width: 120px;
+            }
+
         }
         &-opened &-menu-group {
             display: block;

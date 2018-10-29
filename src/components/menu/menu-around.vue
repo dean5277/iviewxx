@@ -7,7 +7,9 @@
       </div>
       <transition name="fade">
         <div :class="[prefixCls + '-around-menu-group']" ref="popper" :style="styles">
-          <slot name="around-menu"></slot>
+          <div :class="[prefixCls + '-around-menu-group-wrap']">
+            <slot name="around-menu"></slot>
+          </div>
         </div>
       </transition>
     </li>
@@ -47,7 +49,9 @@
               `${prefixCls}-around`,
               {
                 [`${prefixCls}-around-opened`]: this.aroundOpened,
-                [`${prefixCls}-around-right-start`]: this.placement === 'right-start'
+                [`${prefixCls}-around-right-start`]: this.placement === 'right-start',
+                [`${prefixCls}-around-right`]: this.placement === 'right',
+                [`${prefixCls}-around-right-end`]: this.placement === 'right-end'
               }
           ];
       },
